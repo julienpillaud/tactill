@@ -1,0 +1,47 @@
+[tool.poetry]
+name = "tactill"
+version = "0.1.0"
+description = ""
+authors = ["Julien Pillaud <julien.pillaud@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pydantic = "^2.1.1"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.7.0"
+ruff = "^0.0.282"
+isort = "^5.12.0"
+mypy = "^1.4.1"
+pytest = "^7.4.0"
+python-dotenv = "^1.0.0"
+pytest-cov = "^4.1.0"
+
+[tool.isort]
+profile = "black"
+
+[tool.ruff]
+select = [
+    "F",  # pyflakes
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+    "UP",  # pyupgrade
+    "PL",  # pylint
+    "S",  # bandit
+    "RUF",
+]
+
+[tool.ruff.per-file-ignores]
+"test*.py" = ["S101"]  # Use of `assert` detected
+
+[tool.mypy]
+strict = true
+exclude = [
+    "venv",
+]
+plugins = [
+    "pydantic.mypy",
+]
