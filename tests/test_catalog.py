@@ -1,5 +1,7 @@
+import httpx
 import pytest
 
+from tactill.entities.catalog import ArticleCreation
 from tactill.tactill import ResponseError, TactillClient
 
 
@@ -34,5 +36,51 @@ def test_get_articles_with_order(client: TactillClient) -> None:
 
 
 def test_get_articles_bad_request(client: TactillClient) -> None:
-    with pytest.raises(ResponseError):
+    with pytest.raises(ResponseError) as excinfo:
         client.get_articles(filter="bad")
+
+    error = excinfo.value.error
+    assert error.status_code == httpx.codes.BAD_REQUEST
+    assert error.error == "Bad Request"
+
+
+def test_create_article(client: TactillClient) -> None:
+    article_creation = ArticleCreation(
+        category_id="5d83c74690924d0008f55d3a",
+        taxes=["5d70d4e5be8f9f001195ccc1"],
+        name="Test",
+        full_price=1,
+        barcode="123",
+        reference="test",
+        in_stock=True,
+    )
+    article = client.create_article(article_creation=article_creation)
+
+    assert article.category_id == article_creation.category_id
+    assert article.taxes == article_creation.taxes
+    assert article.name == article_creation.name
+    assert article.full_price == article_creation.full_price
+    assert article.barcode == article_creation.barcode
+    assert article.reference == article_creation.reference
+    assert article.in_stock == article_creation.in_stock
+
+    client.delete_article(article.id)
+
+
+def test_create_article_bad_request(client: TactillClient) -> None:
+    article_creation = ArticleCreation(
+        category_id="5d83c74690924d0008f55d3a",
+        taxes=["5d70d4e5be8f9f001195ccc1"],
+        name="",
+        full_price=1,
+    )
+    with pytest.raises(ResponseError) as excinfo:
+        client.create_article(article_creation=article_creation)
+
+    error = excinfo.value.error
+    assert error.status_code == httpx.codes.BAD_REQUEST
+    assert error.error == "Bad Request"
+    assert (
+        error.message
+        == 'child "name" fails because ["name" is not allowed to be empty]'
+    )

@@ -80,3 +80,18 @@ class Article(BaseTactillModel):
     declinations: list[ArticleDeclination] | None = None
     options: list[TactillUUID] | None = None
     stock_quantity: float | None = None
+
+
+class ArticleCreation(BaseModel):
+    test: bool = False
+    category_id: TactillUUID
+    taxes: list[TactillUUID]
+    name: str
+    icon_text: str = ""
+    summary: str = ""
+    color: ArticleColor = "#57DB47"
+    full_price: float
+    barcode: str = ""
+    reference: str = ""
+    in_stock: bool = False
+    ignore_stock: bool = True

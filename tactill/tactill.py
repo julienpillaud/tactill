@@ -1,14 +1,19 @@
+from typing import Any
+
 import httpx
 
 from tactill.entities.account import Account
-from tactill.entities.base import TactillUUID
-from tactill.entities.catalog import Article
+from tactill.entities.base import TactillResponse, TactillUUID
+from tactill.entities.catalog import Article, ArticleCreation
 
 API_URL = "https://api4.tactill.com/v1"
 
 
 class ResponseError(Exception):
-    pass
+    def __init__(self, error: httpx.Response):
+        super().__init__(error)
+        response_error = error.json()
+        self.error = TactillResponse(**response_error)
 
 
 class TactillClient:
@@ -26,6 +31,22 @@ class TactillClient:
         self.account = Account(**account)
         self.node_id = self.account.nodes[0]
 
+    def _request(
+        self,
+        method: str,
+        url: str,
+        expected_status: httpx.codes,
+        params: Any = None,
+        json: Any = None,
+    ) -> Any:
+        with httpx.Client(headers=self.headers) as client:
+            response = client.request(method=method, url=url, params=params, json=json)
+
+        if response.status_code != expected_status:
+            raise ResponseError(response)
+
+        return response.json()
+
     def get_articles(
         self,
         limit: int = 100,
@@ -41,7 +62,7 @@ class TactillClient:
         :param filter: Allow filtering the results based on query language.
         :param order: Allow ordering by field (example "field1=ASC&field2=DESC").
 
-        :return: A list of Article objects representing the retrieved articles.
+        :return: A list of retrieved articles.
         """
         url = f"{API_URL}/catalog/articles"
         params = {"node_id": self.node_id, "limit": limit}
@@ -52,12 +73,40 @@ class TactillClient:
         if order:
             params["order"] = order
 
-        with httpx.Client(headers=self.headers, params=params) as client:
-            response = client.get(url)
+        response = self._request(
+            "GET", url, expected_status=httpx.codes.OK, params=params
+        )
 
-        result = response.json()
+        return [Article(**article) for article in response]
 
-        if response.status_code != httpx.codes.OK:
-            raise ResponseError(result)
+    def create_article(self, article_creation: ArticleCreation) -> Article:
+        """
+        Creates a new article.
 
-        return [Article(**article) for article in result]
+        :param article_creation: The article creation data.
+
+        :return: The created article.
+        """
+        url = f"{API_URL}/catalog/articles"
+        article = article_creation.model_dump()
+        article["node_id"] = self.node_id
+
+        response = self._request(
+            "POST", url, expected_status=httpx.codes.CREATED, json=article
+        )
+
+        return Article(**response)
+
+    def delete_article(self, article_id: TactillUUID) -> TactillResponse:
+        """
+        Delete an article
+
+        :param article_id: The ID of the article to be deleted.
+
+        :return: An `TactillResponse` object representing the response from the API.
+        """
+        url = f"{API_URL}/catalog/articles/{article_id}"
+
+        response = self._request("DELETE", url, expected_status=httpx.codes.OK)
+
+        return TactillResponse(**response)
