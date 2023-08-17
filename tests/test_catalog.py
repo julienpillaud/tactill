@@ -84,3 +84,33 @@ def test_create_article_bad_request(client: TactillClient) -> None:
         error.message
         == 'child "name" fails because ["name" is not allowed to be empty]'
     )
+
+
+def test_get_article(client: TactillClient) -> None:
+    article_id = "5d85058251301a000790fc9b"
+    article = client.get_article(article_id=article_id)
+
+    assert article.id == article_id
+
+
+def test_get_article_not_found(client: TactillClient) -> None:
+    article_id = "1d85058251301a000790fc9b"
+
+    with pytest.raises(ResponseError) as excinfo:
+        client.get_article(article_id=article_id)
+
+    error = excinfo.value.error
+    assert error.status_code == httpx.codes.NOT_FOUND
+    assert error.error == "Not Found"
+    assert error.message == '"article_id" specified in "params" could not be found'
+
+
+def test_get_article_bad_request(client: TactillClient) -> None:
+    article_id = "1"
+
+    with pytest.raises(ResponseError) as excinfo:
+        client.get_article(article_id=article_id)
+
+    error = excinfo.value.error
+    assert error.status_code == httpx.codes.BAD_REQUEST
+    assert error.error == "Bad Request"

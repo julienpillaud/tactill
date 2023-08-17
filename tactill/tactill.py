@@ -110,3 +110,17 @@ class TactillClient:
         response = self._request("DELETE", url, expected_status=httpx.codes.OK)
 
         return TactillResponse(**response)
+
+    def get_article(self, article_id: TactillUUID) -> Article:
+        """
+        Get an Article by its unique id
+
+        :param article_id: The ID of the article.
+
+        :return: The article object with the corresponding ID.
+        """
+        url = f"{API_URL}/catalog/articles/{article_id}"
+
+        response = self._request("GET", url, expected_status=httpx.codes.OK)
+
+        return Article(**response)
