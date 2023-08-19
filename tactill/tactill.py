@@ -6,6 +6,7 @@ from tactill.entities.account import Account
 from tactill.entities.article import Article, ArticleCreation
 from tactill.entities.base import TactillResponse, TactillUUID
 from tactill.entities.category import Category, CategoryCreation
+from tactill.entities.discount import Discount
 
 API_URL = "https://api4.tactill.com/v1"
 
@@ -32,6 +33,7 @@ class TactillClient:
         self.account = Account(**account)
         self.node_id = self.account.nodes[0]
         self.company_id = self.account.companies[0]
+        self.shop_id = self.account.shops[0]
 
     def _request(
         self,
@@ -204,3 +206,35 @@ class TactillClient:
         response = self._request("GET", url, expected_status=httpx.codes.OK)
 
         return Category(**response)
+
+    def get_discounts(
+        self,
+        limit: int = 100,
+        skip: int = 0,
+        filter: str | None = None,
+        order: str | None = None,
+    ) -> list[Discount]:
+        """
+        Get a list of Discount based on the given filters.
+
+        :param limit: Limit the number of returned records.
+        :param skip: Define an offset in the returned records.
+        :param filter: Allow filtering the results based on query language.
+        :param order: Allow ordering by field (example "field1=ASC&field2=DESC").
+
+        :return: A list of retrieved discounts.
+        """
+        url = f"{API_URL}/catalog/discounts"
+        params = {"shop_id": self.shop_id, "limit": limit}
+        if skip:
+            params["skip"] = skip
+        if filter:
+            params["filter"] = filter
+        if order:
+            params["order"] = order
+
+        response = self._request(
+            "GET", url, expected_status=httpx.codes.OK, params=params
+        )
+
+        return [Discount(**article) for article in response]

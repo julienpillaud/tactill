@@ -208,3 +208,42 @@ def test_get_category_bad_request(client: TactillClient) -> None:
     error = excinfo.value.error
     assert error.status_code == httpx.codes.BAD_REQUEST
     assert error.error == "Bad Request"
+
+
+def test_get_discounts(client: TactillClient) -> None:
+    limit = 3
+    discounts = client.get_discounts(limit=limit)
+
+    assert len(discounts) == limit
+
+
+def test_get_discounts_with_skip(client: TactillClient) -> None:
+    discounts = client.get_discounts()
+    discounts_skip = client.get_discounts(skip=1)
+
+    assert discounts_skip[0] == discounts[1]
+
+
+def test_get_discounts_with_filter(client: TactillClient) -> None:
+    discount_name = "Offert"
+    discounts = client.get_discounts(filter=f"name={discount_name}")
+
+    discount = discounts[0]
+    assert discount.name == discount_name
+
+
+def test_get_discounts_with_order(client: TactillClient) -> None:
+    discounts = client.get_discounts(order="name=ASC")
+
+    names = [discount.name for discount in discounts if discount.name]
+    sorted_names = sorted(names)
+    assert names == sorted_names
+
+
+def test_get_discounts_bad_request(client: TactillClient) -> None:
+    with pytest.raises(ResponseError) as excinfo:
+        client.get_discounts(filter="bad")
+
+    error = excinfo.value.error
+    assert error.status_code == httpx.codes.BAD_REQUEST
+    assert error.error == "Bad Request"
