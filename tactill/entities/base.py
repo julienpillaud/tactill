@@ -1,10 +1,22 @@
 from datetime import datetime
-from typing import Annotated
+from typing import Annotated, Literal
 
 import httpx
 from pydantic import BaseModel, Field
 
 TactillUUID = Annotated[str, Field(pattern=r"^[0-9A-Fa-f]{24}$")]
+TactillColor = Literal[
+    "#57DB47",
+    "#6868DC",
+    "#30BEA5",
+    "#F44F60",
+    "#1E8CFF",
+    "#F2BA43",
+    "#B455C8",
+    "#FF6347",
+    "#A06E58",
+    "#9EA09E",
+]
 
 
 class BaseTactillModel(BaseModel):
@@ -13,6 +25,7 @@ class BaseTactillModel(BaseModel):
     deprecated: bool = False
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
+    original_id: str | None = None
 
 
 class ResponseValidation(BaseModel):

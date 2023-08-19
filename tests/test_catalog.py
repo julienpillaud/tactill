@@ -1,7 +1,7 @@
 import httpx
 import pytest
 
-from tactill.entities.catalog import ArticleCreation
+from tactill.entities.article import ArticleCreation
 from tactill.tactill import ResponseError, TactillClient
 
 
@@ -110,6 +110,45 @@ def test_get_article_bad_request(client: TactillClient) -> None:
 
     with pytest.raises(ResponseError) as excinfo:
         client.get_article(article_id=article_id)
+
+    error = excinfo.value.error
+    assert error.status_code == httpx.codes.BAD_REQUEST
+    assert error.error == "Bad Request"
+
+
+def test_get_categories(client: TactillClient) -> None:
+    limit = 30
+    categories = client.get_categories(limit=limit)
+
+    assert len(categories) == limit
+
+
+def test_get_categories_with_skip(client: TactillClient) -> None:
+    categories = client.get_categories()
+    categories_skip = client.get_categories(skip=1)
+
+    assert categories_skip[0] == categories[1]
+
+
+def test_get_categories_with_filter(client: TactillClient) -> None:
+    category_name = "BIÈRE"
+    categories = client.get_categories(filter=f"name={category_name}")
+
+    category = categories[0]
+    assert category.name == category_name
+
+
+def test_get_categories_with_order(client: TactillClient) -> None:
+    categories = client.get_categories(order="name=ASC")
+
+    names = [category.name for category in categories if category.name]
+    sorted_names = sorted(names)
+    assert names == sorted_names
+
+
+def test_get_categories_bad_request(client: TactillClient) -> None:
+    with pytest.raises(ResponseError) as excinfo:
+        client.get_categories(filter="bad")
 
     error = excinfo.value.error
     assert error.status_code == httpx.codes.BAD_REQUEST

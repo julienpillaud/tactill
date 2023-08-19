@@ -4,7 +4,6 @@ from tactill.entities.base import BaseTactillModel, TactillUUID
 
 
 class Account(BaseTactillModel):
-    original_id: str | None = None
     account_id: str | None = None
     profile_id: TactillUUID
     role: TactillUUID | None = None

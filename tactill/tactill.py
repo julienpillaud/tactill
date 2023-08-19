@@ -3,8 +3,9 @@ from typing import Any
 import httpx
 
 from tactill.entities.account import Account
+from tactill.entities.article import Article, ArticleCreation
 from tactill.entities.base import TactillResponse, TactillUUID
-from tactill.entities.catalog import Article, ArticleCreation
+from tactill.entities.category import Category
 
 API_URL = "https://api4.tactill.com/v1"
 
@@ -30,6 +31,7 @@ class TactillClient:
         account = response.json()
         self.account = Account(**account)
         self.node_id = self.account.nodes[0]
+        self.company_id = self.account.companies[0]
 
     def _request(
         self,
@@ -124,3 +126,25 @@ class TactillClient:
         response = self._request("GET", url, expected_status=httpx.codes.OK)
 
         return Article(**response)
+
+    def get_categories(
+        self,
+        limit: int = 100,
+        skip: int = 0,
+        filter: str | None = None,
+        order: str | None = None,
+    ) -> list[Category]:
+        url = f"{API_URL}/catalog/categories"
+        params = {"company_id": self.company_id, "limit": limit}
+        if skip:
+            params["skip"] = skip
+        if filter:
+            params["filter"] = filter
+        if order:
+            params["order"] = order
+
+        response = self._request(
+            "GET", url, expected_status=httpx.codes.OK, params=params
+        )
+
+        return [Category(**article) for article in response]
