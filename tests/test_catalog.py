@@ -1,8 +1,11 @@
+from datetime import datetime
+
 import httpx
 import pytest
 
 from tactill.entities.article import ArticleCreation
 from tactill.entities.category import CategoryCreation
+from tactill.entities.discount import DiscountCreation
 from tactill.tactill import ResponseError, TactillClient
 
 
@@ -211,7 +214,7 @@ def test_get_category_bad_request(client: TactillClient) -> None:
 
 
 def test_get_discounts(client: TactillClient) -> None:
-    limit = 3
+    limit = 10
     discounts = client.get_discounts(limit=limit)
 
     assert len(discounts) == limit
@@ -247,3 +250,32 @@ def test_get_discounts_bad_request(client: TactillClient) -> None:
     error = excinfo.value.error
     assert error.status_code == httpx.codes.BAD_REQUEST
     assert error.error == "Bad Request"
+
+
+def test_create_discount(client: TactillClient) -> None:
+    discount_creation = DiscountCreation(
+        test=False,
+        name="Test",
+        rate=1,
+        type="rate",
+        start_date=datetime(2023, 1, 1),
+        end_date=datetime(2023, 12, 31),
+        barcode="123",
+        icon_text="TEST",
+        color="#57DB47",
+    )
+    discount = client.create_discount(discount_creation=discount_creation)
+
+    assert discount.test == discount_creation.test
+    assert discount.name == discount_creation.name
+    assert discount.rate == discount_creation.rate
+    assert discount.type == discount_creation.type
+    assert discount.start_date
+    assert discount.start_date.replace(tzinfo=None) == discount_creation.start_date
+    assert discount.end_date
+    assert discount.end_date.replace(tzinfo=None) == discount_creation.end_date
+    assert discount.barcode == discount_creation.barcode
+    assert discount.icon_text == discount_creation.icon_text
+    assert discount.color == discount_creation.color
+
+    client.delete_discount(discount.id)

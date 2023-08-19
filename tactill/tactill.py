@@ -6,7 +6,7 @@ from tactill.entities.account import Account
 from tactill.entities.article import Article, ArticleCreation
 from tactill.entities.base import TactillResponse, TactillUUID
 from tactill.entities.category import Category, CategoryCreation
-from tactill.entities.discount import Discount
+from tactill.entities.discount import Discount, DiscountCreation
 
 API_URL = "https://api4.tactill.com/v1"
 
@@ -238,3 +238,36 @@ class TactillClient:
         )
 
         return [Discount(**article) for article in response]
+
+    def create_discount(self, discount_creation: DiscountCreation) -> Discount:
+        """
+        Create a new discount.
+
+        :param discount_creation: The discount creation data.
+
+        :return: The created discount.
+        """
+        url = f"{API_URL}/catalog/discounts"
+
+        category = discount_creation.model_dump(exclude_none=True)
+        category["shop_id"] = self.shop_id
+
+        response = self._request(
+            "POST", url, expected_status=httpx.codes.CREATED, json=category
+        )
+
+        return Discount(**response)
+
+    def delete_discount(self, discount_id: TactillUUID) -> TactillResponse:
+        """
+        Delete a discount.
+
+        :param discount_id: The ID of the discount to be deleted.
+
+        :return: A `TactillResponse` object representing the response from the API.
+        """
+        url = f"{API_URL}/catalog/discounts/{discount_id}"
+
+        response = self._request("DELETE", url, expected_status=httpx.codes.OK)
+
+        return TactillResponse(**response)
