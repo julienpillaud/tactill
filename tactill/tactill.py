@@ -190,3 +190,17 @@ class TactillClient:
         response = self._request("DELETE", url, expected_status=httpx.codes.OK)
 
         return TactillResponse(**response)
+
+    def get_category(self, category_id: TactillUUID) -> Category:
+        """
+        Get a Category by its unique id
+
+        :param category_id: The ID of the category.
+
+        :return: The category object with the corresponding ID.
+        """
+        url = f"{API_URL}/catalog/categories/{category_id}"
+
+        response = self._request("GET", url, expected_status=httpx.codes.OK)
+
+        return Category(**response)

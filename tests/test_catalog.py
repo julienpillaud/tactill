@@ -178,3 +178,33 @@ def test_create_category_bad_request(client: TactillClient) -> None:
         error.message
         == 'child "name" fails because ["name" is not allowed to be empty]'
     )
+
+
+def test_get_category(client: TactillClient) -> None:
+    category_id = "5d83c74690924d0008f55d3a"
+    category = client.get_category(category_id=category_id)
+
+    assert category.id == category_id
+
+
+def test_get_category_not_found(client: TactillClient) -> None:
+    category_id = "1d83c74690924d0008f55d3a"
+
+    with pytest.raises(ResponseError) as excinfo:
+        client.get_category(category_id=category_id)
+
+    error = excinfo.value.error
+    assert error.status_code == httpx.codes.NOT_FOUND
+    assert error.error == "Not Found"
+    assert error.message == '"category_id" specified in "params" could not be found'
+
+
+def test_get_category_bad_request(client: TactillClient) -> None:
+    category_id = "1"
+
+    with pytest.raises(ResponseError) as excinfo:
+        client.get_category(category_id=category_id)
+
+    error = excinfo.value.error
+    assert error.status_code == httpx.codes.BAD_REQUEST
+    assert error.error == "Bad Request"
