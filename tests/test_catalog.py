@@ -2,6 +2,7 @@ import httpx
 import pytest
 
 from tactill.entities.article import ArticleCreation
+from tactill.entities.category import CategoryCreation
 from tactill.tactill import ResponseError, TactillClient
 
 
@@ -153,3 +154,27 @@ def test_get_categories_bad_request(client: TactillClient) -> None:
     error = excinfo.value.error
     assert error.status_code == httpx.codes.BAD_REQUEST
     assert error.error == "Bad Request"
+
+
+def test_create_category(client: TactillClient) -> None:
+    category_creation = CategoryCreation(name="Test", icon_text="TEST")
+    category = client.create_category(category_creation=category_creation)
+
+    assert category.name == category_creation.name
+    assert category.icon_text == category_creation.icon_text
+
+    client.delete_category(category.id)
+
+
+def test_create_category_bad_request(client: TactillClient) -> None:
+    category_creation = CategoryCreation(name="")
+    with pytest.raises(ResponseError) as excinfo:
+        client.create_category(category_creation=category_creation)
+
+    error = excinfo.value.error
+    assert error.status_code == httpx.codes.BAD_REQUEST
+    assert error.error == "Bad Request"
+    assert (
+        error.message
+        == 'child "name" fails because ["name" is not allowed to be empty]'
+    )
