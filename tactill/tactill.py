@@ -57,6 +57,29 @@ class TactillClient:
 
         return response.json()
 
+    def _get(
+        self,
+        url: str,
+        param: dict[str, str],
+        limit: int = 100,
+        skip: int = 0,
+        filter: str | None = None,
+        order: str | None = None,
+    ) -> Any:
+        params = param | {"limit": limit}
+        if skip:
+            params["skip"] = skip
+        if filter:
+            params["filter"] = filter
+        if order:
+            params["order"] = order
+
+        return self._request("GET", url, expected_status=httpx.codes.OK, params=params)
+
+    def _delete(self, url: str) -> TactillResponse:
+        response = self._request("DELETE", url, expected_status=httpx.codes.OK)
+        return TactillResponse(**response)
+
     def get_articles(
         self,
         limit: int = 100,
@@ -72,30 +95,20 @@ class TactillClient:
         :param filter: Allow filtering the results based on query language.
         :param order: Allow ordering by field (example "field1=ASC&field2=DESC").
 
-        :return: A list of retrieved articles.
+        :return: A list of retrieved Articles.
         """
         url = f"{API_URL}/catalog/articles"
-        params = {"node_id": self.node_id, "limit": limit}
-        if skip:
-            params["skip"] = skip
-        if filter:
-            params["filter"] = filter
-        if order:
-            params["order"] = order
-
-        response = self._request(
-            "GET", url, expected_status=httpx.codes.OK, params=params
-        )
-
+        param = {"node_id": self.node_id}
+        response = self._get(url, param, limit, skip, filter, order)
         return [Article(**entity) for entity in response]
 
     def create_article(self, article_creation: ArticleCreation) -> Article:
         """
-        Create a new article.
+        Create a new Article.
 
-        :param article_creation: The article creation data.
+        :param article_creation: The Article creation data.
 
-        :return: The created article.
+        :return: The created Article.
         """
         url = f"{API_URL}/catalog/articles"
         article = article_creation.model_dump(exclude_none=True)
@@ -109,30 +122,25 @@ class TactillClient:
 
     def delete_article(self, article_id: TactillUUID) -> TactillResponse:
         """
-        Delete an article.
+        Delete an Article.
 
-        :param article_id: The ID of the article to be deleted.
+        :param article_id: The unique id of the article to be deleted.
 
         :return: A `TactillResponse` object representing the response from the API.
         """
         url = f"{API_URL}/catalog/articles/{article_id}"
-
-        response = self._request("DELETE", url, expected_status=httpx.codes.OK)
-
-        return TactillResponse(**response)
+        return self._delete(url)
 
     def get_article(self, article_id: TactillUUID) -> Article:
         """
         Get an Article by its unique id.
 
-        :param article_id: The ID of the article.
+        :param article_id: The unique id of the Article.
 
-        :return: The article object with the corresponding ID.
+        :return: The Article object with the corresponding id.
         """
         url = f"{API_URL}/catalog/articles/{article_id}"
-
         response = self._request("GET", url, expected_status=httpx.codes.OK)
-
         return Article(**response)
 
     def get_categories(
@@ -150,30 +158,20 @@ class TactillClient:
         :param filter: Allow filtering the results based on query language.
         :param order: Allow ordering by field (example "field1=ASC&field2=DESC").
 
-        :return: A list of retrieved categories.
+        :return: A list of retrieved Categories.
         """
         url = f"{API_URL}/catalog/categories"
-        params = {"company_id": self.company_id, "limit": limit}
-        if skip:
-            params["skip"] = skip
-        if filter:
-            params["filter"] = filter
-        if order:
-            params["order"] = order
-
-        response = self._request(
-            "GET", url, expected_status=httpx.codes.OK, params=params
-        )
-
+        param = {"company_id": self.company_id}
+        response = self._get(url, param, limit, skip, filter, order)
         return [Category(**entity) for entity in response]
 
     def create_category(self, category_creation: CategoryCreation) -> Category:
         """
-        Create a new category.
+        Create a new Category.
 
-        :param category_creation: The category creation data.
+        :param category_creation: The Category creation data.
 
-        :return: The created category.
+        :return: The created Category.
         """
         url = f"{API_URL}/catalog/categories"
         category = category_creation.model_dump(exclude_none=True)
@@ -187,30 +185,25 @@ class TactillClient:
 
     def delete_category(self, category_id: TactillUUID) -> TactillResponse:
         """
-        Delete a category.
+        Delete a Category.
 
-        :param category_id: The ID of the category to be deleted.
+        :param category_id: The unique id of the category to be deleted.
 
         :return: A `TactillResponse` object representing the response from the API.
         """
         url = f"{API_URL}/catalog/categories/{category_id}"
-
-        response = self._request("DELETE", url, expected_status=httpx.codes.OK)
-
-        return TactillResponse(**response)
+        return self._delete(url)
 
     def get_category(self, category_id: TactillUUID) -> Category:
         """
         Get a Category by its unique id
 
-        :param category_id: The ID of the category.
+        :param category_id: The unique id of the category.
 
-        :return: The category object with the corresponding ID.
+        :return: The Category object with the corresponding id.
         """
         url = f"{API_URL}/catalog/categories/{category_id}"
-
         response = self._request("GET", url, expected_status=httpx.codes.OK)
-
         return Category(**response)
 
     def get_discounts(
@@ -228,33 +221,22 @@ class TactillClient:
         :param filter: Allow filtering the results based on query language.
         :param order: Allow ordering by field (example "field1=ASC&field2=DESC").
 
-        :return: A list of retrieved discounts.
+        :return: A list of retrieved Discounts.
         """
         url = f"{API_URL}/catalog/discounts"
-        params = {"shop_id": self.shop_id, "limit": limit}
-        if skip:
-            params["skip"] = skip
-        if filter:
-            params["filter"] = filter
-        if order:
-            params["order"] = order
-
-        response = self._request(
-            "GET", url, expected_status=httpx.codes.OK, params=params
-        )
-
+        param = {"shop_id": self.shop_id}
+        response = self._get(url, param, limit, skip, filter, order)
         return [Discount(**entity) for entity in response]
 
     def create_discount(self, discount_creation: DiscountCreation) -> Discount:
         """
-        Create a new discount.
+        Create a new Discount.
 
-        :param discount_creation: The discount creation data.
+        :param discount_creation: The Discount creation data.
 
-        :return: The created discount.
+        :return: The created Discount.
         """
         url = f"{API_URL}/catalog/discounts"
-
         category = discount_creation.model_dump(exclude_none=True)
         category["shop_id"] = self.shop_id
 
@@ -266,30 +248,25 @@ class TactillClient:
 
     def delete_discount(self, discount_id: TactillUUID) -> TactillResponse:
         """
-        Delete a discount.
+        Delete a Discount.
 
-        :param discount_id: The ID of the discount to be deleted.
+        :param discount_id: The unique id of the discount to be deleted.
 
         :return: A `TactillResponse` object representing the response from the API.
         """
         url = f"{API_URL}/catalog/discounts/{discount_id}"
-
-        response = self._request("DELETE", url, expected_status=httpx.codes.OK)
-
-        return TactillResponse(**response)
+        return self._delete(url)
 
     def get_discount(self, discount_id: TactillUUID) -> Discount:
         """
         Get a Discount by its unique id
 
-        :param discount_id: The ID of the discount.
+        :param discount_id: The unique id of the discount.
 
-        :return: The discount object with the corresponding ID.
+        :return: The Discount object with the corresponding id.
         """
         url = f"{API_URL}/catalog/discounts/{discount_id}"
-
         response = self._request("GET", url, expected_status=httpx.codes.OK)
-
         return Discount(**response)
 
     def get_option_lists(
@@ -299,26 +276,32 @@ class TactillClient:
         filter: str | None = None,
         order: str | None = None,
     ) -> list[OptionList]:
+        """
+        Get a list of OptionList based on the given filters.
+
+        :param limit: Limit the number of returned records.
+        :param skip: Define an offset in the returned records.
+        :param filter: Allow filtering the results based on query language.
+        :param order: Allow ordering by field (example "field1=ASC&field2=DESC").
+
+        :return: A list of retrieved OptionLists.
+        """
         url = f"{API_URL}/catalog/option_lists"
-        params = {"node_id": self.node_id, "limit": limit}
-        if skip:
-            params["skip"] = skip
-        if filter:
-            params["filter"] = filter
-        if order:
-            params["order"] = order
-
-        response = self._request(
-            "GET", url, expected_status=httpx.codes.OK, params=params
-        )
-
+        params = {"node_id": self.node_id}
+        response = self._get(url, params, limit, skip, filter, order)
         return [OptionList(**entity) for entity in response]
 
     def create_option_list(
         self, option_list_creation: OptionListCreation
     ) -> OptionList:
-        url = f"{API_URL}/catalog/option_lists"
+        """
+        Create a new OptionList.
 
+        :param option_list_creation: The OptionList creation data.
+
+        :return: The created OptionList.
+        """
+        url = f"{API_URL}/catalog/option_lists"
         option_list = option_list_creation.model_dump(exclude_none=True)
         option_list["node_id"] = self.node_id
 
@@ -329,17 +312,26 @@ class TactillClient:
         return OptionList(**response)
 
     def delete_option_list(self, option_list_id: TactillUUID) -> TactillResponse:
+        """
+        Delete an OptionList.
+
+        :param option_list_id: The ID of the OptionList to be deleted.
+
+        :return: A `TactillResponse` object representing the response from the API.
+        """
         url = f"{API_URL}/catalog/option_lists/{option_list_id}"
-
-        response = self._request("DELETE", url, expected_status=httpx.codes.OK)
-
-        return TactillResponse(**response)
+        return self._delete(url)
 
     def get_option_list(self, option_list_id: TactillUUID) -> OptionList:
+        """
+        Get an OptionList by its unique id.
+
+        :param option_list_id: The unique id of the OptionList.
+
+        :return: The OptionList object with the corresponding id.
+        """
         url = f"{API_URL}/catalog/option_lists/{option_list_id}"
-
         response = self._request("GET", url, expected_status=httpx.codes.OK)
-
         return OptionList(**response)
 
     def get_options(
@@ -349,24 +341,30 @@ class TactillClient:
         filter: str | None = None,
         order: str | None = None,
     ) -> list[Option]:
+        """
+        Get a list of Option based on the given filters.
+
+        :param limit: Limit the number of returned records.
+        :param skip: Define an offset in the returned records.
+        :param filter: Allow filtering the results based on query language.
+        :param order: Allow ordering by field (example "field1=ASC&field2=DESC").
+
+        :return: A list of retrieved Options.
+        """
         url = f"{API_URL}/catalog/options"
-        params = {"node_id": self.node_id, "limit": limit}
-        if skip:
-            params["skip"] = skip
-        if filter:
-            params["filter"] = filter
-        if order:
-            params["order"] = order
-
-        response = self._request(
-            "GET", url, expected_status=httpx.codes.OK, params=params
-        )
-
+        param = {"node_id": self.node_id}
+        response = self._get(url, param, limit, skip, filter, order)
         return [Option(**entity) for entity in response]
 
     def create_option(self, option_creation: OptionCreation) -> Option:
-        url = f"{API_URL}/catalog/options"
+        """
+        Create a new Option.
 
+        :param option_creation: The Option creation data.
+
+        :return: The created Option.
+        """
+        url = f"{API_URL}/catalog/options"
         option = option_creation.model_dump(exclude_none=True)
         option["node_id"] = self.node_id
 
@@ -377,15 +375,24 @@ class TactillClient:
         return Option(**response)
 
     def delete_option(self, option_id: TactillUUID) -> TactillResponse:
+        """
+        Delete an Option.
+
+        :param option_id: The unique id of the Option to be deleted.
+
+        :return: A `TactillResponse` object representing the response from the API.
+        """
         url = f"{API_URL}/catalog/options/{option_id}"
-
-        response = self._request("DELETE", url, expected_status=httpx.codes.OK)
-
-        return TactillResponse(**response)
+        return self._delete(url)
 
     def get_option(self, option_id: TactillUUID) -> Option:
+        """
+        Get an Option by its unique id.
+
+        :param option_id: The unique id of the Option.
+
+        :return: The Option object with the corresponding ID.
+        """
         url = f"{API_URL}/catalog/options/{option_id}"
-
         response = self._request("GET", url, expected_status=httpx.codes.OK)
-
         return Option(**response)
