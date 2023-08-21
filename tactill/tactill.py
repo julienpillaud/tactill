@@ -7,7 +7,12 @@ from tactill.entities.article import Article, ArticleCreation
 from tactill.entities.base import TactillResponse, TactillUUID
 from tactill.entities.category import Category, CategoryCreation
 from tactill.entities.discount import Discount, DiscountCreation
-from tactill.entities.option_list import OptionList
+from tactill.entities.option import (
+    Option,
+    OptionCreation,
+    OptionList,
+    OptionListCreation,
+)
 
 API_URL = "https://api4.tactill.com/v1"
 
@@ -308,3 +313,79 @@ class TactillClient:
         )
 
         return [OptionList(**entity) for entity in response]
+
+    def create_option_list(
+        self, option_list_creation: OptionListCreation
+    ) -> OptionList:
+        url = f"{API_URL}/catalog/option_lists"
+
+        option_list = option_list_creation.model_dump(exclude_none=True)
+        option_list["node_id"] = self.node_id
+
+        response = self._request(
+            "POST", url, expected_status=httpx.codes.CREATED, json=option_list
+        )
+
+        return OptionList(**response)
+
+    def delete_option_list(self, option_list_id: TactillUUID) -> TactillResponse:
+        url = f"{API_URL}/catalog/option_lists/{option_list_id}"
+
+        response = self._request("DELETE", url, expected_status=httpx.codes.OK)
+
+        return TactillResponse(**response)
+
+    def get_option_list(self, option_list_id: TactillUUID) -> OptionList:
+        url = f"{API_URL}/catalog/option_lists/{option_list_id}"
+
+        response = self._request("GET", url, expected_status=httpx.codes.OK)
+
+        return OptionList(**response)
+
+    def get_options(
+        self,
+        limit: int = 100,
+        skip: int = 0,
+        filter: str | None = None,
+        order: str | None = None,
+    ) -> list[Option]:
+        url = f"{API_URL}/catalog/options"
+        params = {"node_id": self.node_id, "limit": limit}
+        if skip:
+            params["skip"] = skip
+        if filter:
+            params["filter"] = filter
+        if order:
+            params["order"] = order
+
+        response = self._request(
+            "GET", url, expected_status=httpx.codes.OK, params=params
+        )
+
+        return [Option(**entity) for entity in response]
+
+    def create_option(self, option_creation: OptionCreation) -> Option:
+        url = f"{API_URL}/catalog/options"
+
+        option = option_creation.model_dump(exclude_none=True)
+        option["node_id"] = self.node_id
+
+        response = self._request(
+            "POST", url, expected_status=httpx.codes.CREATED, json=option
+        )
+
+        return Option(**response)
+
+    def delete_option(self, option_id: TactillUUID) -> TactillResponse:
+        url = f"{API_URL}/catalog/options/{option_id}"
+
+        response = self._request("DELETE", url, expected_status=httpx.codes.OK)
+
+        return TactillResponse(**response)
+
+    def get_option(self, option_id: TactillUUID) -> Option:
+        url = f"{API_URL}/catalog/options/{option_id}"
+
+        response = self._request("GET", url, expected_status=httpx.codes.OK)
+
+        return Option(**response)
