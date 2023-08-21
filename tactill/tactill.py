@@ -92,7 +92,7 @@ class TactillClient:
         :return: The created article.
         """
         url = f"{API_URL}/catalog/articles"
-        article = article_creation.model_dump()
+        article = article_creation.model_dump(exclude_none=True)
         article["node_id"] = self.node_id
 
         response = self._request(

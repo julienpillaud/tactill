@@ -50,23 +50,35 @@ def test_get_articles_bad_request(client: TactillClient) -> None:
 
 def test_create_article(client: TactillClient) -> None:
     article_creation = ArticleCreation(
+        test=False,
         category_id="5d83c74690924d0008f55d3a",
         taxes=["5d70d4e5be8f9f001195ccc1"],
         name="Test",
+        icon_text="TEST",
+        summary="This is a new article",
+        color="#57DB47",
         full_price=1,
+        taxfree_price=0.7,
         barcode="123",
         reference="test",
         in_stock=True,
+        ignore_stock=False,
     )
     article = client.create_article(article_creation=article_creation)
 
+    assert article.test == article_creation.test
     assert article.category_id == article_creation.category_id
     assert article.taxes == article_creation.taxes
     assert article.name == article_creation.name
+    assert article.icon_text == article_creation.icon_text
+    assert article.summary == article_creation.summary
+    assert article.color == article_creation.color
     assert article.full_price == article_creation.full_price
+    assert article.taxfree_price == article_creation.taxfree_price
     assert article.barcode == article_creation.barcode
     assert article.reference == article_creation.reference
     assert article.in_stock == article_creation.in_stock
+    assert article.ignore_stock == article_creation.ignore_stock
 
     client.delete_article(article.id)
 

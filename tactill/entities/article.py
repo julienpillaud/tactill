@@ -26,59 +26,47 @@ class ArticleVariation(BaseModel):
 
 class ArticleDeclination(BaseModel):
     id: str
-    deprecated: bool = False
-    test: bool = False
+    deprecated: bool | None = None
+    test: bool | None = None
     taxes: list[TactillUUID]
-    no_price: bool = False
+    no_price: bool | None = None
     full_price: float | None = None
     taxfree_price: float | None = None
     barcode: str | None = None
     reference: str | None = None
     weight: float | None = None
-    in_stock: bool = False
-    ignore_stock: bool = True
+    in_stock: bool | None = None
+    ignore_stock: bool | None = None
     buy_price: float | None = None
     variations: list[ArticleVariation] | None = None
     stock_quantity: float | None = None
 
 
-class Article(BaseTactillModel):
-    test: bool = False
-    node_id: TactillUUID
-    category_id: TactillUUID | None = None
+class ArticleCreation(BaseModel):
+    test: bool | None = None
+    category_id: TactillUUID
     discounts: list[TactillUUID] | None = None
     taxes: list[TactillUUID]
-    is_default: bool = False
-    name: str | None = None
+    name: str
     icon_text: str | None = None
     summary: str | None = None
-    image: str = ""
-    color: TactillColor = "#57DB47"
+    image: str | None = None
+    color: TactillColor | None = None
     full_price: float | None = None
     taxfree_price: float | None = None
     barcode: str | None = None
     reference: str | None = None
-    unit: ArticleUnit = ""
+    unit: ArticleUnit | None = None
     weight: float | None = None
-    in_stock: bool = False
-    ignore_stock: bool = True
+    in_stock: bool | None = None
+    ignore_stock: bool | None = None
     buy_price: float | None = None
     variations: list[ArticleVariationOptions] | None = None
     declinations: list[ArticleDeclination] | None = None
     options: list[TactillUUID] | None = None
+
+
+class Article(BaseTactillModel, ArticleCreation):
+    node_id: TactillUUID
+    is_default: bool | None = None
     stock_quantity: float | None = None
-
-
-class ArticleCreation(BaseModel):
-    test: bool = False
-    category_id: TactillUUID
-    taxes: list[TactillUUID]
-    name: str
-    icon_text: str = ""
-    summary: str = ""
-    color: TactillColor = "#57DB47"
-    full_price: float
-    barcode: str = ""
-    reference: str = ""
-    in_stock: bool = False
-    ignore_stock: bool = True
