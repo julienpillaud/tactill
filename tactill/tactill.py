@@ -271,3 +271,17 @@ class TactillClient:
         response = self._request("DELETE", url, expected_status=httpx.codes.OK)
 
         return TactillResponse(**response)
+
+    def get_discount(self, discount_id: TactillUUID) -> Discount:
+        """
+        Get a Discount by its unique id
+
+        :param discount_id: The ID of the discount.
+
+        :return: The discount object with the corresponding ID.
+        """
+        url = f"{API_URL}/catalog/discounts/{discount_id}"
+
+        response = self._request("GET", url, expected_status=httpx.codes.OK)
+
+        return Discount(**response)

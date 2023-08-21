@@ -298,3 +298,33 @@ def test_create_discount(client: TactillClient) -> None:
     assert discount.color == discount_creation.color
 
     client.delete_discount(discount.id)
+
+
+def test_get_discount(client: TactillClient) -> None:
+    discount_id = "5d70d4e6be8f9f001195cccb"
+    discount = client.get_discount(discount_id=discount_id)
+
+    assert discount.id == discount_id
+
+
+def test_get_discount_not_found(client: TactillClient) -> None:
+    discount_id = "1d70d4e6be8f9f001195cccb"
+
+    with pytest.raises(ResponseError) as excinfo:
+        client.get_discount(discount_id=discount_id)
+
+    error = excinfo.value.error
+    assert error.status_code == httpx.codes.NOT_FOUND
+    assert error.error == "Not Found"
+    assert error.message == '"discount_id" specified in "params" could not be found'
+
+
+def test_get_discount_bad_request(client: TactillClient) -> None:
+    discount_id = "1"
+
+    with pytest.raises(ResponseError) as excinfo:
+        client.get_discount(discount_id=discount_id)
+
+    error = excinfo.value.error
+    assert error.status_code == httpx.codes.BAD_REQUEST
+    assert error.error == "Bad Request"
