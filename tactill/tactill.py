@@ -170,7 +170,7 @@ class TactillClient:
         :return: The created category.
         """
         url = f"{API_URL}/catalog/categories"
-        category = category_creation.model_dump()
+        category = category_creation.model_dump(exclude_none=True)
         category["company_id"] = self.company_id
 
         response = self._request(

@@ -160,11 +160,18 @@ def test_get_categories_bad_request(client: TactillClient) -> None:
 
 
 def test_create_category(client: TactillClient) -> None:
-    category_creation = CategoryCreation(name="Test", icon_text="TEST")
+    category_creation = CategoryCreation(
+        test=False,
+        color="#57DB47",
+        icon_text="TEST",
+        name="Test",
+    )
     category = client.create_category(category_creation=category_creation)
 
-    assert category.name == category_creation.name
+    assert category.test == category_creation.test
+    assert category.color == category_creation.color
     assert category.icon_text == category_creation.icon_text
+    assert category.name == category_creation.name
 
     client.delete_category(category.id)
 
