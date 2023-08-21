@@ -7,6 +7,7 @@ from tactill.entities.article import Article, ArticleCreation
 from tactill.entities.base import TactillResponse, TactillUUID
 from tactill.entities.category import Category, CategoryCreation
 from tactill.entities.discount import Discount, DiscountCreation
+from tactill.entities.option_list import OptionList
 
 API_URL = "https://api4.tactill.com/v1"
 
@@ -81,7 +82,7 @@ class TactillClient:
             "GET", url, expected_status=httpx.codes.OK, params=params
         )
 
-        return [Article(**article) for article in response]
+        return [Article(**entity) for entity in response]
 
     def create_article(self, article_creation: ArticleCreation) -> Article:
         """
@@ -159,7 +160,7 @@ class TactillClient:
             "GET", url, expected_status=httpx.codes.OK, params=params
         )
 
-        return [Category(**article) for article in response]
+        return [Category(**entity) for entity in response]
 
     def create_category(self, category_creation: CategoryCreation) -> Category:
         """
@@ -237,7 +238,7 @@ class TactillClient:
             "GET", url, expected_status=httpx.codes.OK, params=params
         )
 
-        return [Discount(**article) for article in response]
+        return [Discount(**entity) for entity in response]
 
     def create_discount(self, discount_creation: DiscountCreation) -> Discount:
         """
@@ -285,3 +286,25 @@ class TactillClient:
         response = self._request("GET", url, expected_status=httpx.codes.OK)
 
         return Discount(**response)
+
+    def get_option_lists(
+        self,
+        limit: int = 100,
+        skip: int = 0,
+        filter: str | None = None,
+        order: str | None = None,
+    ) -> list[OptionList]:
+        url = f"{API_URL}/catalog/option_lists"
+        params = {"node_id": self.node_id, "limit": limit}
+        if skip:
+            params["skip"] = skip
+        if filter:
+            params["filter"] = filter
+        if order:
+            params["order"] = order
+
+        response = self._request(
+            "GET", url, expected_status=httpx.codes.OK, params=params
+        )
+
+        return [OptionList(**entity) for entity in response]

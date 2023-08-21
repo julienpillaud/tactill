@@ -328,3 +328,10 @@ def test_get_discount_bad_request(client: TactillClient) -> None:
     error = excinfo.value.error
     assert error.status_code == httpx.codes.BAD_REQUEST
     assert error.error == "Bad Request"
+
+
+# def test_get_option_lists(client: TactillClient) -> None:
+#     limit = 1
+#     articles = client.get_option_lists(limit=limit)
+#
+#     assert len(articles) == limit
