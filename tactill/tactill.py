@@ -13,6 +13,7 @@ from tactill.entities.option import (
     OptionList,
     OptionListCreation,
 )
+from tactill.entities.pack import Pack, PackCreation
 
 API_URL = "https://api4.tactill.com/v1"
 
@@ -396,3 +397,66 @@ class TactillClient:
         url = f"{API_URL}/catalog/options/{option_id}"
         response = self._request("GET", url, expected_status=httpx.codes.OK)
         return Option(**response)
+
+    def get_packs(
+        self,
+        limit: int = 100,
+        skip: int = 0,
+        filter: str | None = None,
+        order: str | None = None,
+    ) -> list[Pack]:
+        """
+        Get a list of Pack based on the given filters.
+
+        :param limit: Limit the number of returned records.
+        :param skip: Define an offset in the returned records.
+        :param filter: Allow filtering the results based on query language.
+        :param order: Allow ordering by field (example "field1=ASC&field2=DESC").
+
+        :return: A list of retrieved Packs.
+        """
+        url = f"{API_URL}/catalog/packs"
+        param = {"node_id": self.node_id}
+        response = self._get(url, param, limit, skip, filter, order)
+        return [Pack(**entity) for entity in response]
+
+    def create_pack(self, pack_creation: PackCreation) -> Pack:
+        """
+        Create a new Pack.
+
+        :param pack_creation: The Pack creation data.
+
+        :return: The created Pack.
+        """
+        url = f"{API_URL}/catalog/packs"
+        pack = pack_creation.model_dump(exclude_none=True)
+        pack["node_id"] = self.node_id
+
+        response = self._request(
+            "POST", url, expected_status=httpx.codes.CREATED, json=pack
+        )
+
+        return Pack(**response)
+
+    def delete_pack(self, pack_id: TactillUUID) -> TactillResponse:
+        """
+        Delete a Pack.
+
+        :param pack_id: The unique id of the Pack to be deleted.
+
+        :return: A `TactillResponse` object representing the response from the API.
+        """
+        url = f"{API_URL}/catalog/packs/{pack_id}"
+        return self._delete(url)
+
+    def get_pack(self, pack_id: TactillUUID) -> Pack:
+        """
+        Get a Pack by its unique id.
+
+        :param pack_id: The unique id of the Option.
+
+        :return: The Pack object with the corresponding ID.
+        """
+        url = f"{API_URL}/catalog/packs/{pack_id}"
+        response = self._request("GET", url, expected_status=httpx.codes.OK)
+        return Pack(**response)
