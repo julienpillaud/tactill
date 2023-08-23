@@ -14,6 +14,7 @@ from tactill.entities.option import (
     OptionListCreation,
 )
 from tactill.entities.pack import Pack, PackCreation
+from tactill.entities.tax import Tax, TaxCreation
 
 API_URL = "https://api4.tactill.com/v1"
 
@@ -30,7 +31,7 @@ class TactillClient:
         self.headers = {"x-api-key": api_key}
         url = f"{API_URL}/account/account"
 
-        with httpx.Client(headers=self.headers) as client:
+        with httpx.Client(headers=self.headers, timeout=10) as client:
             response = client.get(url)
 
         if response.status_code != httpx.codes.OK:
@@ -50,7 +51,7 @@ class TactillClient:
         params: Any = None,
         json: Any = None,
     ) -> Any:
-        with httpx.Client(headers=self.headers) as client:
+        with httpx.Client(headers=self.headers, timeout=10) as client:
             response = client.request(method=method, url=url, params=params, json=json)
 
         if response.status_code != expected_status:
@@ -460,3 +461,66 @@ class TactillClient:
         url = f"{API_URL}/catalog/packs/{pack_id}"
         response = self._request("GET", url, expected_status=httpx.codes.OK)
         return Pack(**response)
+
+    def get_taxes(
+        self,
+        limit: int = 100,
+        skip: int = 0,
+        filter: str | None = None,
+        order: str | None = None,
+    ) -> list[Tax]:
+        """
+        Get a list of Tax based on the given filters.
+
+        :param limit: Limit the number of returned records.
+        :param skip: Define an offset in the returned records.
+        :param filter: Allow filtering the results based on query language.
+        :param order: Allow ordering by field (example "field1=ASC&field2=DESC").
+
+        :return: A list of retrieved Taxes.
+        """
+        url = f"{API_URL}/catalog/taxes"
+        param = {"company_id": self.company_id}
+        response = self._get(url, param, limit, skip, filter, order)
+        return [Tax(**entity) for entity in response]
+
+    def create_tax(self, tax_creation: TaxCreation) -> Tax:
+        """
+        Create a new Tax.
+
+        :param tax_creation: The Tax creation data.
+
+        :return: The created Tax.
+        """
+        url = f"{API_URL}/catalog/taxes"
+        tax = tax_creation.model_dump(exclude_none=True)
+        tax["company_id"] = self.company_id
+
+        response = self._request(
+            "POST", url, expected_status=httpx.codes.CREATED, json=tax
+        )
+
+        return Tax(**response)
+
+    def delete_tax(self, tax_id: TactillUUID) -> TactillResponse:
+        """
+        Delete a Tax.
+
+        :param tax_id: The unique id of the Tax to be deleted.
+
+        :return: A `TactillResponse` object representing the response from the API.
+        """
+        url = f"{API_URL}/catalog/taxes/{tax_id}"
+        return self._delete(url)
+
+    def get_tax(self, tax_id: TactillUUID) -> Tax:
+        """
+        Get a Tax by its unique id.
+
+        :param tax_id: The unique id of the Tax.
+
+        :return: The Tax object with the corresponding ID.
+        """
+        url = f"{API_URL}/catalog/taxes/{tax_id}"
+        response = self._request("GET", url, expected_status=httpx.codes.OK)
+        return Tax(**response)
