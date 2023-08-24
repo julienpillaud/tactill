@@ -42,12 +42,12 @@ class ArticleDeclination(BaseModel):
     stock_quantity: float | None = None
 
 
-class ArticleCreation(BaseModel):
+class BaseArticle(BaseModel):
     test: bool | None = None
-    category_id: TactillUUID
+    category_id: TactillUUID | None = None
     discounts: list[TactillUUID] | None = None
-    taxes: list[TactillUUID]
-    name: str
+    taxes: list[TactillUUID] | None = None
+    name: str | None = None
     icon_text: str | None = None
     summary: str | None = None
     image: str | None = None
@@ -66,7 +66,18 @@ class ArticleCreation(BaseModel):
     options: list[TactillUUID] | None = None
 
 
-class Article(BaseTactillModel, ArticleCreation):
+class ArticleCreation(BaseArticle):
+    category_id: TactillUUID
+    taxes: list[TactillUUID]
+    name: str
+
+
+class ArticleModification(BaseArticle):
+    taxes: list[TactillUUID]
+
+
+class Article(BaseTactillModel, BaseArticle):
     node_id: TactillUUID
+    taxes: list[TactillUUID]
     is_default: bool | None = None
     stock_quantity: float | None = None

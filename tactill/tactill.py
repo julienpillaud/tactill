@@ -3,7 +3,7 @@ from typing import Any
 import httpx
 
 from tactill.entities.account import Account
-from tactill.entities.article import Article, ArticleCreation
+from tactill.entities.article import Article, ArticleCreation, ArticleModification
 from tactill.entities.base import TactillResponse, TactillUUID
 from tactill.entities.category import Category, CategoryCreation
 from tactill.entities.discount import Discount, DiscountCreation
@@ -144,6 +144,24 @@ class TactillClient:
         url = f"{API_URL}/catalog/articles/{article_id}"
         response = self._request("GET", url, expected_status=httpx.codes.OK)
         return Article(**response)
+
+    def update_article(
+        self, article_id: TactillUUID, article_modification: ArticleModification
+    ) -> TactillResponse:
+        """
+        Modify an Article.
+
+        :param article_id: The unique id of the Article.
+        :param article_modification: The Article modification data.
+
+        :return: A `TactillResponse` object representing the response from the API.
+        """
+        url = f"{API_URL}/catalog/articles/{article_id}"
+        article = article_modification.model_dump(exclude_none=True)
+        response = self._request(
+            "PUT", url, expected_status=httpx.codes.OK, json=article
+        )
+        return TactillResponse(**response)
 
     def get_categories(
         self,

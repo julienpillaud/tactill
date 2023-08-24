@@ -1,7 +1,7 @@
 import httpx
 import pytest
 
-from tactill.entities.article import ArticleCreation
+from tactill.entities.article import Article, ArticleCreation, ArticleModification
 from tactill.tactill import ResponseError, TactillClient
 
 
@@ -84,7 +84,6 @@ def test_create_article_bad_request(client: TactillClient) -> None:
         category_id="5d83c74690924d0008f55d3a",
         taxes=["5d70d4e5be8f9f001195ccc1"],
         name="",
-        full_price=1,
     )
     with pytest.raises(ResponseError) as excinfo:
         client.create_article(article_creation=article_creation)
@@ -122,6 +121,38 @@ def test_get_article_bad_request(client: TactillClient) -> None:
 
     with pytest.raises(ResponseError) as excinfo:
         client.get_article(article_id=article_id)
+
+    error = excinfo.value.error
+    assert error.status_code == httpx.codes.BAD_REQUEST
+    assert error.error == "Bad Request"
+
+
+def test_update_article(client: TactillClient, article: Article) -> None:
+    article_modification = ArticleModification(
+        taxes=["5d70d4e5be8f9f001195ccc1"], name="NEW NAME"
+    )
+
+    response = client.update_article(
+        article_id=article.id, article_modification=article_modification
+    )
+
+    assert response.status_code == httpx.codes.OK
+    assert response.message == "article successfully updated"
+
+    article = client.get_article(article_id=article.id)
+
+    assert article.name == article_modification.name
+
+
+def test_update_article_bad_request(client: TactillClient, article: Article) -> None:
+    article_modification = ArticleModification(
+        taxes=["5d70d4e5be8f9f001195ccc1"], name=""
+    )
+
+    with pytest.raises(ResponseError) as excinfo:
+        client.update_article(
+            article_id=article.id, article_modification=article_modification
+        )
 
     error = excinfo.value.error
     assert error.status_code == httpx.codes.BAD_REQUEST
