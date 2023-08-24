@@ -30,6 +30,7 @@ def article(client: TactillClient) -> Iterator[Article]:
         taxes=["5d70d4e5be8f9f001195ccc1"],
         name="TEST",
         full_price=1,
+        in_stock=True,
     )
     new_article = client.create_article(article_creation)
     yield new_article

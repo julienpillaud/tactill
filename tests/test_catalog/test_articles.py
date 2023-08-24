@@ -129,7 +129,9 @@ def test_get_article_bad_request(client: TactillClient) -> None:
 
 def test_update_article(client: TactillClient, article: Article) -> None:
     article_modification = ArticleModification(
-        taxes=["5d70d4e5be8f9f001195ccc1"], name="NEW NAME"
+        taxes=["5d70d4e5be8f9f001195ccc1"],
+        name="NEW NAME",
+        in_stock=article.in_stock,  # need to add in_stock to keep his value
     )
 
     response = client.update_article(
@@ -139,9 +141,38 @@ def test_update_article(client: TactillClient, article: Article) -> None:
     assert response.status_code == httpx.codes.OK
     assert response.message == "article successfully updated"
 
-    article = client.get_article(article_id=article.id)
+    updated_article = client.get_article(article_id=article.id)
 
-    assert article.name == article_modification.name
+    assert updated_article.version == article.version
+    assert updated_article.deprecated == article.deprecated
+    assert updated_article.created_at == article.created_at
+    assert updated_article.updated_at != article.updated_at
+    assert updated_article.original_id == article.original_id
+    assert updated_article.node_id == article.node_id
+    assert updated_article.is_default == article.is_default
+    assert updated_article.stock_quantity == article.stock_quantity
+
+    assert updated_article.test == article.test
+    assert updated_article.category_id == article.category_id
+    assert updated_article.discounts == article.discounts
+    assert updated_article.taxes == article.taxes
+    assert updated_article.name == article_modification.name
+    assert updated_article.icon_text == article.icon_text
+    assert updated_article.summary == article.summary
+    assert updated_article.image == article.image
+    assert updated_article.color == article.color
+    assert updated_article.full_price == article.full_price
+    assert updated_article.taxfree_price == article.taxfree_price
+    assert updated_article.barcode == article.barcode
+    assert updated_article.reference == article.reference
+    assert updated_article.unit == article.unit
+    assert updated_article.weight == article.weight
+    assert updated_article.in_stock == article.in_stock
+    assert updated_article.ignore_stock == article.ignore_stock
+    assert updated_article.buy_price == article.buy_price
+    assert updated_article.variations == article.variations
+    assert updated_article.declinations == article.declinations
+    assert updated_article.options == article.options
 
 
 def test_update_article_bad_request(client: TactillClient, article: Article) -> None:
