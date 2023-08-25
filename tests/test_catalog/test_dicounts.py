@@ -3,7 +3,7 @@ from datetime import datetime
 import httpx
 import pytest
 
-from tactill.entities.discount import DiscountCreation
+from tactill.entities.discount import Discount, DiscountCreation, DiscountModification
 from tactill.tactill import ResponseError, TactillClient
 
 
@@ -99,6 +99,50 @@ def test_get_discount_bad_request(client: TactillClient) -> None:
 
     with pytest.raises(ResponseError) as excinfo:
         client.get_discount(discount_id=discount_id)
+
+    error = excinfo.value.error
+    assert error.status_code == httpx.codes.BAD_REQUEST
+    assert error.error == "Bad Request"
+
+
+def test_update_discount(client: TactillClient, discount: Discount) -> None:
+    discount_modification = DiscountModification(name="NEW NAME")
+
+    response = client.update_discount(
+        discount_id=discount.id, discount_modification=discount_modification
+    )
+
+    assert response.status_code == httpx.codes.OK
+    assert response.message == "discount successfully updated"
+
+    updated_discount = client.get_discount(discount_id=discount.id)
+
+    assert updated_discount.version == discount.version
+    assert updated_discount.deprecated == discount.deprecated
+    assert updated_discount.created_at == discount.created_at
+    assert updated_discount.updated_at != discount.updated_at
+    assert updated_discount.original_id == discount.original_id
+
+    assert updated_discount.shop_id == discount.shop_id
+
+    assert updated_discount.test == discount.test
+    assert updated_discount.name == discount_modification.name
+    assert updated_discount.rate == discount.rate
+    assert updated_discount.type == discount.type
+    assert updated_discount.start_date == discount.start_date
+    assert updated_discount.end_date == discount.end_date
+    assert updated_discount.barcode == discount.barcode
+    assert updated_discount.icon_text == discount.icon_text
+    assert updated_discount.color == discount.color
+
+
+def test_update_discount_bad_request(client: TactillClient, discount: Discount) -> None:
+    discount_modification = DiscountModification(name="")
+
+    with pytest.raises(ResponseError) as excinfo:
+        client.update_discount(
+            discount_id=discount.id, discount_modification=discount_modification
+        )
 
     error = excinfo.value.error
     assert error.status_code == httpx.codes.BAD_REQUEST

@@ -6,7 +6,7 @@ from tactill.entities.account import Account
 from tactill.entities.article import Article, ArticleCreation, ArticleModification
 from tactill.entities.base import TactillResponse, TactillUUID
 from tactill.entities.category import Category, CategoryCreation, CategoryModification
-from tactill.entities.discount import Discount, DiscountCreation
+from tactill.entities.discount import Discount, DiscountCreation, DiscountModification
 from tactill.entities.option import (
     Option,
     OptionCreation,
@@ -306,6 +306,24 @@ class TactillClient:
         url = f"{API_URL}/catalog/discounts/{discount_id}"
         response = self._request("GET", url, expected_status=httpx.codes.OK)
         return Discount(**response)
+
+    def update_discount(
+        self, discount_id: TactillUUID, discount_modification: DiscountModification
+    ) -> TactillResponse:
+        """
+        Modify a Discount.
+
+        :param discount_id: The unique id of the Discount.
+        :param discount_modification: The Discount modification data.
+
+        :return: A `TactillResponse` object representing the response from the API.
+        """
+        url = f"{API_URL}/catalog/discounts/{discount_id}"
+        discount = discount_modification.model_dump(exclude_none=True)
+        response = self._request(
+            "PUT", url, expected_status=httpx.codes.OK, json=discount
+        )
+        return TactillResponse(**response)
 
     def get_option_lists(
         self,

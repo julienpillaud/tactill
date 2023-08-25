@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 
 from tactill.entities.article import Article, ArticleCreation
 from tactill.entities.category import Category, CategoryCreation
+from tactill.entities.discount import Discount, DiscountCreation
 from tactill.tactill import TactillClient
 
 load_dotenv()
@@ -33,14 +34,22 @@ def article(client: TactillClient) -> Iterator[Article]:
         full_price=1,
         in_stock=True,
     )
-    new_article = client.create_article(article_creation)
+    new_article = client.create_article(article_creation=article_creation)
     yield new_article
-    client.delete_article(new_article.id)
+    client.delete_article(article_id=new_article.id)
 
 
 @pytest.fixture
 def category(client: TactillClient) -> Iterator[Category]:
     category_creation = CategoryCreation(name="TEST")
-    new_category = client.create_category(category_creation)
+    new_category = client.create_category(category_creation=category_creation)
     yield new_category
-    client.delete_category(new_category.id)
+    client.delete_category(category_id=new_category.id)
+
+
+@pytest.fixture
+def discount(client: TactillClient) -> Iterator[Discount]:
+    discount_creation = DiscountCreation(name="TEST")
+    new_discount = client.create_discount(discount_creation=discount_creation)
+    yield new_discount
+    client.delete_discount(discount_id=new_discount.id)

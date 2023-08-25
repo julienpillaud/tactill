@@ -1,7 +1,7 @@
 import httpx
 import pytest
 
-from tactill.entities.category import CategoryCreation, CategoryModification, Category
+from tactill.entities.category import Category, CategoryCreation, CategoryModification
 from tactill.tactill import ResponseError, TactillClient
 
 
@@ -131,3 +131,16 @@ def test_update_category(client: TactillClient, category: Category) -> None:
     assert updated_category.color == category.color
     assert updated_category.icon_text == category.icon_text
     assert updated_category.name == category_modification.name
+
+
+def test_update_category_bad_request(client: TactillClient, category: Category) -> None:
+    category_modification = CategoryModification(name="")
+
+    with pytest.raises(ResponseError) as excinfo:
+        client.update_category(
+            category_id=category.id, category_modification=category_modification
+        )
+
+    error = excinfo.value.error
+    assert error.status_code == httpx.codes.BAD_REQUEST
+    assert error.error == "Bad Request"
