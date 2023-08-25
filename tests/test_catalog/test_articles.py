@@ -148,6 +148,7 @@ def test_update_article(client: TactillClient, article: Article) -> None:
     assert updated_article.created_at == article.created_at
     assert updated_article.updated_at != article.updated_at
     assert updated_article.original_id == article.original_id
+
     assert updated_article.node_id == article.node_id
     assert updated_article.is_default == article.is_default
     assert updated_article.stock_quantity == article.stock_quantity

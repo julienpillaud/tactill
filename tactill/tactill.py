@@ -5,7 +5,7 @@ import httpx
 from tactill.entities.account import Account
 from tactill.entities.article import Article, ArticleCreation, ArticleModification
 from tactill.entities.base import TactillResponse, TactillUUID
-from tactill.entities.category import Category, CategoryCreation
+from tactill.entities.category import Category, CategoryCreation, CategoryModification
 from tactill.entities.discount import Discount, DiscountCreation
 from tactill.entities.option import (
     Option,
@@ -225,6 +225,24 @@ class TactillClient:
         url = f"{API_URL}/catalog/categories/{category_id}"
         response = self._request("GET", url, expected_status=httpx.codes.OK)
         return Category(**response)
+
+    def update_category(
+        self, category_id: TactillUUID, category_modification: CategoryModification
+    ) -> TactillResponse:
+        """
+        Modify a Category.
+
+        :param category_id: The unique id of the Category.
+        :param category_modification: The Category modification data.
+
+        :return: A `TactillResponse` object representing the response from the API.
+        """
+        url = f"{API_URL}/catalog/categories/{category_id}"
+        article = category_modification.model_dump(exclude_none=True)
+        response = self._request(
+            "PUT", url, expected_status=httpx.codes.OK, json=article
+        )
+        return TactillResponse(**response)
 
     def get_discounts(
         self,

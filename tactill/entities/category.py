@@ -3,14 +3,22 @@ from pydantic import BaseModel
 from tactill.entities.base import BaseTactillModel, TactillColor, TactillUUID
 
 
-class CategoryCreation(BaseModel):
+class BaseCategory(BaseModel):
     test: bool | None = None
     image: str | None = None
     color: TactillColor | None = None
     icon_text: str | None = None
+    name: str | None = None
+
+
+class CategoryCreation(BaseCategory):
     name: str
 
 
-class Category(BaseTactillModel, CategoryCreation):
+class CategoryModification(BaseCategory):
+    pass
+
+
+class Category(BaseTactillModel, BaseCategory):
     company_id: TactillUUID
-    is_default: bool = False
+    is_default: bool | None = None

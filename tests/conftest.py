@@ -5,6 +5,7 @@ import pytest
 from dotenv import load_dotenv
 
 from tactill.entities.article import Article, ArticleCreation
+from tactill.entities.category import Category, CategoryCreation
 from tactill.tactill import TactillClient
 
 load_dotenv()
@@ -35,3 +36,11 @@ def article(client: TactillClient) -> Iterator[Article]:
     new_article = client.create_article(article_creation)
     yield new_article
     client.delete_article(new_article.id)
+
+
+@pytest.fixture
+def category(client: TactillClient) -> Iterator[Category]:
+    category_creation = CategoryCreation(name="TEST")
+    new_category = client.create_category(category_creation)
+    yield new_category
+    client.delete_category(new_category.id)
