@@ -1,7 +1,7 @@
 import httpx
 import pytest
 
-from tactill.entities.option import OptionCreation
+from tactill.entities.option import Option, OptionCreation, OptionModification
 from tactill.tactill import ResponseError, TactillClient
 
 
@@ -94,6 +94,45 @@ def test_get_option_bad_request(client: TactillClient) -> None:
 
     with pytest.raises(ResponseError) as excinfo:
         client.get_option(option_id=option_id)
+
+    error = excinfo.value.error
+    assert error.status_code == httpx.codes.BAD_REQUEST
+    assert error.error == "Bad Request"
+
+
+def test_update_option(client: TactillClient, option: Option) -> None:
+    option_modification = OptionModification(name="NEW NAME")
+
+    response = client.update_option(
+        option_id=option.id, option_modification=option_modification
+    )
+
+    assert response.status_code == httpx.codes.OK
+    assert response.message == "option successfully updated"
+
+    updated_option = client.get_option(option_id=option.id)
+
+    assert updated_option.version == option.version
+    assert updated_option.deprecated == option.deprecated
+    assert updated_option.created_at == option.created_at
+    assert updated_option.updated_at != option.updated_at
+    assert updated_option.original_id == option.original_id
+
+    assert updated_option.node_id == option.node_id
+
+    assert updated_option.test == option.test
+    assert updated_option.name == option_modification.name
+    assert updated_option.price == option.price
+
+
+def test_update_option_bad_request(client: TactillClient, option: Option) -> None:
+    option_modification = OptionModification(name="")
+
+    with pytest.raises(ResponseError) as excinfo:
+        client.update_option(
+            option_id=option.id,
+            option_modification=option_modification,
+        )
 
     error = excinfo.value.error
     assert error.status_code == httpx.codes.BAD_REQUEST

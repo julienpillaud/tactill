@@ -1,7 +1,11 @@
 import httpx
 import pytest
 
-from tactill.entities.option import OptionListCreation
+from tactill.entities.option import (
+    OptionList,
+    OptionListCreation,
+    OptionListModification,
+)
 from tactill.tactill import ResponseError, TactillClient
 
 
@@ -105,6 +109,52 @@ def test_get_option_list_bad_request(client: TactillClient) -> None:
 
     with pytest.raises(ResponseError) as excinfo:
         client.get_option_list(option_list_id=option_list_id)
+
+    error = excinfo.value.error
+    assert error.status_code == httpx.codes.BAD_REQUEST
+    assert error.error == "Bad Request"
+
+
+def test_update_option_list(client: TactillClient, option_list: OptionList) -> None:
+    option_list_modification = OptionListModification(
+        options=["64e3230e2626360008a8ab07"], name="NEW NAME"
+    )
+
+    response = client.update_option_list(
+        option_list_id=option_list.id, option_list_modification=option_list_modification
+    )
+
+    assert response.status_code == httpx.codes.OK
+    assert response.message == "optionlist successfully updated"
+
+    updated_option_list = client.get_option_list(option_list_id=option_list.id)
+
+    assert updated_option_list.version == option_list.version
+    assert updated_option_list.deprecated == option_list.deprecated
+    assert updated_option_list.created_at == option_list.created_at
+    assert updated_option_list.updated_at != option_list.updated_at
+    assert updated_option_list.original_id == option_list.original_id
+
+    assert updated_option_list.node_id == option_list.node_id
+
+    assert updated_option_list.options == option_list.options
+    assert updated_option_list.name == option_list_modification.name
+    assert updated_option_list.multiple == option_list.multiple
+    assert updated_option_list.mandatory == option_list.mandatory
+
+
+def test_update_option_list_bad_request(
+    client: TactillClient, option_list: OptionList
+) -> None:
+    option_list_modification = OptionListModification(
+        options=["64e3230e2626360008a8ab07"], name=""
+    )
+
+    with pytest.raises(ResponseError) as excinfo:
+        client.update_option_list(
+            option_list_id=option_list.id,
+            option_list_modification=option_list_modification,
+        )
 
     error = excinfo.value.error
     assert error.status_code == httpx.codes.BAD_REQUEST

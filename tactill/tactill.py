@@ -12,6 +12,8 @@ from tactill.entities.option import (
     OptionCreation,
     OptionList,
     OptionListCreation,
+    OptionListModification,
+    OptionModification,
 )
 from tactill.entities.pack import Pack, PackCreation
 from tactill.entities.tax import Tax, TaxCreation
@@ -31,7 +33,7 @@ class TactillClient:
         self.headers = {"x-api-key": api_key}
         url = f"{API_URL}/account/account"
 
-        with httpx.Client(headers=self.headers, timeout=10) as client:
+        with httpx.Client(headers=self.headers, timeout=15) as client:
             response = client.get(url)
 
         if response.status_code != httpx.codes.OK:
@@ -51,7 +53,7 @@ class TactillClient:
         params: Any = None,
         json: Any = None,
     ) -> Any:
-        with httpx.Client(headers=self.headers, timeout=10) as client:
+        with httpx.Client(headers=self.headers, timeout=15) as client:
             response = client.request(method=method, url=url, params=params, json=json)
 
         if response.status_code != expected_status:
@@ -390,6 +392,26 @@ class TactillClient:
         response = self._request("GET", url, expected_status=httpx.codes.OK)
         return OptionList(**response)
 
+    def update_option_list(
+        self,
+        option_list_id: TactillUUID,
+        option_list_modification: OptionListModification,
+    ) -> TactillResponse:
+        """
+        Modify a OptionList.
+
+        :param option_list_id: The unique id of the OptionList.
+        :param option_list_modification: The OptionList modification data.
+
+        :return: A `TactillResponse` object representing the response from the API.
+        """
+        url = f"{API_URL}/catalog/option_lists/{option_list_id}"
+        option_list = option_list_modification.model_dump(exclude_none=True)
+        response = self._request(
+            "PUT", url, expected_status=httpx.codes.OK, json=option_list
+        )
+        return TactillResponse(**response)
+
     def get_options(
         self,
         limit: int = 100,
@@ -452,6 +474,26 @@ class TactillClient:
         url = f"{API_URL}/catalog/options/{option_id}"
         response = self._request("GET", url, expected_status=httpx.codes.OK)
         return Option(**response)
+
+    def update_option(
+        self,
+        option_id: TactillUUID,
+        option_modification: OptionModification,
+    ) -> TactillResponse:
+        """
+        Modify an Option.
+
+        :param option_id: The unique id of the Option.
+        :param option_modification: The Option modification data.
+
+        :return: A `TactillResponse` object representing the response from the API.
+        """
+        url = f"{API_URL}/catalog/options/{option_id}"
+        option = option_modification.model_dump(exclude_none=True)
+        response = self._request(
+            "PUT", url, expected_status=httpx.codes.OK, json=option
+        )
+        return TactillResponse(**response)
 
     def get_packs(
         self,

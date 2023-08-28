@@ -7,6 +7,12 @@ from dotenv import load_dotenv
 from tactill.entities.article import Article, ArticleCreation
 from tactill.entities.category import Category, CategoryCreation
 from tactill.entities.discount import Discount, DiscountCreation
+from tactill.entities.option import (
+    Option,
+    OptionCreation,
+    OptionList,
+    OptionListCreation,
+)
 from tactill.tactill import TactillClient
 
 load_dotenv()
@@ -53,3 +59,29 @@ def discount(client: TactillClient) -> Iterator[Discount]:
     new_discount = client.create_discount(discount_creation=discount_creation)
     yield new_discount
     client.delete_discount(discount_id=new_discount.id)
+
+
+@pytest.fixture
+def option_list(client: TactillClient) -> Iterator[OptionList]:
+    option_list_creation = OptionListCreation(
+        options=["64e3230e2626360008a8ab07"],
+        name="TEST",
+        multiple=False,
+        mandatory=True,
+    )
+    new_option_list = client.create_option_list(
+        option_list_creation=option_list_creation
+    )
+    yield new_option_list
+    client.delete_option_list(option_list_id=new_option_list.id)
+
+
+@pytest.fixture
+def option(client: TactillClient) -> Iterator[Option]:
+    option_creation = OptionCreation(
+        name="TEST",
+        price=1,
+    )
+    new_option = client.create_option(option_creation=option_creation)
+    yield new_option
+    client.delete_option(option_id=new_option.id)
