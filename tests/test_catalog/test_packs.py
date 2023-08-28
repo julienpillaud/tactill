@@ -1,7 +1,7 @@
 import httpx
 import pytest
 
-from tactill.entities.pack import PackCreation
+from tactill.entities.pack import Pack, PackCreation, PackModification
 from tactill.tactill import ResponseError, TactillClient
 
 
@@ -90,3 +90,51 @@ def test_get_pack_bad_request(client: TactillClient) -> None:
     error = excinfo.value.error
     assert error.status_code == httpx.codes.BAD_REQUEST
     assert error.error == "Bad Request"
+
+
+def test_update_pack(client: TactillClient, pack: Pack) -> None:
+    pack_modification = PackModification(
+        articles=pack.articles,
+        full_price=2,
+        taxes=pack.taxes,
+        discounts=pack.discounts,
+    )
+
+    response = client.update_pack(pack_id=pack.id, pack_modification=pack_modification)
+
+    assert response.status_code == httpx.codes.OK
+    assert response.message == "set successfully updated"
+
+    updated_pack = client.get_pack(pack_id=pack.id)
+
+    assert updated_pack.version == pack.version
+    assert updated_pack.deprecated == pack.deprecated
+    assert updated_pack.created_at == pack.created_at
+    assert updated_pack.updated_at != pack.updated_at
+    assert updated_pack.original_id == pack.original_id
+
+    assert updated_pack.node_id == pack.node_id
+
+    assert updated_pack.articles == pack.articles
+    assert updated_pack.full_price == pack_modification.full_price
+    assert updated_pack.taxfree_price == pack.taxfree_price
+    assert updated_pack.taxes == pack.taxes
+    assert updated_pack.discounts == pack.discounts
+
+
+def test_update_pack_not_found(client: TactillClient, pack: Pack) -> None:
+    pack_modification = PackModification(
+        articles=pack.articles,
+        taxes=pack.taxes,
+        discounts=["1d70d4e6be8f9f001195cccb"],
+    )
+
+    with pytest.raises(ResponseError) as excinfo:
+        client.update_pack(
+            pack_id=pack.id,
+            pack_modification=pack_modification,
+        )
+
+    error = excinfo.value.error
+    assert error.status_code == httpx.codes.NOT_FOUND
+    assert error.error == "Not Found"

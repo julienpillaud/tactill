@@ -15,7 +15,7 @@ from tactill.entities.option import (
     OptionListModification,
     OptionModification,
 )
-from tactill.entities.pack import Pack, PackCreation
+from tactill.entities.pack import Pack, PackCreation, PackModification
 from tactill.entities.tax import Tax, TaxCreation
 
 API_URL = "https://api4.tactill.com/v1"
@@ -557,6 +557,24 @@ class TactillClient:
         url = f"{API_URL}/catalog/packs/{pack_id}"
         response = self._request("GET", url, expected_status=httpx.codes.OK)
         return Pack(**response)
+
+    def update_pack(
+        self,
+        pack_id: TactillUUID,
+        pack_modification: PackModification,
+    ) -> TactillResponse:
+        """
+        Modify a Pack.
+
+        :param pack_id: The unique id of the Option.
+        :param pack_modification: The Option modification data.
+
+        :return: A `TactillResponse` object representing the response from the API.
+        """
+        url = f"{API_URL}/catalog/packs/{pack_id}"
+        pack = pack_modification.model_dump(exclude_none=True)
+        response = self._request("PUT", url, expected_status=httpx.codes.OK, json=pack)
+        return TactillResponse(**response)
 
     def get_taxes(
         self,

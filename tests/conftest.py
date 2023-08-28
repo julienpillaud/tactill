@@ -13,6 +13,7 @@ from tactill.entities.option import (
     OptionList,
     OptionListCreation,
 )
+from tactill.entities.pack import Pack, PackCreation
 from tactill.tactill import TactillClient
 
 load_dotenv()
@@ -85,3 +86,16 @@ def option(client: TactillClient) -> Iterator[Option]:
     new_option = client.create_option(option_creation=option_creation)
     yield new_option
     client.delete_option(option_id=new_option.id)
+
+
+@pytest.fixture
+def pack(client: TactillClient) -> Iterator[Pack]:
+    pack_creation = PackCreation(
+        articles=["5d85058251301a000790fc9b"],
+        full_price=1,
+        taxes=[],
+        discounts=[],
+    )
+    new_pack = client.create_pack(pack_creation=pack_creation)
+    yield new_pack
+    client.delete_pack(pack_id=new_pack.id)
