@@ -1,7 +1,7 @@
 import httpx
 import pytest
 
-from tactill.entities.tax import TaxCreation
+from tactill.entities.tax import Tax, TaxCreation, TaxModification
 from tactill.tactill import ResponseError, TactillClient
 
 
@@ -106,6 +106,45 @@ def test_get_taxe_bad_request(client: TactillClient) -> None:
 
     with pytest.raises(ResponseError) as excinfo:
         client.get_tax(tax_id=tax_id)
+
+    error = excinfo.value.error
+    assert error.status_code == httpx.codes.BAD_REQUEST
+    assert error.error == "Bad Request"
+
+
+def test_update_tax(client: TactillClient, tax: Tax) -> None:
+    tax_modification = TaxModification(name="NEW NAME")
+
+    response = client.update_tax(tax_id=tax.id, tax_modification=tax_modification)
+
+    assert response.status_code == httpx.codes.OK
+    assert response.message == "tax successfully updated"
+
+    updated_tax = client.get_tax(tax_id=tax.id)
+
+    assert updated_tax.version == tax.version
+    assert updated_tax.deprecated == tax.deprecated
+    assert updated_tax.created_at == tax.created_at
+    assert updated_tax.updated_at != tax.updated_at
+    assert updated_tax.original_id == tax.original_id
+
+    assert updated_tax.company_id == tax.company_id
+
+    assert updated_tax.test == tax.test
+    assert updated_tax.is_default == tax.is_default
+    assert updated_tax.name == tax_modification.name
+    assert updated_tax.in_price == tax.in_price
+    assert updated_tax.rate == tax.rate
+
+
+def test_update_tax_bad_request(client: TactillClient, tax: Tax) -> None:
+    tax_modification = TaxModification(name="")
+
+    with pytest.raises(ResponseError) as excinfo:
+        client.update_tax(
+            tax_id=tax.id,
+            tax_modification=tax_modification,
+        )
 
     error = excinfo.value.error
     assert error.status_code == httpx.codes.BAD_REQUEST

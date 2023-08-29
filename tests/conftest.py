@@ -14,6 +14,7 @@ from tactill.entities.option import (
     OptionListCreation,
 )
 from tactill.entities.pack import Pack, PackCreation
+from tactill.entities.tax import Tax, TaxCreation
 from tactill.tactill import TactillClient
 
 load_dotenv()
@@ -99,3 +100,16 @@ def pack(client: TactillClient) -> Iterator[Pack]:
     new_pack = client.create_pack(pack_creation=pack_creation)
     yield new_pack
     client.delete_pack(pack_id=new_pack.id)
+
+
+@pytest.fixture
+def tax(client: TactillClient) -> Iterator[Tax]:
+    tax_creation = TaxCreation(
+        is_default=False,
+        name="TEST",
+        in_price=True,
+        rate=20,
+    )
+    new_tax = client.create_tax(tax_creation=tax_creation)
+    yield new_tax
+    client.delete_tax(tax_id=new_tax.id)
