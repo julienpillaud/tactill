@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "tactill"}]
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.10"
 pydantic = "^2.1.1"
 
 [tool.poetry.group.dev.dependencies]
