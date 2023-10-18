@@ -2,12 +2,24 @@ from typing import Any
 
 import httpx
 
-from tactill.entities.account import Account
-from tactill.entities.article import Article, ArticleCreation, ArticleModification
+from tactill.entities.account.account import Account
 from tactill.entities.base import TactillResponse, TactillUUID
-from tactill.entities.category import Category, CategoryCreation, CategoryModification
-from tactill.entities.discount import Discount, DiscountCreation, DiscountModification
-from tactill.entities.option import (
+from tactill.entities.catalog.article import (
+    Article,
+    ArticleCreation,
+    ArticleModification,
+)
+from tactill.entities.catalog.category import (
+    Category,
+    CategoryCreation,
+    CategoryModification,
+)
+from tactill.entities.catalog.discount import (
+    Discount,
+    DiscountCreation,
+    DiscountModification,
+)
+from tactill.entities.catalog.option import (
     Option,
     OptionCreation,
     OptionList,
@@ -15,15 +27,16 @@ from tactill.entities.option import (
     OptionListModification,
     OptionModification,
 )
-from tactill.entities.pack import Pack, PackCreation, PackModification
-from tactill.entities.tax import Tax, TaxCreation, TaxModification
+from tactill.entities.catalog.pack import Pack, PackCreation, PackModification
+from tactill.entities.catalog.tax import Tax, TaxCreation, TaxModification
+from tactill.entities.stock.movement import Movement, MovementCreation
 
 API_URL = "https://api4.tactill.com/v1"
 
 
 class ResponseError(Exception):
     def __init__(self, error: httpx.Response):
-        super().__init__(error)
+        super().__init__(error.text)
         response_error = error.json()
         self.error = TactillResponse(**response_error)
 
@@ -656,3 +669,43 @@ class TactillClient:
         tax = tax_modification.model_dump(exclude_none=True)
         response = self._request("PUT", url, expected_status=httpx.codes.OK, json=tax)
         return TactillResponse(**response)
+
+    def get_movements(
+        self,
+        limit: int = 100,
+        skip: int = 0,
+        filter: str | None = None,
+        order: str | None = None,
+    ) -> list[Movement]:
+        """
+        Get a list of Movement based on the given filters.
+
+        :param limit: Limit the number of returned records.
+        :param skip: Define an offset in the returned records.
+        :param filter: Allow filtering the results based on query language.
+        :param order: Allow ordering by field (example "field1=ASC&field2=DESC").
+
+        :return: A list of retrieved Movements.
+        """
+        url = f"{API_URL}/stock/movements"
+        param = {"shop_id": self.shop_id}
+        response = self._get(url, param, limit, skip, filter, order)
+        return [Movement(**entity) for entity in response]
+
+    def create_movement(self, movement_creation: MovementCreation) -> Movement:
+        """
+        Create a new Movement.
+
+        :param movement_creation: The Movement creation data.
+
+        :return: The created Movement.
+        """
+        url = f"{API_URL}/stock/movements"
+        pack = movement_creation.model_dump(exclude_none=True)
+        pack["shop_id"] = self.shop_id
+
+        response = self._request(
+            "POST", url, expected_status=httpx.codes.CREATED, json=pack
+        )
+
+        return Movement(**response)

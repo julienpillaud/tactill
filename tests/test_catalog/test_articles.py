@@ -1,8 +1,12 @@
 import httpx
 import pytest
 
-from tactill.entities.article import Article, ArticleCreation, ArticleModification
-from tactill.tactill import ResponseError, TactillClient
+from tactill import ResponseError, TactillClient
+from tactill.entities.catalog.article import (
+    Article,
+    ArticleCreation,
+    ArticleModification,
+)
 
 
 def test_get_articles(client: TactillClient) -> None:

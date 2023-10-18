@@ -4,18 +4,18 @@ from collections.abc import Iterator
 import pytest
 from dotenv import load_dotenv
 
-from tactill.entities.article import Article, ArticleCreation
-from tactill.entities.category import Category, CategoryCreation
-from tactill.entities.discount import Discount, DiscountCreation
-from tactill.entities.option import (
+from tactill import TactillClient
+from tactill.entities.catalog.article import Article, ArticleCreation
+from tactill.entities.catalog.category import Category, CategoryCreation
+from tactill.entities.catalog.discount import Discount, DiscountCreation
+from tactill.entities.catalog.option import (
     Option,
     OptionCreation,
     OptionList,
     OptionListCreation,
 )
-from tactill.entities.pack import Pack, PackCreation
-from tactill.entities.tax import Tax, TaxCreation
-from tactill.tactill import TactillClient
+from tactill.entities.catalog.pack import Pack, PackCreation
+from tactill.entities.catalog.tax import Tax, TaxCreation
 
 load_dotenv()
 

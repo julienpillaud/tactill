@@ -80,4 +80,4 @@ class Article(BaseTactillModel, BaseArticle):
     node_id: TactillUUID
     taxes: list[TactillUUID]
     is_default: bool | None = None
-    stock_quantity: int | None = 0
+    stock_quantity: int = 0

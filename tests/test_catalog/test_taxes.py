@@ -1,8 +1,8 @@
 import httpx
 import pytest
 
-from tactill.entities.tax import Tax, TaxCreation, TaxModification
-from tactill.tactill import ResponseError, TactillClient
+from tactill import ResponseError, TactillClient
+from tactill.entities.catalog.tax import Tax, TaxCreation, TaxModification
 
 
 def test_get_taxes(client: TactillClient) -> None:

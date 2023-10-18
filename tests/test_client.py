@@ -1,6 +1,6 @@
 import pytest
 
-from tactill.tactill import TactillClient
+from tactill import TactillClient
 
 
 def test_connexion(api_key: str) -> None:

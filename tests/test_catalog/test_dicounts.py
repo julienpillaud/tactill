@@ -3,8 +3,12 @@ from datetime import datetime
 import httpx
 import pytest
 
-from tactill.entities.discount import Discount, DiscountCreation, DiscountModification
-from tactill.tactill import ResponseError, TactillClient
+from tactill import ResponseError, TactillClient
+from tactill.entities.catalog.discount import (
+    Discount,
+    DiscountCreation,
+    DiscountModification,
+)
 
 
 def test_get_discounts(client: TactillClient) -> None:

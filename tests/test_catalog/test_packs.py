@@ -1,8 +1,8 @@
 import httpx
 import pytest
 
-from tactill.entities.pack import Pack, PackCreation, PackModification
-from tactill.tactill import ResponseError, TactillClient
+from tactill import ResponseError, TactillClient
+from tactill.entities.catalog.pack import Pack, PackCreation, PackModification
 
 
 def test_get_packs(client: TactillClient) -> None:

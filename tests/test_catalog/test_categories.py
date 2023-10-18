@@ -1,8 +1,12 @@
 import httpx
 import pytest
 
-from tactill.entities.category import Category, CategoryCreation, CategoryModification
-from tactill.tactill import ResponseError, TactillClient
+from tactill import ResponseError, TactillClient
+from tactill.entities.catalog.category import (
+    Category,
+    CategoryCreation,
+    CategoryModification,
+)
 
 
 def test_get_categories(client: TactillClient) -> None:

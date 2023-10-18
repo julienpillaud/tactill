@@ -1,12 +1,12 @@
 import httpx
 import pytest
 
-from tactill.entities.option import (
+from tactill import ResponseError, TactillClient
+from tactill.entities.catalog.option import (
     OptionList,
     OptionListCreation,
     OptionListModification,
 )
-from tactill.tactill import ResponseError, TactillClient
 
 
 def test_get_option_lists(client: TactillClient) -> None:
