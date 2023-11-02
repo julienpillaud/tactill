@@ -50,7 +50,7 @@ class TactillClient:
             response = client.get(url)
 
         if response.status_code != httpx.codes.OK:
-            raise ConnectionError(response.status_code)
+            raise ResponseError(response)
 
         account = response.json()
         self.account = Account(**account)
