@@ -48,6 +48,7 @@ def test_create_movement_in(client: TactillClient, article: Article) -> None:
     assert movement.validated_by == movement_creation.validated_by
     assert movement.type == movement_creation.type
     assert movement.state == movement_creation.state
+    assert movement.movements
     assert movement.movements[0].article_id == article_movement.article_id
     assert movement.movements[0].article_name == article_movement.article_name
     assert movement.movements[0].category_name == article_movement.category_name
@@ -81,6 +82,7 @@ def test_create_movement_out(client: TactillClient, article: Article) -> None:
     assert movement.validated_by == movement_creation.validated_by
     assert movement.type == movement_creation.type
     assert movement.state == movement_creation.state
+    assert movement.movements
     assert movement.movements[0].article_id == article_movement.article_id
     assert movement.movements[0].article_name == article_movement.article_name
     assert movement.movements[0].category_name == article_movement.category_name
