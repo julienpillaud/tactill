@@ -1,2 +1,2 @@
-from .tactill import ResponseError as ResponseError
 from .tactill import TactillClient as TactillClient
+from .tactill import TactillError as TactillError

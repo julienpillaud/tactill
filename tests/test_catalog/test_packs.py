@@ -1,7 +1,7 @@
 import httpx
 import pytest
 
-from tactill import ResponseError, TactillClient
+from tactill import TactillClient, TactillError
 from tactill.entities.catalog.pack import Pack, PackCreation, PackModification
 
 
@@ -36,7 +36,7 @@ def test_get_packs_with_order(client: TactillClient) -> None:
 
 
 def test_get_packs_bad_request(client: TactillClient) -> None:
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.get_packs(filter="bad")
 
     error = excinfo.value.error
@@ -72,7 +72,7 @@ def test_get_pack(client: TactillClient) -> None:
 def test_get_pack_not_found(client: TactillClient) -> None:
     pack_id = "14e5c46dde1d3600086b342f"
 
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.get_pack(pack_id=pack_id)
 
     error = excinfo.value.error
@@ -84,7 +84,7 @@ def test_get_pack_not_found(client: TactillClient) -> None:
 def test_get_pack_bad_request(client: TactillClient) -> None:
     pack_id = "1"
 
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.get_pack(pack_id=pack_id)
 
     error = excinfo.value.error
@@ -129,7 +129,7 @@ def test_update_pack_not_found(client: TactillClient, pack: Pack) -> None:
         discounts=["1d70d4e6be8f9f001195cccb"],
     )
 
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.update_pack(
             pack_id=pack.id,
             pack_modification=pack_modification,

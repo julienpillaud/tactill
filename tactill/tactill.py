@@ -1,3 +1,4 @@
+from json import JSONDecodeError
 from typing import Any
 
 import httpx
@@ -34,11 +35,16 @@ from tactill.entities.stock.movement import Movement, MovementCreation
 API_URL = "https://api4.tactill.com/v1"
 
 
-class ResponseError(Exception):
-    def __init__(self, error: httpx.Response):
-        super().__init__(error.text)
-        response_error = error.json()
-        self.error = TactillResponse(**response_error)
+class TactillError(Exception):
+    def __init__(self, response: httpx.Response):
+        super().__init__(response.text)
+
+        self.error: Any = None
+        try:
+            error = response.json()
+            self.error = TactillResponse.model_validate(error)
+        except JSONDecodeError as json_decode_error:
+            self.error = json_decode_error
 
 
 class TactillClient:
@@ -50,10 +56,10 @@ class TactillClient:
             response = client.get(url)
 
         if response.status_code != httpx.codes.OK:
-            raise ResponseError(response)
+            raise TactillError(response)
 
         account = response.json()
-        self.account = Account(**account)
+        self.account = Account.model_validate(account)
         self.node_id = self.account.nodes[0]
         self.company_id = self.account.companies[0]
         self.shop_id = self.account.shops[0]
@@ -70,7 +76,7 @@ class TactillClient:
             response = client.request(method=method, url=url, params=params, json=json)
 
         if response.status_code != expected_status:
-            raise ResponseError(response)
+            raise TactillError(response)
 
         return response.json()
 
@@ -95,7 +101,7 @@ class TactillClient:
 
     def _delete(self, url: str) -> TactillResponse:
         response = self._request("DELETE", url, expected_status=httpx.codes.OK)
-        return TactillResponse(**response)
+        return TactillResponse.model_validate(response)
 
     def get_articles(
         self,
@@ -117,7 +123,7 @@ class TactillClient:
         url = f"{API_URL}/catalog/articles"
         param = {"node_id": self.node_id}
         response = self._get(url, param, limit, skip, filter, order)
-        return [Article(**entity) for entity in response]
+        return [Article.model_validate(entity) for entity in response]
 
     def create_article(self, article_creation: ArticleCreation) -> Article:
         """
@@ -135,7 +141,7 @@ class TactillClient:
             "POST", url, expected_status=httpx.codes.CREATED, json=article
         )
 
-        return Article(**response)
+        return Article.model_validate(response)
 
     def delete_article(self, article_id: TactillUUID) -> TactillResponse:
         """
@@ -158,7 +164,7 @@ class TactillClient:
         """
         url = f"{API_URL}/catalog/articles/{article_id}"
         response = self._request("GET", url, expected_status=httpx.codes.OK)
-        return Article(**response)
+        return Article.model_validate(response)
 
     def update_article(
         self, article_id: TactillUUID, article_modification: ArticleModification
@@ -176,7 +182,7 @@ class TactillClient:
         response = self._request(
             "PUT", url, expected_status=httpx.codes.OK, json=article
         )
-        return TactillResponse(**response)
+        return TactillResponse.model_validate(response)
 
     def get_categories(
         self,
@@ -198,7 +204,7 @@ class TactillClient:
         url = f"{API_URL}/catalog/categories"
         param = {"company_id": self.company_id}
         response = self._get(url, param, limit, skip, filter, order)
-        return [Category(**entity) for entity in response]
+        return [Category.model_validate(entity) for entity in response]
 
     def create_category(self, category_creation: CategoryCreation) -> Category:
         """
@@ -216,7 +222,7 @@ class TactillClient:
             "POST", url, expected_status=httpx.codes.CREATED, json=category
         )
 
-        return Category(**response)
+        return Category.model_validate(response)
 
     def delete_category(self, category_id: TactillUUID) -> TactillResponse:
         """
@@ -239,7 +245,7 @@ class TactillClient:
         """
         url = f"{API_URL}/catalog/categories/{category_id}"
         response = self._request("GET", url, expected_status=httpx.codes.OK)
-        return Category(**response)
+        return Category.model_validate(response)
 
     def update_category(
         self, category_id: TactillUUID, category_modification: CategoryModification
@@ -257,7 +263,7 @@ class TactillClient:
         response = self._request(
             "PUT", url, expected_status=httpx.codes.OK, json=article
         )
-        return TactillResponse(**response)
+        return TactillResponse.model_validate(response)
 
     def get_discounts(
         self,
@@ -279,7 +285,7 @@ class TactillClient:
         url = f"{API_URL}/catalog/discounts"
         param = {"shop_id": self.shop_id}
         response = self._get(url, param, limit, skip, filter, order)
-        return [Discount(**entity) for entity in response]
+        return [Discount.model_validate(entity) for entity in response]
 
     def create_discount(self, discount_creation: DiscountCreation) -> Discount:
         """
@@ -297,7 +303,7 @@ class TactillClient:
             "POST", url, expected_status=httpx.codes.CREATED, json=category
         )
 
-        return Discount(**response)
+        return Discount.model_validate(response)
 
     def delete_discount(self, discount_id: TactillUUID) -> TactillResponse:
         """
@@ -320,7 +326,7 @@ class TactillClient:
         """
         url = f"{API_URL}/catalog/discounts/{discount_id}"
         response = self._request("GET", url, expected_status=httpx.codes.OK)
-        return Discount(**response)
+        return Discount.model_validate(response)
 
     def update_discount(
         self, discount_id: TactillUUID, discount_modification: DiscountModification
@@ -338,7 +344,7 @@ class TactillClient:
         response = self._request(
             "PUT", url, expected_status=httpx.codes.OK, json=discount
         )
-        return TactillResponse(**response)
+        return TactillResponse.model_validate(response)
 
     def get_option_lists(
         self,
@@ -360,7 +366,7 @@ class TactillClient:
         url = f"{API_URL}/catalog/option_lists"
         params = {"node_id": self.node_id}
         response = self._get(url, params, limit, skip, filter, order)
-        return [OptionList(**entity) for entity in response]
+        return [OptionList.model_validate(entity) for entity in response]
 
     def create_option_list(
         self, option_list_creation: OptionListCreation
@@ -380,7 +386,7 @@ class TactillClient:
             "POST", url, expected_status=httpx.codes.CREATED, json=option_list
         )
 
-        return OptionList(**response)
+        return OptionList.model_validate(response)
 
     def delete_option_list(self, option_list_id: TactillUUID) -> TactillResponse:
         """
@@ -403,7 +409,7 @@ class TactillClient:
         """
         url = f"{API_URL}/catalog/option_lists/{option_list_id}"
         response = self._request("GET", url, expected_status=httpx.codes.OK)
-        return OptionList(**response)
+        return OptionList.model_validate(response)
 
     def update_option_list(
         self,
@@ -423,7 +429,7 @@ class TactillClient:
         response = self._request(
             "PUT", url, expected_status=httpx.codes.OK, json=option_list
         )
-        return TactillResponse(**response)
+        return TactillResponse.model_validate(response)
 
     def get_options(
         self,
@@ -445,7 +451,7 @@ class TactillClient:
         url = f"{API_URL}/catalog/options"
         param = {"node_id": self.node_id}
         response = self._get(url, param, limit, skip, filter, order)
-        return [Option(**entity) for entity in response]
+        return [Option.model_validate(entity) for entity in response]
 
     def create_option(self, option_creation: OptionCreation) -> Option:
         """
@@ -463,7 +469,7 @@ class TactillClient:
             "POST", url, expected_status=httpx.codes.CREATED, json=option
         )
 
-        return Option(**response)
+        return Option.model_validate(response)
 
     def delete_option(self, option_id: TactillUUID) -> TactillResponse:
         """
@@ -486,7 +492,7 @@ class TactillClient:
         """
         url = f"{API_URL}/catalog/options/{option_id}"
         response = self._request("GET", url, expected_status=httpx.codes.OK)
-        return Option(**response)
+        return Option.model_validate(response)
 
     def update_option(
         self,
@@ -506,7 +512,7 @@ class TactillClient:
         response = self._request(
             "PUT", url, expected_status=httpx.codes.OK, json=option
         )
-        return TactillResponse(**response)
+        return TactillResponse.model_validate(response)
 
     def get_packs(
         self,
@@ -528,7 +534,7 @@ class TactillClient:
         url = f"{API_URL}/catalog/packs"
         param = {"node_id": self.node_id}
         response = self._get(url, param, limit, skip, filter, order)
-        return [Pack(**entity) for entity in response]
+        return [Pack.model_validate(entity) for entity in response]
 
     def create_pack(self, pack_creation: PackCreation) -> Pack:
         """
@@ -546,7 +552,7 @@ class TactillClient:
             "POST", url, expected_status=httpx.codes.CREATED, json=pack
         )
 
-        return Pack(**response)
+        return Pack.model_validate(response)
 
     def delete_pack(self, pack_id: TactillUUID) -> TactillResponse:
         """
@@ -569,7 +575,7 @@ class TactillClient:
         """
         url = f"{API_URL}/catalog/packs/{pack_id}"
         response = self._request("GET", url, expected_status=httpx.codes.OK)
-        return Pack(**response)
+        return Pack.model_validate(response)
 
     def update_pack(
         self,
@@ -587,7 +593,7 @@ class TactillClient:
         url = f"{API_URL}/catalog/packs/{pack_id}"
         pack = pack_modification.model_dump(exclude_none=True)
         response = self._request("PUT", url, expected_status=httpx.codes.OK, json=pack)
-        return TactillResponse(**response)
+        return TactillResponse.model_validate(response)
 
     def get_taxes(
         self,
@@ -609,7 +615,7 @@ class TactillClient:
         url = f"{API_URL}/catalog/taxes"
         param = {"company_id": self.company_id}
         response = self._get(url, param, limit, skip, filter, order)
-        return [Tax(**entity) for entity in response]
+        return [Tax.model_validate(entity) for entity in response]
 
     def create_tax(self, tax_creation: TaxCreation) -> Tax:
         """
@@ -627,7 +633,7 @@ class TactillClient:
             "POST", url, expected_status=httpx.codes.CREATED, json=tax
         )
 
-        return Tax(**response)
+        return Tax.model_validate(response)
 
     def delete_tax(self, tax_id: TactillUUID) -> TactillResponse:
         """
@@ -650,7 +656,7 @@ class TactillClient:
         """
         url = f"{API_URL}/catalog/taxes/{tax_id}"
         response = self._request("GET", url, expected_status=httpx.codes.OK)
-        return Tax(**response)
+        return Tax.model_validate(response)
 
     def update_tax(
         self,
@@ -668,7 +674,7 @@ class TactillClient:
         url = f"{API_URL}/catalog/taxes/{tax_id}"
         tax = tax_modification.model_dump(exclude_none=True)
         response = self._request("PUT", url, expected_status=httpx.codes.OK, json=tax)
-        return TactillResponse(**response)
+        return TactillResponse.model_validate(response)
 
     def get_movements(
         self,
@@ -690,7 +696,7 @@ class TactillClient:
         url = f"{API_URL}/stock/movements"
         param = {"shop_id": self.shop_id}
         response = self._get(url, param, limit, skip, filter, order)
-        return [Movement(**entity) for entity in response]
+        return [Movement.model_validate(entity) for entity in response]
 
     def create_movement(self, movement_creation: MovementCreation) -> Movement:
         """
@@ -708,4 +714,4 @@ class TactillClient:
             "POST", url, expected_status=httpx.codes.CREATED, json=pack
         )
 
-        return Movement(**response)
+        return Movement.model_validate(response)

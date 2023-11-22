@@ -3,7 +3,7 @@ from datetime import datetime
 import httpx
 import pytest
 
-from tactill import ResponseError, TactillClient
+from tactill import TactillClient, TactillError
 from tactill.entities.catalog.discount import (
     Discount,
     DiscountCreation,
@@ -42,7 +42,7 @@ def test_get_discounts_with_order(client: TactillClient) -> None:
 
 
 def test_get_discounts_bad_request(client: TactillClient) -> None:
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.get_discounts(filter="bad")
 
     error = excinfo.value.error
@@ -89,7 +89,7 @@ def test_get_discount(client: TactillClient) -> None:
 def test_get_discount_not_found(client: TactillClient) -> None:
     discount_id = "1d70d4e6be8f9f001195cccb"
 
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.get_discount(discount_id=discount_id)
 
     error = excinfo.value.error
@@ -101,7 +101,7 @@ def test_get_discount_not_found(client: TactillClient) -> None:
 def test_get_discount_bad_request(client: TactillClient) -> None:
     discount_id = "1"
 
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.get_discount(discount_id=discount_id)
 
     error = excinfo.value.error
@@ -143,7 +143,7 @@ def test_update_discount(client: TactillClient, discount: Discount) -> None:
 def test_update_discount_bad_request(client: TactillClient, discount: Discount) -> None:
     discount_modification = DiscountModification(name="")
 
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.update_discount(
             discount_id=discount.id, discount_modification=discount_modification
         )

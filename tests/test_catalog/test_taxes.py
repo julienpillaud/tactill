@@ -1,7 +1,7 @@
 import httpx
 import pytest
 
-from tactill import ResponseError, TactillClient
+from tactill import TactillClient, TactillError
 from tactill.entities.catalog.tax import Tax, TaxCreation, TaxModification
 
 
@@ -36,7 +36,7 @@ def test_get_taxes_with_order(client: TactillClient) -> None:
 
 
 def test_get_taxes_bad_request(client: TactillClient) -> None:
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.get_taxes(filter="bad")
 
     error = excinfo.value.error
@@ -70,7 +70,7 @@ def test_create_tax_bad_request(client: TactillClient) -> None:
         in_price=True,
         rate=20,
     )
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.create_tax(tax_creation=tax_creation)
 
     error = excinfo.value.error
@@ -92,7 +92,7 @@ def test_get_taxe(client: TactillClient) -> None:
 def test_get_taxe_not_found(client: TactillClient) -> None:
     tax_id = "1d70d4e5be8f9f001195ccc3"
 
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.get_tax(tax_id=tax_id)
 
     error = excinfo.value.error
@@ -104,7 +104,7 @@ def test_get_taxe_not_found(client: TactillClient) -> None:
 def test_get_taxe_bad_request(client: TactillClient) -> None:
     tax_id = "1"
 
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.get_tax(tax_id=tax_id)
 
     error = excinfo.value.error
@@ -140,7 +140,7 @@ def test_update_tax(client: TactillClient, tax: Tax) -> None:
 def test_update_tax_bad_request(client: TactillClient, tax: Tax) -> None:
     tax_modification = TaxModification(name="")
 
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.update_tax(
             tax_id=tax.id,
             tax_modification=tax_modification,

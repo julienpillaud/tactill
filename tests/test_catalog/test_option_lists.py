@@ -1,7 +1,7 @@
 import httpx
 import pytest
 
-from tactill import ResponseError, TactillClient
+from tactill import TactillClient, TactillError
 from tactill.entities.catalog.option import (
     OptionList,
     OptionListCreation,
@@ -40,7 +40,7 @@ def test_get_option_lists_with_order(client: TactillClient) -> None:
 
 
 def test_get_option_lists_bad_request(client: TactillClient) -> None:
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.get_option_lists(filter="bad")
 
     error = excinfo.value.error
@@ -73,7 +73,7 @@ def test_create_option_list_bad_request(client: TactillClient) -> None:
         multiple=False,
         mandatory=True,
     )
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.create_option_list(option_list_creation=option_list_creation)
 
     error = excinfo.value.error
@@ -95,7 +95,7 @@ def test_get_option_list(client: TactillClient) -> None:
 def test_get_option_list_not_found(client: TactillClient) -> None:
     option_list_id = "14e3250f2749240009abe5c1"
 
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.get_option_list(option_list_id=option_list_id)
 
     error = excinfo.value.error
@@ -107,7 +107,7 @@ def test_get_option_list_not_found(client: TactillClient) -> None:
 def test_get_option_list_bad_request(client: TactillClient) -> None:
     option_list_id = "1"
 
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.get_option_list(option_list_id=option_list_id)
 
     error = excinfo.value.error
@@ -150,7 +150,7 @@ def test_update_option_list_bad_request(
         options=["64e3230e2626360008a8ab07"], name=""
     )
 
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.update_option_list(
             option_list_id=option_list.id,
             option_list_modification=option_list_modification,

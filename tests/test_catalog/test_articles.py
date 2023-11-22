@@ -1,7 +1,7 @@
 import httpx
 import pytest
 
-from tactill import ResponseError, TactillClient
+from tactill import TactillClient, TactillError
 from tactill.entities.catalog.article import (
     Article,
     ArticleCreation,
@@ -40,7 +40,7 @@ def test_get_articles_with_order(client: TactillClient) -> None:
 
 
 def test_get_articles_bad_request(client: TactillClient) -> None:
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.get_articles(filter="bad")
 
     error = excinfo.value.error
@@ -89,7 +89,7 @@ def test_create_article_bad_request(client: TactillClient) -> None:
         taxes=["5d70d4e5be8f9f001195ccc1"],
         name="",
     )
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.create_article(article_creation=article_creation)
 
     error = excinfo.value.error
@@ -111,7 +111,7 @@ def test_get_article(client: TactillClient) -> None:
 def test_get_article_not_found(client: TactillClient) -> None:
     article_id = "1d85058251301a000790fc9b"
 
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.get_article(article_id=article_id)
 
     error = excinfo.value.error
@@ -123,7 +123,7 @@ def test_get_article_not_found(client: TactillClient) -> None:
 def test_get_article_bad_request(client: TactillClient) -> None:
     article_id = "1"
 
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.get_article(article_id=article_id)
 
     error = excinfo.value.error
@@ -185,7 +185,7 @@ def test_update_article_bad_request(client: TactillClient, article: Article) -> 
         taxes=["5d70d4e5be8f9f001195ccc1"], name=""
     )
 
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.update_article(
             article_id=article.id, article_modification=article_modification
         )

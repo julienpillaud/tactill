@@ -1,7 +1,7 @@
 import httpx
 import pytest
 
-from tactill import ResponseError, TactillClient
+from tactill import TactillClient, TactillError
 from tactill.entities.catalog.option import Option, OptionCreation, OptionModification
 
 
@@ -36,7 +36,7 @@ def test_get_options_with_order(client: TactillClient) -> None:
 
 
 def test_get_options_bad_request(client: TactillClient) -> None:
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.get_options(filter="bad")
 
     error = excinfo.value.error
@@ -58,7 +58,7 @@ def test_create_option(client: TactillClient) -> None:
 
 def test_create_option_bad_request(client: TactillClient) -> None:
     option_creation = OptionCreation(test=False, name="", price=1)
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.create_option(option_creation=option_creation)
 
     error = excinfo.value.error
@@ -80,7 +80,7 @@ def test_get_option(client: TactillClient) -> None:
 def test_get_option_not_found(client: TactillClient) -> None:
     option_id = "14e3230e2626360008a8ab07"
 
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.get_option(option_id=option_id)
 
     error = excinfo.value.error
@@ -92,7 +92,7 @@ def test_get_option_not_found(client: TactillClient) -> None:
 def test_get_option_bad_request(client: TactillClient) -> None:
     option_id = "1"
 
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.get_option(option_id=option_id)
 
     error = excinfo.value.error
@@ -128,7 +128,7 @@ def test_update_option(client: TactillClient, option: Option) -> None:
 def test_update_option_bad_request(client: TactillClient, option: Option) -> None:
     option_modification = OptionModification(name="")
 
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.update_option(
             option_id=option.id,
             option_modification=option_modification,

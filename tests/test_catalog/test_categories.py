@@ -1,7 +1,7 @@
 import httpx
 import pytest
 
-from tactill import ResponseError, TactillClient
+from tactill import TactillClient, TactillError
 from tactill.entities.catalog.category import (
     Category,
     CategoryCreation,
@@ -40,7 +40,7 @@ def test_get_categories_with_order(client: TactillClient) -> None:
 
 
 def test_get_categories_bad_request(client: TactillClient) -> None:
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.get_categories(filter="bad")
 
     error = excinfo.value.error
@@ -67,7 +67,7 @@ def test_create_category(client: TactillClient) -> None:
 
 def test_create_category_bad_request(client: TactillClient) -> None:
     category_creation = CategoryCreation(name="")
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.create_category(category_creation=category_creation)
 
     error = excinfo.value.error
@@ -89,7 +89,7 @@ def test_get_category(client: TactillClient) -> None:
 def test_get_category_not_found(client: TactillClient) -> None:
     category_id = "1d83c74690924d0008f55d3a"
 
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.get_category(category_id=category_id)
 
     error = excinfo.value.error
@@ -101,7 +101,7 @@ def test_get_category_not_found(client: TactillClient) -> None:
 def test_get_category_bad_request(client: TactillClient) -> None:
     category_id = "1"
 
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.get_category(category_id=category_id)
 
     error = excinfo.value.error
@@ -140,7 +140,7 @@ def test_update_category(client: TactillClient, category: Category) -> None:
 def test_update_category_bad_request(client: TactillClient, category: Category) -> None:
     category_modification = CategoryModification(name="")
 
-    with pytest.raises(ResponseError) as excinfo:
+    with pytest.raises(TactillError) as excinfo:
         client.update_category(
             category_id=category.id, category_modification=category_modification
         )
