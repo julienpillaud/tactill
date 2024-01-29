@@ -12,8 +12,8 @@ pydantic = "^2.5.1"
 httpx = "^0.25.1"
 
 [tool.poetry.group.dev.dependencies]
-ruff = "^0.1.6"
-mypy = "^1.7.0"
+ruff = "^0.1.14"
+mypy = "^1.8.0"
 pytest = "^7.4.3"
 pytest-cov = "^4.1.0"
 python-dotenv = "^1.0.0"
@@ -22,14 +22,20 @@ python-dotenv = "^1.0.0"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.ruff]
+[tool.ruff.lint]
 select = [
-    "E",  # pycodestyle errors
-    "W",  # pycodestyle warnings
-    "F",  # pyflakes
-    "I",  # isort
-    "C",  # flake8-comprehensions
-    "B",  # flake8-bugbear
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
 ]
 
 [tool.mypy]
