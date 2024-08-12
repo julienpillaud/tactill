@@ -26,9 +26,12 @@ def test_get_movements_with_filter(client: TactillClient) -> None:
 
 
 def test_create_movement_in(client: TactillClient, article: Article) -> None:
+    assert article.category_id
+    assert article.name
     article_units = 10
     stock_quantity = article.stock_quantity
     category = client.get_category(article.category_id)
+    assert category.name
 
     article_movement = ArticleMovement(
         article_id=article.id,
@@ -60,9 +63,12 @@ def test_create_movement_in(client: TactillClient, article: Article) -> None:
 
 
 def test_create_movement_out(client: TactillClient, article: Article) -> None:
+    assert article.category_id
+    assert article.name
     article_units = 10
     stock_quantity = article.stock_quantity
     category = client.get_category(article.category_id)
+    assert category.name
 
     article_movement = ArticleMovement(
         article_id=article.id,

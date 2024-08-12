@@ -22,7 +22,7 @@ load_dotenv()
 
 @pytest.fixture
 def api_key() -> str:
-    if key := os.getenv("API_KEY"):
+    if key := os.getenv("TACTILL_API_KEY"):
         return key
 
     raise ValueError("Missing API key")

@@ -1,41 +1,32 @@
 [tool.poetry]
-name = "tactill"
-version = "0.2.1"
-description = ""
-authors = ["Julien Pillaud <julien.pillaud@gmail.com>"]
-readme = "README.md"
-packages = [{include = "tactill"}]
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.11"
-pydantic = "^2.5.1"
-httpx = "^0.25.1"
+pydantic = "^2.8.2"
+httpx = "^0.25.2"
 
 [tool.poetry.group.dev.dependencies]
-ruff = "^0.3.0"
-mypy = "^1.8.0"
-pytest = "^7.4.3"
-pytest-cov = "^4.1.0"
-python-dotenv = "^1.0.0"
+ruff = "0.5.7"
+mypy = "1.11.1"
+pytest = "8.3.2"
+python-dotenv = "1.0.1"
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[tool.ruff]
+output-format = "concise"
 
 [tool.ruff.lint]
 select = [
-    # pycodestyle
-    "E",
-    # Pyflakes
-    "F",
-    # pyupgrade
-    "UP",
-    # flake8-bugbear
-    "B",
-    # flake8-simplify
-    "SIM",
-    # isort
-    "I",
+    "E", "W",  # pycodestyle
+    "F",  # Pyflakes
+    "UP",  # pyupgrade
+    "B",  # flake8-bugbear
+    "SIM",  # flake8-simplify
+    "I",  # isort
+    "PL",  # Pylint
+]
+ignore = [
+    "PLR0913",  # Too many arguments in function definition
 ]
 
 [tool.mypy]
