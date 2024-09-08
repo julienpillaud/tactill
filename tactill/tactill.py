@@ -1,7 +1,15 @@
+import logging
 from json import JSONDecodeError
 from typing import Any
 
 import httpx
+from tenacity import (
+    before_sleep_log,
+    retry,
+    retry_if_exception_type,
+    stop_after_attempt,
+    wait_exponential_jitter,
+)
 
 from tactill.entities.account.account import Account
 from tactill.entities.base import TactillResponse, TactillUUID
@@ -31,6 +39,8 @@ from tactill.entities.catalog.option import (
 from tactill.entities.catalog.pack import Pack, PackCreation, PackModification
 from tactill.entities.catalog.tax import Tax, TaxCreation, TaxModification
 from tactill.entities.stock.movement import Movement, MovementCreation
+
+logger = logging.getLogger(__name__)
 
 
 class TactillError(Exception):
@@ -79,6 +89,13 @@ class TactillClient:
         self.company_id = self.account.companies[0]
         self.shop_id = self.account.shops[0]
 
+    @retry(
+        retry=retry_if_exception_type(httpx.ReadTimeout),
+        wait=wait_exponential_jitter(),
+        stop=stop_after_attempt(3),
+        reraise=True,
+        before_sleep=before_sleep_log(logger, logging.WARNING),
+    )
     def _request(
         self,
         method: str,
