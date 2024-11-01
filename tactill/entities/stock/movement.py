@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 from typing import Literal
 
 from pydantic import BaseModel, Field
@@ -12,7 +12,7 @@ MovementDeviceType = Literal["iphone", "ipad", "backoffice"]
 
 
 def datetime_to_string() -> str:
-    return datetime.utcnow().isoformat()
+    return datetime.datetime.now(tz=datetime.UTC).isoformat()
 
 
 class ArticleMovement(BaseModel):
