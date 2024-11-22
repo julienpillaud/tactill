@@ -92,7 +92,7 @@ class TactillClient:
     @retry(
         retry=retry_if_exception_type(httpx.ReadTimeout),
         wait=wait_exponential_jitter(),
-        stop=stop_after_attempt(3),
+        stop=stop_after_attempt(5),
         reraise=True,
         before_sleep=before_sleep_log(logger, logging.WARNING),
     )
