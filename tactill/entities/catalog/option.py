@@ -3,43 +3,44 @@ from pydantic import BaseModel
 from tactill.entities.base import BaseTactillModel, TactillUUID
 
 
-class BaseOptionList(BaseModel):
-    options: list[TactillUUID] | None = None
-    name: str | None = None
-    multiple: bool | None = None
-    mandatory: bool | None = None
-
-
-class OptionListCreation(BaseOptionList):
+class OptionListCreation(BaseModel):
     options: list[TactillUUID]
     name: str
     multiple: bool
     mandatory: bool
 
 
-class OptionListModification(BaseOptionList):
+class OptionListModification(BaseModel):
     options: list[TactillUUID]
+    name: str | None = None
+    multiple: bool | None = None
+    mandatory: bool | None = None
 
 
-class OptionList(BaseTactillModel, BaseOptionList):
+class OptionList(BaseTactillModel):
     node_id: TactillUUID
+
     options: list[TactillUUID]
+    name: str | None = None
+    multiple: bool | None = None
+    mandatory: bool | None = None
 
 
-class BaseOption(BaseModel):
+class OptionCreation(BaseModel):
+    test: bool | None = None
+    name: str
+    price: float
+
+
+class OptionModification(BaseModel):
     test: bool | None = None
     name: str | None = None
     price: float | None = None
 
 
-class OptionCreation(BaseOption):
-    name: str
-    price: float
-
-
-class OptionModification(BaseOption):
-    pass
-
-
-class Option(BaseTactillModel, BaseOption):
+class Option(BaseTactillModel):
     node_id: TactillUUID
+
+    test: bool | None = None
+    name: str | None = None
+    price: float | None = None

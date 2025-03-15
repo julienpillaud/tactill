@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 from typing import Annotated, Literal
 
 import httpx
@@ -19,12 +19,16 @@ TactillColor = Literal[
 ]
 
 
+def datetime_utcnow():
+    return datetime.datetime.now(tz=datetime.UTC)
+
+
 class BaseTactillModel(BaseModel):
     id: str = Field(alias="_id")
     version: int = Field(alias="__v")
     deprecated: bool = False
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-    updated_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime.datetime = Field(default_factory=datetime_utcnow)
+    updated_at: datetime.datetime = Field(default_factory=datetime_utcnow)
     original_id: str | None = None
 
 

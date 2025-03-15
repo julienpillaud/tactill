@@ -3,7 +3,15 @@ from pydantic import BaseModel
 from tactill.entities.base import BaseTactillModel, TactillUUID
 
 
-class BaseTax(BaseModel):
+class TaxCreation(BaseModel):
+    test: bool | None = None
+    is_default: bool
+    name: str
+    in_price: bool
+    rate: float
+
+
+class TaxModification(BaseModel):
     test: bool | None = None
     is_default: bool | None = None
     name: str | None = None
@@ -11,16 +19,11 @@ class BaseTax(BaseModel):
     rate: float | None = None
 
 
-class TaxCreation(BaseTax):
-    is_default: bool
-    name: str
-    in_price: bool
-    rate: float
-
-
-class TaxModification(BaseTax):
-    pass
-
-
-class Tax(BaseTactillModel, BaseTax):
+class Tax(BaseTactillModel):
     company_id: TactillUUID
+
+    test: bool | None = None
+    is_default: bool | None = None
+    name: str | None = None
+    in_price: bool | None = None
+    rate: float | None = None

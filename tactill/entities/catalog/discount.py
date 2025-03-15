@@ -6,9 +6,9 @@ from pydantic import BaseModel, field_serializer
 from tactill.entities.base import BaseTactillModel, TactillColor, TactillUUID
 
 
-class BaseDiscount(BaseModel):
+class DiscountCreation(BaseModel):
     test: bool | None = None
-    name: str | None = None
+    name: str
     rate: float | None = None
     type: Literal["numeric", "rate"] | None = None
     start_date: datetime | None = None
@@ -26,13 +26,27 @@ class BaseDiscount(BaseModel):
         return date.isoformat() if date else None
 
 
-class DiscountCreation(BaseDiscount):
-    name: str
+class DiscountModification(BaseModel):
+    test: bool | None = None
+    name: str | None = None
+    rate: float | None = None
+    type: Literal["numeric", "rate"] | None = None
+    start_date: datetime | None = None
+    end_date: datetime | None = None
+    barcode: str | None = None
+    icon_text: str | None = None
+    color: TactillColor | None = None
 
 
-class DiscountModification(BaseDiscount):
-    pass
-
-
-class Discount(BaseTactillModel, DiscountCreation):
+class Discount(BaseTactillModel):
     shop_id: TactillUUID
+
+    test: bool | None = None
+    name: str
+    rate: float | None = None
+    type: Literal["numeric", "rate"] | None = None
+    start_date: datetime | None = None
+    end_date: datetime | None = None
+    barcode: str | None = None
+    icon_text: str | None = None
+    color: TactillColor | None = None

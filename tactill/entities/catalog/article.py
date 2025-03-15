@@ -42,11 +42,35 @@ class ArticleDeclination(BaseModel):
     stock_quantity: float | None = None
 
 
-class BaseArticle(BaseModel):
+class ArticleCreation(BaseModel):
+    test: bool | None = None
+    category_id: TactillUUID
+    discounts: list[TactillUUID] | None = None
+    taxes: list[TactillUUID]
+    name: str
+    icon_text: str | None = None
+    summary: str | None = None
+    image: str | None = None
+    color: TactillColor | None = None
+    full_price: float | None = None
+    taxfree_price: float | None = None
+    barcode: str | None = None
+    reference: str | None = None
+    unit: ArticleUnit | None = None
+    weight: float | None = None
+    in_stock: bool | None = None
+    ignore_stock: bool | None = None
+    buy_price: float | None = None
+    variations: list[ArticleVariationOptions] | None = None
+    declinations: list[ArticleDeclination] | None = None
+    options: list[TactillUUID] | None = None
+
+
+class ArticleModification(BaseModel):
     test: bool | None = None
     category_id: TactillUUID | None = None
     discounts: list[TactillUUID] | None = None
-    taxes: list[TactillUUID] | None = None
+    taxes: list[TactillUUID]
     name: str | None = None
     icon_text: str | None = None
     summary: str | None = None
@@ -66,18 +90,29 @@ class BaseArticle(BaseModel):
     options: list[TactillUUID] | None = None
 
 
-class ArticleCreation(BaseArticle):
-    category_id: TactillUUID
-    taxes: list[TactillUUID]
-    name: str
-
-
-class ArticleModification(BaseArticle):
-    taxes: list[TactillUUID]
-
-
-class Article(BaseTactillModel, BaseArticle):
+class Article(BaseTactillModel):
     node_id: TactillUUID
-    taxes: list[TactillUUID]
     is_default: bool | None = None
     stock_quantity: int = 0
+
+    test: bool | None = None
+    category_id: TactillUUID | None = None
+    discounts: list[TactillUUID] | None = None
+    taxes: list[TactillUUID]
+    name: str | None = None
+    icon_text: str | None = None
+    summary: str | None = None
+    image: str | None = None
+    color: TactillColor | None = None
+    full_price: float | None = None
+    taxfree_price: float | None = None
+    barcode: str | None = None
+    reference: str | None = None
+    unit: ArticleUnit | None = None
+    weight: float | None = None
+    in_stock: bool | None = None
+    ignore_stock: bool | None = None
+    buy_price: float | None = None
+    variations: list[ArticleVariationOptions] | None = None
+    declinations: list[ArticleDeclination] | None = None
+    options: list[TactillUUID] | None = None

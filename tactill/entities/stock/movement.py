@@ -34,7 +34,22 @@ class ArticleMovement(BaseModel):
     out_price: float | None = None
 
 
-class BaseMovement(BaseModel):
+class MovementCreation(BaseModel):
+    test: bool | None = None
+    validated_by: list[str]
+    type: MovementType
+    state: MovementState
+    motive: MovementMotive | None = None
+    note: str | None = None
+    supplier: str | None = None
+    reference: str | None = None
+    movements: list[ArticleMovement]
+
+
+class Movement(BaseTactillModel):
+    shop_id: TactillUUID
+    number: int | None = None
+
     test: bool | None = None
     validated_by: list[str] | None = None
     type: MovementType | None = None
@@ -44,15 +59,3 @@ class BaseMovement(BaseModel):
     supplier: str | None = None
     reference: str | None = None
     movements: list[ArticleMovement] | None = None
-
-
-class MovementCreation(BaseMovement):
-    validated_by: list[str]
-    type: MovementType
-    state: MovementState
-    movements: list[ArticleMovement]
-
-
-class Movement(BaseTactillModel, BaseMovement):
-    shop_id: TactillUUID
-    number: int | None = None
