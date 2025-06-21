@@ -19,7 +19,7 @@ TactillColor = Literal[
 ]
 
 
-def datetime_utcnow():
+def datetime_utcnow() -> datetime.datetime:
     return datetime.datetime.now(tz=datetime.UTC)
 
 
