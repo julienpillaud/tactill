@@ -39,5 +39,5 @@ jobs:
         env:
           TACTILL_API_KEY: ${{ secrets.TACTILL_API_KEY }}
         run: |
-          uv run coverage run --source=tactill -m pytest
+          uv run coverage run --source=tactill -m pytest --vcr-record=none
           uv run coverage report --show-missing

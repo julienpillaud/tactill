@@ -1,0 +1,132 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api4.tactill.com
+      user-agent:
+      - python-httpx/0.28.1
+      x-api-key:
+      - '*****'
+    method: GET
+    uri: https://api4.tactill.com/v1/account/account
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA43OTU7DMBAF4Lt4nUZjN86PVz1EVyAUueMxtUhsK04qIeDu2AUWRaJCmsUsvvf0
+        3tjoDFNMmg5MQ/JEvR0sAOeDRDwZVjGNGDa/fjm9rWd4/9Yc2s5qAOp728imF0VHN77Q69+VNqNx
+        vDAFFYtLsG6iuxMo+0jL7FJywSemHp8q5oOh8v6E2tsQtiyjdA7xHpIFYZij9u6m7dcEhAInndYR
+        g/eEK5W9AoTcQT5+5ELxvRJ9vW/gIe81FBdCfXVWT4kqRrN2U05FSknjYaKL8yYsz1TnBTmyRVP8
+        qNdrNR92kE8eYVCiUyDqFrpSjQv9w318ApmKMpvYAQAA
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 21 Jun 2025 16:06:18 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-encoding:
+      - gzip
+      vary:
+      - origin,accept-encoding
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"test":false,"name":"Test","rate":1.0,"type":"rate","start_date":"2023-01-01T00:00:00","end_date":"2023-12-31T00:00:00","barcode":"123","icon_text":"TEST","color":"#57DB47","shop_id":"5d70d4e6be8f9f001195ccc5"}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '211'
+      content-type:
+      - application/json
+      host:
+      - api4.tactill.com
+      user-agent:
+      - python-httpx/0.28.1
+      x-api-key:
+      - '*****'
+    method: POST
+    uri: https://api4.tactill.com/v1/catalog/discounts
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA42PzWrEMAyE30W9JovsxD/rY2mfoDn1EryWQhe2SXC8S0vpu1dOoVB6Kegyo0/D
+        6ANS5liYxlgggEZtWrStVoOyAW1Q/uCtfYYGriv9iyNeM6eKQpjiZeMGCm/lR2wvyzqeZQmGHFLP
+        9sR+Ok6ISh1NSslIyBxfWYihHjaQJQ2CkqD3tdq7lqQScxlpX9ZGXYtKZkAM+xwQsTbimX5RSrfd
+        X+oUc1qoQkp3os9pmcfCb/Xd4fFpECstlyWLvDPu4b534nw/Yr2x5F3sO4wuGdJdJIVpqsB4g4Cf
+        X9hZOc9nAQAA
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 21 Jun 2025 16:06:18 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-encoding:
+      - gzip
+      vary:
+      - origin,accept-encoding
+    status:
+      code: 201
+      message: Created
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api4.tactill.com
+      user-agent:
+      - python-httpx/0.28.1
+      x-api-key:
+      - '*****'
+    method: DELETE
+    uri: https://api4.tactill.com/v1/catalog/discounts/6856d87a430a7c5d23ad10cf
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6tWKi5JLCktds5PSVWyMjIw0FFKLSrKL1KyUlLSUcpNLS5OTAdKKKVkFifnl+aV
+        KBSXJicDRdNKc3IqFVJSc1JLUlOUagGLIbU8RwAAAA==
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 21 Jun 2025 16:06:19 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-encoding:
+      - gzip
+      vary:
+      - origin,accept-encoding
+    status:
+      code: 200
+      message: OK
+version: 1

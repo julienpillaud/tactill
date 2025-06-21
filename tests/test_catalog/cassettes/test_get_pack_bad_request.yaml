@@ -1,0 +1,87 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api4.tactill.com
+      user-agent:
+      - python-httpx/0.28.1
+      x-api-key:
+      - '*****'
+    method: GET
+    uri: https://api4.tactill.com/v1/account/account
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA43OTWrDMBAF4LtobZuRsfyjVQ+RVUoRymjUiNqSsOxAaXv3Smm7SKGhMItZfO/x
+        3phyhkkmzACmI3Gi0U4WgPNJIJ4Mq5hGDLvfvpzetzO8f2sO/WA1AI2j7UQ3tkVHp17o9e9Km5FS
+        FyahYnEN1s10dwJlH2ldXEou+MTk41PFfDBU3p9QfxvCnmWUziHeQ6IgDEvU3t20/ZqAUOCs06Yw
+        eE+4UdnbQitq6GouDlxIMUngTcenY95rKK6E+uqsnhNVjBbt5pyKlJLGh5kuzpuwPlOTF+TIHk3x
+        Sm/Xaj7VkE8cYJLtIKFtehhKNa70D/fxCfyIlOLYAQAA
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 21 Jun 2025 16:06:49 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-encoding:
+      - gzip
+      vary:
+      - origin,accept-encoding
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api4.tactill.com
+      user-agent:
+      - python-httpx/0.28.1
+      x-api-key:
+      - '*****'
+    method: GET
+    uri: https://api4.tactill.com/v1/catalog/packs/1
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA02OQQrCMBBFrzIMLlus4sbsVPAAbtsqYzPaYGs0M1Gk9O5GEHH9H/+9AUVJo2y8
+        ZTSLosiQQ/ABDa7Jwo7vkUUxw55F6JwYbFrXWahQWA/OVggncp3AkRuKwlD+LU+nLTyoi5z42Q9V
+        Dz1p04K2DCEpXGALN1LlcDUw3ZdFvlzlW8pP9TBfjJNpnQrSj7Okzl/RDCg+huaTc6NAvaT9wi9B
+        U37tWI/jG7EKXvHdAAAA
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 21 Jun 2025 16:06:50 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-encoding:
+      - gzip
+      vary:
+      - origin,accept-encoding
+    status:
+      code: 400
+      message: Bad Request
+version: 1

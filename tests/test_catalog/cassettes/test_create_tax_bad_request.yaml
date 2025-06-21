@@ -1,0 +1,90 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api4.tactill.com
+      user-agent:
+      - python-httpx/0.28.1
+      x-api-key:
+      - '*****'
+    method: GET
+    uri: https://api4.tactill.com/v1/account/account
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA43OTU7DMBAF4Lt4nUTjEOfHKw7RFQhZ7nhMLRLbipNKCLg7doFFkaiQZjGL7z29
+        N6acYZIJM4DpSBxptJMF4HwSiEfDKqYRw+63L6f37QTv35pDP1gNQONoO9GNbdHRqRd6/bvSZqTU
+        mUmoWFyDdTPdnEDZR1oXl5ILPjH5+FQxHwyV9yfUX4ewZxmlU4i3kCgIwxK1d1dtvyYgFDjrtCkM
+        3hNuVPa20IoaupqLAxdSTBJ4c9f1D3mvobgS6ouzek5UMVq0m3MqUkoa72c6O2/C+kxNXpAjezTF
+        K71dqvlUQz5xgEm2g4S26WEo1bjSP9zHJ19aV+nYAQAA
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 21 Jun 2025 16:08:03 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-encoding:
+      - gzip
+      vary:
+      - origin,accept-encoding
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"is_default":false,"name":"","in_price":true,"rate":20.0,"company_id":"5d70d4e5be8f9f001195ccc0"}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '98'
+      content-type:
+      - application/json
+      host:
+      - api4.tactill.com
+      user-agent:
+      - python-httpx/0.28.1
+      x-api-key:
+      - '*****'
+    method: POST
+    uri: https://api4.tactill.com/v1/catalog/taxes
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAAz3MMQ7CMAxG4atY/9yhA1NGuAFr28E0BiLSusQJqKp6dwID69Ont8Ey52In9QJ3
+        aNsGkpImOBzZ01meRSyjwSRmfKsG4z1ETz1mnqQHXTlEo4uMXEyo+/dgNGsmjlHf4ilrNSTTkteh
+        7l4cg+ccdIbbYFrS+H0vvEZlX8FDVoPrfjcM+/4BD4C8yakAAAA=
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 21 Jun 2025 16:08:03 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-encoding:
+      - gzip
+      vary:
+      - origin,accept-encoding
+    status:
+      code: 400
+      message: Bad Request
+version: 1

@@ -1,0 +1,217 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api4.tactill.com
+      user-agent:
+      - python-httpx/0.28.1
+      x-api-key:
+      - '*****'
+    method: GET
+    uri: https://api4.tactill.com/v1/account/account
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA43OTU7DMBAF4Lt4nUTjEOfHKw7RFQhZ7nhMLRLbipNKCLg7doFFkaiQZjGL7z29
+        N6acYZIJM4DpSBxptJMF4HwSiEfDKqYRw+63L6f37QTv35pDP1gNQONoO9GNbdHRqRd6/bvSZqTU
+        mUmoWFyDdTPdnEDZR1oXl5ILPjH5+FQxHwyV9yfUX4ewZxmlU4i3kCgIwxK1d1dtvyYgFDjrtCkM
+        3hNuVPa20IoaupqLAxdSTBJ4c9f1D3mvobgS6ouzek5UMVq0m3MqUkoa72c6O2/C+kxNXpAjezTF
+        K71dqvlUQz5xgEm2g4S26WEo1bjSP9zHJ19aV+nYAQAA
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 21 Jun 2025 16:06:50 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-encoding:
+      - gzip
+      vary:
+      - origin,accept-encoding
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"articles":["5d85058251301a000790fc9b"],"full_price":1.0,"taxes":[],"discounts":[],"node_id":"5d70d4e6be8f9f001195ccc6"}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '121'
+      content-type:
+      - application/json
+      host:
+      - api4.tactill.com
+      user-agent:
+      - python-httpx/0.28.1
+      x-api-key:
+      - '*****'
+    method: POST
+    uri: https://api4.tactill.com/v1/catalog/packs
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA42NW2rDMBBF9zLfThgpHr3Wka+GIJSZERhMYmy5BEr3HqXtAvp5uOdwv4BXLU0l
+        lwYJLFo6oDtYczYuoUuExxHHDxhgX+RfnuiyKr9VSLXMmw5wf4jmqTOQeJRR3U1DjRXRmEjM7HpX
+        1jbxrBukS9cCIQVL5oSmIKKPWDne4DpA3ec5L+vECskM0Mrzp+mLTBs/9nv7w99HF8hJiMX54Ems
+        WFu92JP0x5w/IeH3Cw4NbR4DAQAA
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 21 Jun 2025 16:06:50 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-encoding:
+      - gzip
+      vary:
+      - origin,accept-encoding
+    status:
+      code: 201
+      message: Created
+- request:
+    body: '{"articles":["5d85058251301a000790fc9b"],"full_price":2.0,"taxes":[],"discounts":[]}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '84'
+      content-type:
+      - application/json
+      host:
+      - api4.tactill.com
+      user-agent:
+      - python-httpx/0.28.1
+      x-api-key:
+      - '*****'
+    method: PUT
+    uri: https://api4.tactill.com/v1/catalog/packs/6856d89a67875d2d22f7d23d
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6tWKi5JLCktds5PSVWyMjIw0FFKLSrKL1KyUlLSUcpNLS5OTAdKKBWnligUlyYn
+        AwXSSnNyKhVKC1ISS1JTlGoBAPV3Q0IAAAA=
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 21 Jun 2025 16:06:51 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-encoding:
+      - gzip
+      vary:
+      - origin,accept-encoding
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api4.tactill.com
+      user-agent:
+      - python-httpx/0.28.1
+      x-api-key:
+      - '*****'
+    method: GET
+    uri: https://api4.tactill.com/v1/catalog/packs/6856d89a67875d2d22f7d23d
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA33OzWrDMBAE4HfZsxNWild/z9FTQxHK7goMJjG2HAKh7x6l7bnHYb6BeUKeBBK4
+        QE5CLM4HT2LF2urFngQG4FVLU8mldWfR0gHdwZoP4xK6RHgccfzsbl/kfxe8fzvRZVV+U0i1zJsO
+        cL2J/v4g8SijuouGGiuiMZGY2fVdWdvEs26Qzp0FQgqWzAlNQUQfsXK8wNcAdZ/nvKwTKyQ7QCuP
+        n01vZNr4tl/bX8z5Dgm/X7kh/aIDAQAA
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 21 Jun 2025 16:06:51 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-encoding:
+      - gzip
+      vary:
+      - origin,accept-encoding
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api4.tactill.com
+      user-agent:
+      - python-httpx/0.28.1
+      x-api-key:
+      - '*****'
+    method: DELETE
+    uri: https://api4.tactill.com/v1/catalog/packs/6856d89a67875d2d22f7d23d
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6tWKi5JLCktds5PSVWyMjIw0FFKLSrKL1KyUlLSUcpNLS5OTAdKKBWnligUlyYn
+        AwXSSnNyKhVSUnNSS1JTlGoBDJDpZEIAAAA=
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 21 Jun 2025 16:06:51 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-encoding:
+      - gzip
+      vary:
+      - origin,accept-encoding
+    status:
+      code: 200
+      message: OK
+version: 1

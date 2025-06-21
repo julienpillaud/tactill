@@ -1,8 +1,11 @@
+import pytest
+
 from tactill import TactillClient
 from tactill.entities.catalog.article import Article
 from tactill.entities.stock.movement import ArticleMovement, MovementCreation
 
 
+@pytest.mark.vcr()
 def test_get_movements(client: TactillClient) -> None:
     limit = 10
     movements = client.get_movements(limit=limit)
@@ -10,6 +13,7 @@ def test_get_movements(client: TactillClient) -> None:
     assert len(movements) == limit
 
 
+@pytest.mark.vcr()
 def test_get_movements_with_skip(client: TactillClient) -> None:
     movements = client.get_movements()
     movements_skip = client.get_movements(skip=1)
@@ -17,6 +21,7 @@ def test_get_movements_with_skip(client: TactillClient) -> None:
     assert movements_skip[0] == movements[1]
 
 
+@pytest.mark.vcr()
 def test_get_movements_with_filter(client: TactillClient) -> None:
     movement_number = 2000
     movements = client.get_movements(filter=f"number={movement_number}")
@@ -25,6 +30,7 @@ def test_get_movements_with_filter(client: TactillClient) -> None:
     assert movement.number == movement_number
 
 
+@pytest.mark.vcr()
 def test_create_movement_in(client: TactillClient, article: Article) -> None:
     assert article.category_id
     assert article.name
@@ -62,6 +68,7 @@ def test_create_movement_in(client: TactillClient, article: Article) -> None:
     assert updated_article.stock_quantity == stock_quantity + article_units
 
 
+@pytest.mark.vcr()
 def test_create_movement_out(client: TactillClient, article: Article) -> None:
     assert article.category_id
     assert article.name

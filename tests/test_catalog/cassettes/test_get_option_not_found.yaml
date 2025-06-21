@@ -1,0 +1,86 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api4.tactill.com
+      user-agent:
+      - python-httpx/0.28.1
+      x-api-key:
+      - '*****'
+    method: GET
+    uri: https://api4.tactill.com/v1/account/account
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA43OwUrEMBAG4HfJuS2T0jRtTz7EnlYkZCcTN9gmoWkXRH13k1UPK7gIc5jD9//8
+        b0w5wyYmjATTkTjRYEcLwPkoEE+GVUwjht1vX07v2xnevzWHXloNQMNgO9ENbdHRqRd6/bvSZqTU
+        hU1QsbgG62a6O4Gyj7QuLiUXfGLT41PFfDBU3p9QfxvCnmWUziHeQ6IgDEvU3t20/ZqAUOCs06Yw
+        eE+4UdnbQitq6GouDryfIJ9sBjke815DcSXUV2f1nKhitGg351SklDQ+zHRx3oT1mZq8IEf2aIpX
+        ertW87GGfOIA49TKCdqmB1mqcaV/uI9PqyiAHdgBAAA=
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 21 Jun 2025 16:06:40 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-encoding:
+      - gzip
+      vary:
+      - origin,accept-encoding
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api4.tactill.com
+      user-agent:
+      - python-httpx/0.28.1
+      x-api-key:
+      - '*****'
+    method: GET
+    uri: https://api4.tactill.com/v1/catalog/options/14e3230e2626360008a8ab07
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAAx3MMQqEMBBG4asMf22xhZWtYLknCEh0xmVgzYRMUol3N9g+Ht8Fr7E2n40F0/gZ
+        B0gpVjDha5UWa4kx4BT3+OsHAixXtbQqB5Bn2fVQYdJEATmWeHrvu7U/U+rCJnS8yP0A0Xsln2sA
+        AAA=
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 21 Jun 2025 16:06:40 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-encoding:
+      - gzip
+      vary:
+      - origin,accept-encoding
+    status:
+      code: 404
+      message: Not Found
+version: 1

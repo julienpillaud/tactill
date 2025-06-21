@@ -5,6 +5,7 @@ from tactill import TactillClient, TactillError
 from tactill.entities.catalog.option import Option, OptionCreation, OptionModification
 
 
+@pytest.mark.vcr()
 def test_get_options(client: TactillClient) -> None:
     limit = 1
     options = client.get_options(limit=limit)
@@ -12,6 +13,7 @@ def test_get_options(client: TactillClient) -> None:
     assert len(options) == limit
 
 
+@pytest.mark.vcr()
 def test_get_options_with_skip(client: TactillClient) -> None:
     options = client.get_options()
     options_skip = client.get_options(skip=1)
@@ -19,6 +21,7 @@ def test_get_options_with_skip(client: TactillClient) -> None:
     assert options_skip[0] == options[1]
 
 
+@pytest.mark.vcr()
 def test_get_options_with_filter(client: TactillClient) -> None:
     option_name = "Test"
     options = client.get_options(filter=f"name={option_name}")
@@ -27,6 +30,7 @@ def test_get_options_with_filter(client: TactillClient) -> None:
     assert option.name == option_name
 
 
+@pytest.mark.vcr()
 def test_get_options_with_order(client: TactillClient) -> None:
     options = client.get_options(order="name=ASC")
 
@@ -35,6 +39,7 @@ def test_get_options_with_order(client: TactillClient) -> None:
     assert names == sorted_names
 
 
+@pytest.mark.vcr()
 def test_get_options_bad_request(client: TactillClient) -> None:
     with pytest.raises(TactillError) as excinfo:
         client.get_options(filter="bad")
@@ -44,6 +49,7 @@ def test_get_options_bad_request(client: TactillClient) -> None:
     assert error.error == "Bad Request"
 
 
+@pytest.mark.vcr()
 def test_create_option(client: TactillClient) -> None:
     option_creation = OptionCreation(test=False, name="Test", price=1)
 
@@ -56,6 +62,7 @@ def test_create_option(client: TactillClient) -> None:
     client.delete_option(option_id=option.id)
 
 
+@pytest.mark.vcr()
 def test_create_option_bad_request(client: TactillClient) -> None:
     option_creation = OptionCreation(test=False, name="", price=1)
     with pytest.raises(TactillError) as excinfo:
@@ -70,6 +77,7 @@ def test_create_option_bad_request(client: TactillClient) -> None:
     )
 
 
+@pytest.mark.vcr()
 def test_get_option(client: TactillClient) -> None:
     option_id = "64e3230e2626360008a8ab07"
     option = client.get_option(option_id=option_id)
@@ -77,6 +85,7 @@ def test_get_option(client: TactillClient) -> None:
     assert option.id == option_id
 
 
+@pytest.mark.vcr()
 def test_get_option_not_found(client: TactillClient) -> None:
     option_id = "14e3230e2626360008a8ab07"
 
@@ -89,6 +98,7 @@ def test_get_option_not_found(client: TactillClient) -> None:
     assert error.message == '"option_id" specified in "params" could not be found'
 
 
+@pytest.mark.vcr()
 def test_get_option_bad_request(client: TactillClient) -> None:
     option_id = "1"
 
@@ -100,6 +110,7 @@ def test_get_option_bad_request(client: TactillClient) -> None:
     assert error.error == "Bad Request"
 
 
+@pytest.mark.vcr()
 def test_update_option(client: TactillClient, option: Option) -> None:
     option_modification = OptionModification(name="NEW NAME")
 
@@ -125,6 +136,7 @@ def test_update_option(client: TactillClient, option: Option) -> None:
     assert updated_option.price == option.price
 
 
+@pytest.mark.vcr()
 def test_update_option_bad_request(client: TactillClient, option: Option) -> None:
     option_modification = OptionModification(name="")
 

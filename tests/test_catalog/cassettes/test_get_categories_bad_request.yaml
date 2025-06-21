@@ -1,0 +1,85 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api4.tactill.com
+      user-agent:
+      - python-httpx/0.28.1
+      x-api-key:
+      - '*****'
+    method: GET
+    uri: https://api4.tactill.com/v1/account/account
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA43OwUrEMBAG4HfJuS2T0jRtTz7EnlYkZCcTN9gmoWkXRH13k1UPK7gIc5jD9//8
+        b0w5wyYmjATTkTjRYEcLwPkoEE+GVUwjht1vX07v2xnevzWHXloNQMNgO9ENbdHRqRd6/bvSZqTU
+        hU1QsbgG62a6O4Gyj7QuLiUXfGLT41PFfDBU3p9QfxvCnmWUziHeQ6IgDEvU3t20/ZqAUOCs06Yw
+        eE+4UdnbQitq6GouDryfIJ9sBjke815DcSXUV2f1nKhitGg351SklDQ+zHRx3oT1mZq8IEf2aIpX
+        ertW87GGfOIA49TKCdqmB1mqcaV/uI9PqyiAHdgBAAA=
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 21 Jun 2025 16:06:08 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-encoding:
+      - gzip
+      vary:
+      - origin,accept-encoding
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api4.tactill.com
+      user-agent:
+      - python-httpx/0.28.1
+      x-api-key:
+      - '*****'
+    method: GET
+    uri: https://api4.tactill.com/v1/catalog/categories?company_id=5d70d4e5be8f9f001195ccc0&limit=100&filter=bad
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6tWKi5JLCktds5PSVWyMjEw0FFKLSrKL1KyUnJKTFEISi0sTS0uUdJRyk0tLk5M
+        B6pR8vMPiff0i/f1d3H10UlKTFGqBQDF7XTdRQAAAA==
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 21 Jun 2025 16:06:08 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-encoding:
+      - gzip
+      vary:
+      - origin,accept-encoding
+    status:
+      code: 400
+      message: Bad Request
+version: 1

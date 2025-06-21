@@ -9,6 +9,7 @@ from tactill.entities.catalog.article import (
 )
 
 
+@pytest.mark.vcr()
 def test_get_articles(client: TactillClient) -> None:
     limit = 100
     articles = client.get_articles(limit=limit)
@@ -16,6 +17,7 @@ def test_get_articles(client: TactillClient) -> None:
     assert len(articles) == limit
 
 
+@pytest.mark.vcr()
 def test_get_articles_with_skip(client: TactillClient) -> None:
     articles = client.get_articles()
     articles_skip = client.get_articles(skip=1)
@@ -23,6 +25,7 @@ def test_get_articles_with_skip(client: TactillClient) -> None:
     assert articles_skip[0] == articles[1]
 
 
+@pytest.mark.vcr()
 def test_get_articles_with_filter(client: TactillClient) -> None:
     article_name = "Kwak 33cl"
     articles = client.get_articles(filter=f"name={article_name}")
@@ -31,6 +34,7 @@ def test_get_articles_with_filter(client: TactillClient) -> None:
     assert article.name == article_name
 
 
+@pytest.mark.vcr()
 def test_get_articles_with_order(client: TactillClient) -> None:
     articles = client.get_articles(order="name=ASC")
 
@@ -39,6 +43,7 @@ def test_get_articles_with_order(client: TactillClient) -> None:
     assert names == sorted_names
 
 
+@pytest.mark.vcr()
 def test_get_articles_bad_request(client: TactillClient) -> None:
     with pytest.raises(TactillError) as excinfo:
         client.get_articles(filter="bad")
@@ -48,6 +53,7 @@ def test_get_articles_bad_request(client: TactillClient) -> None:
     assert error.error == "Bad Request"
 
 
+@pytest.mark.vcr()
 def test_create_article(client: TactillClient) -> None:
     article_creation = ArticleCreation(
         test=False,
@@ -83,6 +89,7 @@ def test_create_article(client: TactillClient) -> None:
     client.delete_article(article.id)
 
 
+@pytest.mark.vcr()
 def test_create_article_bad_request(client: TactillClient) -> None:
     article_creation = ArticleCreation(
         category_id="5d83c74690924d0008f55d3a",
@@ -101,6 +108,7 @@ def test_create_article_bad_request(client: TactillClient) -> None:
     )
 
 
+@pytest.mark.vcr()
 def test_get_article(client: TactillClient) -> None:
     article_id = "5d85058251301a000790fc9b"
     article = client.get_article(article_id=article_id)
@@ -108,6 +116,7 @@ def test_get_article(client: TactillClient) -> None:
     assert article.id == article_id
 
 
+@pytest.mark.vcr()
 def test_get_article_not_found(client: TactillClient) -> None:
     article_id = "1d85058251301a000790fc9b"
 
@@ -120,6 +129,7 @@ def test_get_article_not_found(client: TactillClient) -> None:
     assert error.message == '"article_id" specified in "params" could not be found'
 
 
+@pytest.mark.vcr()
 def test_get_article_bad_request(client: TactillClient) -> None:
     article_id = "1"
 
@@ -131,6 +141,7 @@ def test_get_article_bad_request(client: TactillClient) -> None:
     assert error.error == "Bad Request"
 
 
+@pytest.mark.vcr()
 def test_update_article(client: TactillClient, article: Article) -> None:
     article_modification = ArticleModification(
         taxes=["5d70d4e5be8f9f001195ccc1"],
@@ -180,6 +191,7 @@ def test_update_article(client: TactillClient, article: Article) -> None:
     assert updated_article.options == article.options
 
 
+@pytest.mark.vcr()
 def test_update_article_bad_request(client: TactillClient, article: Article) -> None:
     article_modification = ArticleModification(
         taxes=["5d70d4e5be8f9f001195ccc1"], name=""

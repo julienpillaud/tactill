@@ -5,6 +5,7 @@ from tactill import TactillClient, TactillError
 from tactill.entities.catalog.tax import Tax, TaxCreation, TaxModification
 
 
+@pytest.mark.vcr()
 def test_get_taxes(client: TactillClient) -> None:
     limit = 4
     taxes = client.get_taxes(limit=limit)
@@ -12,6 +13,7 @@ def test_get_taxes(client: TactillClient) -> None:
     assert len(taxes) == limit
 
 
+@pytest.mark.vcr()
 def test_get_taxes_with_skip(client: TactillClient) -> None:
     taxes = client.get_taxes()
     taxes_skip = client.get_taxes(skip=1)
@@ -19,6 +21,7 @@ def test_get_taxes_with_skip(client: TactillClient) -> None:
     assert taxes_skip[0] == taxes[1]
 
 
+@pytest.mark.vcr()
 def test_get_taxes_with_filter(client: TactillClient) -> None:
     tax_name = "TVA 20"
     taxes = client.get_taxes(filter=f"name={tax_name}")
@@ -27,6 +30,7 @@ def test_get_taxes_with_filter(client: TactillClient) -> None:
     assert tax.name == tax_name
 
 
+@pytest.mark.vcr()
 def test_get_taxes_with_order(client: TactillClient) -> None:
     taxes = client.get_taxes(order="name=ASC")
 
@@ -35,6 +39,7 @@ def test_get_taxes_with_order(client: TactillClient) -> None:
     assert names == sorted_names
 
 
+@pytest.mark.vcr()
 def test_get_taxes_bad_request(client: TactillClient) -> None:
     with pytest.raises(TactillError) as excinfo:
         client.get_taxes(filter="bad")
@@ -44,6 +49,7 @@ def test_get_taxes_bad_request(client: TactillClient) -> None:
     assert error.error == "Bad Request"
 
 
+@pytest.mark.vcr()
 def test_create_tax(client: TactillClient) -> None:
     tax_creation = TaxCreation(
         test=False,
@@ -63,6 +69,7 @@ def test_create_tax(client: TactillClient) -> None:
     client.delete_tax(tax.id)
 
 
+@pytest.mark.vcr()
 def test_create_tax_bad_request(client: TactillClient) -> None:
     tax_creation = TaxCreation(
         is_default=False,
@@ -82,6 +89,7 @@ def test_create_tax_bad_request(client: TactillClient) -> None:
     )
 
 
+@pytest.mark.vcr()
 def test_get_taxe(client: TactillClient) -> None:
     tax_id = "5d70d4e5be8f9f001195ccc3"
     tax = client.get_tax(tax_id=tax_id)
@@ -89,6 +97,7 @@ def test_get_taxe(client: TactillClient) -> None:
     assert tax.id == tax_id
 
 
+@pytest.mark.vcr()
 def test_get_taxe_not_found(client: TactillClient) -> None:
     tax_id = "1d70d4e5be8f9f001195ccc3"
 
@@ -101,6 +110,7 @@ def test_get_taxe_not_found(client: TactillClient) -> None:
     assert error.message == '"tax_id" specified in "params" could not be found'
 
 
+@pytest.mark.vcr()
 def test_get_taxe_bad_request(client: TactillClient) -> None:
     tax_id = "1"
 
@@ -112,6 +122,7 @@ def test_get_taxe_bad_request(client: TactillClient) -> None:
     assert error.error == "Bad Request"
 
 
+@pytest.mark.vcr()
 def test_update_tax(client: TactillClient, tax: Tax) -> None:
     tax_modification = TaxModification(name="NEW NAME")
 
@@ -137,6 +148,7 @@ def test_update_tax(client: TactillClient, tax: Tax) -> None:
     assert updated_tax.rate == tax.rate
 
 
+@pytest.mark.vcr()
 def test_update_tax_bad_request(client: TactillClient, tax: Tax) -> None:
     tax_modification = TaxModification(name="")
 

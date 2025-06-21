@@ -1,0 +1,89 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api4.tactill.com
+      user-agent:
+      - python-httpx/0.28.1
+      x-api-key:
+      - '*****'
+    method: GET
+    uri: https://api4.tactill.com/v1/account/account
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA43OTU7DMBAF4Lt4nUZjN86PVz1EVyAUueMxtUhsK04qIeDu2AUWRaJCmsUsvvf0
+        3tjoDFNMmg5MQ/JEvR0sAOeDRDwZVjGNGDa/fjm9rWd4/9Yc2s5qAOp728imF0VHN77Q69+VNqNx
+        vDAFFYtLsG6iuxMo+0jL7FJywSemHp8q5oOh8v6E2tsQtiyjdA7xHpIFYZij9u6m7dcEhAInndYR
+        g/eEK5W9AoTcQT5+5ELxvRJ9vW/gIe81FBdCfXVWT4kqRrN2U05FSknjYaKL8yYsz1TnBTmyRVP8
+        qNdrNR92kE8eYVCiUyDqFrpSjQv9w318ApmKMpvYAQAA
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 21 Jun 2025 16:06:53 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-encoding:
+      - gzip
+      vary:
+      - origin,accept-encoding
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api4.tactill.com
+      user-agent:
+      - python-httpx/0.28.1
+      x-api-key:
+      - '*****'
+    method: GET
+    uri: https://api4.tactill.com/v1/catalog/taxes?company_id=5d70d4e5be8f9f001195ccc0&limit=4
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA82S327CIBSHX2XhujTnUJDCXbXdE5hdbFkaBLo00drUumQxe/fROTedf6J3JlwA
+        OXB+3wcvG1LWjmginATHvZj5tFIVAKIS1tqERKRelc5XZj3via7MfOUj4nzbeWt67363urAiGiLS
+        mEWYkOlT9gDD6aZsu9qGrb5bhzq7XLSm+bjYdTi3bt1wf2lCV8KAAUWgkE4x0QI1H8WI6XOos53f
+        r0NFIQwxBaWZ1IBxwtlQV5bv3/F6v9pxfEab/WV0WQW7UQUeusD7k3EbP/7j3xKcxWeH+Ow+8Xet
+        lTXcAiQO1QwAUsW4cRU5yXeg7MSPuJbqOO0PlQhRNcqYczmk3foUsTgWeK2YZVe/1Y2ZbzMFQMhy
+        xdikmFDJxpLyQhY0fcwlzccgclWMsmw8ZNx7QRGJP3WvX7Ftyww5BAAA
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 21 Jun 2025 16:06:53 GMT
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - no-cache
+      content-encoding:
+      - gzip
+      vary:
+      - origin,accept-encoding
+    status:
+      code: 200
+      message: OK
+version: 1

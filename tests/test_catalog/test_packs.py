@@ -5,6 +5,7 @@ from tactill import TactillClient, TactillError
 from tactill.entities.catalog.pack import Pack, PackCreation, PackModification
 
 
+@pytest.mark.vcr()
 def test_get_packs(client: TactillClient) -> None:
     limit = 1
     packs = client.get_packs(limit=limit)
@@ -12,6 +13,7 @@ def test_get_packs(client: TactillClient) -> None:
     assert len(packs) == limit
 
 
+@pytest.mark.vcr()
 def test_get_packs_with_skip(client: TactillClient) -> None:
     packs = client.get_packs()
     packs_skip = client.get_packs(skip=1)
@@ -19,6 +21,7 @@ def test_get_packs_with_skip(client: TactillClient) -> None:
     assert packs_skip[0] == packs[1]
 
 
+@pytest.mark.vcr()
 def test_get_packs_with_filter(client: TactillClient) -> None:
     full_price = 1
     packs = client.get_packs(filter=f"full_price={full_price}")
@@ -27,6 +30,7 @@ def test_get_packs_with_filter(client: TactillClient) -> None:
     assert pack.full_price == full_price
 
 
+@pytest.mark.vcr()
 def test_get_packs_with_order(client: TactillClient) -> None:
     packs = client.get_packs(order="full_price=ASC")
 
@@ -35,6 +39,7 @@ def test_get_packs_with_order(client: TactillClient) -> None:
     assert prices == sorted_prices
 
 
+@pytest.mark.vcr()
 def test_get_packs_bad_request(client: TactillClient) -> None:
     with pytest.raises(TactillError) as excinfo:
         client.get_packs(filter="bad")
@@ -44,6 +49,7 @@ def test_get_packs_bad_request(client: TactillClient) -> None:
     assert error.error == "Bad Request"
 
 
+@pytest.mark.vcr()
 def test_create_pack(client: TactillClient) -> None:
     pack_creation = PackCreation(
         articles=["5d85058251301a000790fc9b"],
@@ -62,6 +68,7 @@ def test_create_pack(client: TactillClient) -> None:
     client.delete_pack(pack_id=pack.id)
 
 
+@pytest.mark.vcr()
 def test_get_pack(client: TactillClient) -> None:
     pack_id = "64e5c46dde1d3600086b342f"
     pack = client.get_pack(pack_id=pack_id)
@@ -69,6 +76,7 @@ def test_get_pack(client: TactillClient) -> None:
     assert pack.id == pack_id
 
 
+@pytest.mark.vcr()
 def test_get_pack_not_found(client: TactillClient) -> None:
     pack_id = "14e5c46dde1d3600086b342f"
 
@@ -81,6 +89,7 @@ def test_get_pack_not_found(client: TactillClient) -> None:
     assert error.message == '"set_id" specified in "params" could not be found'
 
 
+@pytest.mark.vcr()
 def test_get_pack_bad_request(client: TactillClient) -> None:
     pack_id = "1"
 
@@ -92,6 +101,7 @@ def test_get_pack_bad_request(client: TactillClient) -> None:
     assert error.error == "Bad Request"
 
 
+@pytest.mark.vcr()
 def test_update_pack(client: TactillClient, pack: Pack) -> None:
     pack_modification = PackModification(
         articles=pack.articles,
@@ -122,6 +132,7 @@ def test_update_pack(client: TactillClient, pack: Pack) -> None:
     assert updated_pack.discounts == pack.discounts
 
 
+@pytest.mark.vcr()
 def test_update_pack_not_found(client: TactillClient, pack: Pack) -> None:
     pack_modification = PackModification(
         articles=pack.articles,

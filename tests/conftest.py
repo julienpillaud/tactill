@@ -33,6 +33,11 @@ def client(api_key: str) -> TactillClient:
     return TactillClient(api_key=api_key)
 
 
+@pytest.fixture(scope="session")
+def vcr_config() -> dict[str, list[tuple[str, str]]]:
+    return {"filter_headers": [("x-api-key", "*****")]}
+
+
 @pytest.fixture
 def article(client: TactillClient) -> Iterator[Article]:
     article_creation = ArticleCreation(

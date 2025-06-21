@@ -9,6 +9,7 @@ from tactill.entities.catalog.category import (
 )
 
 
+@pytest.mark.vcr()
 def test_get_categories(client: TactillClient) -> None:
     limit = 30
     categories = client.get_categories(limit=limit)
@@ -16,6 +17,7 @@ def test_get_categories(client: TactillClient) -> None:
     assert len(categories) == limit
 
 
+@pytest.mark.vcr()
 def test_get_categories_with_skip(client: TactillClient) -> None:
     categories = client.get_categories()
     categories_skip = client.get_categories(skip=1)
@@ -23,6 +25,7 @@ def test_get_categories_with_skip(client: TactillClient) -> None:
     assert categories_skip[0] == categories[1]
 
 
+@pytest.mark.vcr()
 def test_get_categories_with_filter(client: TactillClient) -> None:
     category_name = "BIÈRE"
     categories = client.get_categories(filter=f"name={category_name}")
@@ -31,6 +34,7 @@ def test_get_categories_with_filter(client: TactillClient) -> None:
     assert category.name == category_name
 
 
+@pytest.mark.vcr()
 def test_get_categories_with_order(client: TactillClient) -> None:
     categories = client.get_categories(order="name=ASC")
 
@@ -39,6 +43,7 @@ def test_get_categories_with_order(client: TactillClient) -> None:
     assert names == sorted_names
 
 
+@pytest.mark.vcr()
 def test_get_categories_bad_request(client: TactillClient) -> None:
     with pytest.raises(TactillError) as excinfo:
         client.get_categories(filter="bad")
@@ -48,6 +53,7 @@ def test_get_categories_bad_request(client: TactillClient) -> None:
     assert error.error == "Bad Request"
 
 
+@pytest.mark.vcr()
 def test_create_category(client: TactillClient) -> None:
     category_creation = CategoryCreation(
         test=False,
@@ -65,6 +71,7 @@ def test_create_category(client: TactillClient) -> None:
     client.delete_category(category.id)
 
 
+@pytest.mark.vcr()
 def test_create_category_bad_request(client: TactillClient) -> None:
     category_creation = CategoryCreation(name="")
     with pytest.raises(TactillError) as excinfo:
@@ -79,6 +86,7 @@ def test_create_category_bad_request(client: TactillClient) -> None:
     )
 
 
+@pytest.mark.vcr()
 def test_get_category(client: TactillClient) -> None:
     category_id = "5d83c74690924d0008f55d3a"
     category = client.get_category(category_id=category_id)
@@ -86,6 +94,7 @@ def test_get_category(client: TactillClient) -> None:
     assert category.id == category_id
 
 
+@pytest.mark.vcr()
 def test_get_category_not_found(client: TactillClient) -> None:
     category_id = "1d83c74690924d0008f55d3a"
 
@@ -98,6 +107,7 @@ def test_get_category_not_found(client: TactillClient) -> None:
     assert error.message == '"category_id" specified in "params" could not be found'
 
 
+@pytest.mark.vcr()
 def test_get_category_bad_request(client: TactillClient) -> None:
     category_id = "1"
 
@@ -109,6 +119,7 @@ def test_get_category_bad_request(client: TactillClient) -> None:
     assert error.error == "Bad Request"
 
 
+@pytest.mark.vcr()
 def test_update_category(client: TactillClient, category: Category) -> None:
     category_modification = CategoryModification(name="NEW NAME")
 
@@ -137,6 +148,7 @@ def test_update_category(client: TactillClient, category: Category) -> None:
     assert updated_category.name == category_modification.name
 
 
+@pytest.mark.vcr()
 def test_update_category_bad_request(client: TactillClient, category: Category) -> None:
     category_modification = CategoryModification(name="")
 
