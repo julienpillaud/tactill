@@ -594,7 +594,7 @@ dev = [
     { name = "mypy", specifier = ">=1.15" },
     { name = "pre-commit", specifier = ">=4.1" },
     { name = "pytest", specifier = ">=8.4" },
-    { name = "pytest-vcr", specifier = ">=1.0.2" },
+    { name = "pytest-vcr", specifier = ">=1.0" },
     { name = "python-dotenv", specifier = ">=1.0" },
     { name = "ruff", specifier = ">=0.12.0" },
 ]
