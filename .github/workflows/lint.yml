@@ -1,32 +1,32 @@
-name: CI
+name: lint
 
-on: [push, pull_request]
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - main
 
 jobs:
 
-  lint-and-tests:
+  lint:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v6
         with:
-          version: "0.7.13"
           enable-cache: true
           cache-dependency-glob: "**/pyproject.toml"
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version-file: ".python-version"
 
       - name: Install the project
         run: uv sync --all-extras
 
       - name: Cache pre-commit
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache/pre-commit
           key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
@@ -34,10 +34,3 @@ jobs:
 
       - name: Run pre-commit
         run: uv run pre-commit run --all-files
-
-      - name: Run tests
-        env:
-          TACTILL_API_KEY: ${{ secrets.TACTILL_API_KEY }}
-        run: |
-          uv run coverage run --source=tactill -m pytest --vcr-record=none
-          uv run coverage report --show-missing

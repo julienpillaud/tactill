@@ -1,0 +1,33 @@
+name: tests
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - main
+
+jobs:
+
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: "**/pyproject.toml"
+
+      - name: Install the project
+        run: uv sync --all-extras
+
+      - name: Run tests
+        env:
+          TACTILL_API_KEY: ${{ secrets.TACTILL_API_KEY }}
+        run: |
+          uv run coverage run --source=tactill -m pytest --vcr-record=none
+          uv run coverage report --show-missing
