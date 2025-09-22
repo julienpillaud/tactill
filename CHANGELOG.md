@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/julienpillaud/tactill/compare/0.5.0...0.5.1) (2025-09-22)
+
+
+### Bug Fixes
+
+* move py.typed file in package ([#8](https://github.com/julienpillaud/tactill/issues/8)) ([fc684c7](https://github.com/julienpillaud/tactill/commit/fc684c741ba0ec1e3a2c3ae059a7b49740652381))
+
 ## [0.5.0](https://github.com/julienpillaud/tactill/compare/0.4.0...0.5.0) (2025-09-22)
 
 
