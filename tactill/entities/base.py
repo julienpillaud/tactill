@@ -1,22 +1,24 @@
 import datetime
-from typing import Annotated, Literal
+from enum import StrEnum
+from typing import Annotated
 
 import httpx
 from pydantic import BaseModel, Field
 
 TactillUUID = Annotated[str, Field(pattern=r"^[0-9A-Fa-f]{24}$")]
-TactillColor = Literal[
-    "#57DB47",
-    "#6868DC",
-    "#30BEA5",
-    "#F44F60",
-    "#1E8CFF",
-    "#F2BA43",
-    "#B455C8",
-    "#FF6347",
-    "#A06E58",
-    "#9EA09E",
-]
+
+
+class TactillColor(StrEnum):
+    GREEN = "#57DB47"
+    PURPLE = "#6868DC"
+    TEAL = "#30BEA5"
+    PINK = "#F44F60"
+    BLUE = "#1E8CFF"
+    YELLOW = "#F2BA43"
+    MAGENTA = "#B455C8"
+    ORANGE = "#FF6347"
+    BROWN = "#A06E58"
+    GRAY = "#9EA09E"
 
 
 def datetime_utcnow() -> datetime.datetime:
