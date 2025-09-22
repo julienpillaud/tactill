@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/julienpillaud/tactill/compare/0.4.0...0.5.0) (2025-09-22)
+
+
+### Features
+
+* add py.typed file ([#6](https://github.com/julienpillaud/tactill/issues/6)) ([757284e](https://github.com/julienpillaud/tactill/commit/757284e304bb0352904f9cb9da50929fcb20bccc))
+
 ## [0.4.0](https://github.com/julienpillaud/tactill/compare/0.3.0...0.4.0) (2025-09-22)
 
 
