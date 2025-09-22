@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/julienpillaud/tactill/compare/0.3.0...0.4.0) (2025-09-22)
+
+
+### Features
+
+* replace colors literal by enum ([#4](https://github.com/julienpillaud/tactill/issues/4)) ([a27060b](https://github.com/julienpillaud/tactill/commit/a27060b658c78dfcb069ad6f8e6ee8fc5dffad84))
+
 ## [0.3.0](https://github.com/julienpillaud/tactill/compare/0.2.0...0.3.0) (2025-08-10)
 
 
