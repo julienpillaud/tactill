@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/julienpillaud/tactill/compare/0.5.1...0.6.0) (2025-10-03)
+
+
+### Features
+
+* upgrade python version to 3.13 ([#10](https://github.com/julienpillaud/tactill/issues/10)) ([b4a559b](https://github.com/julienpillaud/tactill/commit/b4a559b414fce97b92e10b11a52d40811f560756))
+
 ## [0.5.1](https://github.com/julienpillaud/tactill/compare/0.5.0...0.5.1) (2025-09-22)
 
 
