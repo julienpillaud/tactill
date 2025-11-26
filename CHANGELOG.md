@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/julienpillaud/tactill/compare/0.6.0...0.7.0) (2025-11-26)
+
+
+### Features
+
+* bump python to 3.14 ([be94ab7](https://github.com/julienpillaud/tactill/commit/be94ab74c7de8495ca90b84b16fcab3cc4e82de5))
+
 ## [0.6.0](https://github.com/julienpillaud/tactill/compare/0.5.1...0.6.0) (2025-10-03)
 
 
