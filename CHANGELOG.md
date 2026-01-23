@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/julienpillaud/tactill/compare/0.7.0...0.8.0) (2026-01-23)
+
+
+### Features
+
+* refactor filters ([#14](https://github.com/julienpillaud/tactill/issues/14)) ([406c48e](https://github.com/julienpillaud/tactill/commit/406c48e868f6bbd7d5cdbb59b2007c0bc6cf72e0))
+
 ## [0.7.0](https://github.com/julienpillaud/tactill/compare/0.6.0...0.7.0) (2025-11-26)
 
 
