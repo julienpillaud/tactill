@@ -2,85 +2,40 @@ interactions:
 - request:
     body: ''
     headers:
-      accept:
+      Accept:
       - '*/*'
-      accept-encoding:
+      Accept-Encoding:
       - gzip, deflate
-      connection:
+      Connection:
       - keep-alive
-      host:
+      Host:
       - api4.tactill.com
-      user-agent:
+      User-Agent:
       - python-httpx/0.28.1
       x-api-key:
       - '*****'
     method: GET
-    uri: https://api4.tactill.com/v1/account/account
+    uri: https://api4.tactill.com/v1/catalog/packs?limit=1&node_id=59df3841568f630001ef9cbf
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA43OTWrDMBAF4LtobZuRsfyjVQ+RVUoRymjUiNqSsOxAaXv3Smm7SKGhMItZfO/x
-        3phyhkkmzACmI3Gi0U4WgPNJIJ4Mq5hGDLvfvpzetzO8f2sO/WA1AI2j7UQ3tkVHp17o9e9Km5FS
-        FyahYnEN1s10dwJlH2ldXEou+MTk41PFfDBU3p9QfxvCnmWUziHeQ6IgDEvU3t20/ZqAUOCs06Yw
-        eE+4UdnbQitq6GouDlxIMUngTcenY95rKK6E+uqsnhNVjBbt5pyKlJLGh5kuzpuwPlOTF+TIHk3x
-        Sm/Xaj7VkE8cYJLtIKFtehhKNa70D/fxCfyIlOLYAQAA
+      string: '[{"_id":"69723b639bca1c1b3795119a","created_at":"2026-01-22T14:59:47.534Z","updated_at":"2026-01-22T16:04:16.112Z","deprecated":false,"node_id":"59df3841568f630001ef9cbf","articles":["5d85058251301a000790fc9b"],"full_price":2,"taxfree_price":1,"taxes":[],"discounts":["1d70d4e6be8f9f001195cccb"],"__v":0}]'
     headers:
       Connection:
       - keep-alive
+      Content-Length:
+      - '305'
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sat, 21 Jun 2025 16:06:43 GMT
-      Transfer-Encoding:
-      - chunked
+      - Fri, 23 Jan 2026 09:47:39 GMT
+      accept-ranges:
+      - bytes
+      access-control-expose-headers:
+      - WWW-Authenticate,Server-Authorization
       cache-control:
       - no-cache
-      content-encoding:
-      - gzip
       vary:
-      - origin,accept-encoding
-    status:
-      code: 200
-      message: OK
-- request:
-    body: ''
-    headers:
-      accept:
-      - '*/*'
-      accept-encoding:
-      - gzip, deflate
-      connection:
-      - keep-alive
-      host:
-      - api4.tactill.com
-      user-agent:
-      - python-httpx/0.28.1
-      x-api-key:
-      - '*****'
-    method: GET
-    uri: https://api4.tactill.com/v1/catalog/packs?node_id=5d70d4e6be8f9f001195ccc6&limit=1
-  response:
-    body:
-      string: !!binary |
-        H4sIAAAAAAAAA43NWwrCMBCF4b3Mc5XJtUnW4ZNSSjozgYKotFEEce/GywJ8m4Hv8B8eMM4MCbwV
-        R9Yzi2LjETH4yVhdoAOWyyKUqzRX8nGVDvJSZzrKCukAjoNDF7RTBlVuyz5ioTjB0EHN9w9qJ88r
-        na+n+ntPZ5Zv2XGPbMVPEkosiEpFR0S+lWmRd3bMtTmN2mwwbLTZYUjGJBu3DsO+ueuF/3LjeIOE
-        z+EFYXqm9fYAAAA=
-    headers:
-      Connection:
-      - keep-alive
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Sat, 21 Jun 2025 16:06:43 GMT
-      Transfer-Encoding:
-      - chunked
-      cache-control:
-      - no-cache
-      content-encoding:
-      - gzip
-      vary:
-      - origin,accept-encoding
+      - origin
     status:
       code: 200
       message: OK

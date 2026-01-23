@@ -2,37 +2,67 @@ interactions:
 - request:
     body: ''
     headers:
-      accept:
+      Accept:
       - '*/*'
-      accept-encoding:
+      Accept-Encoding:
       - gzip, deflate
-      connection:
+      Connection:
       - keep-alive
-      host:
+      Host:
       - api4.tactill.com
-      user-agent:
+      User-Agent:
       - python-httpx/0.28.1
       x-api-key:
       - '*****'
     method: GET
-    uri: https://api4.tactill.com/v1/account/account
+    uri: https://api4.tactill.com/v1/catalog/discounts?limit=100&shop_id=59df3841568f630001ef9cbc
   response:
     body:
       string: !!binary |
-        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
+        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
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sat, 21 Jun 2025 16:06:23 GMT
+      - Fri, 23 Jan 2026 09:47:32 GMT
       Transfer-Encoding:
       - chunked
+      access-control-expose-headers:
+      - WWW-Authenticate,Server-Authorization
       cache-control:
       - no-cache
       content-encoding:
@@ -43,134 +73,46 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"name":"TEST","shop_id":"5d70d4e6be8f9f001195ccc5"}'
-    headers:
-      accept:
-      - '*/*'
-      accept-encoding:
-      - gzip, deflate
-      connection:
-      - keep-alive
-      content-length:
-      - '52'
-      content-type:
-      - application/json
-      host:
-      - api4.tactill.com
-      user-agent:
-      - python-httpx/0.28.1
-      x-api-key:
-      - '*****'
-    method: POST
-    uri: https://api4.tactill.com/v1/catalog/discounts
-  response:
-    body:
-      string: !!binary |
-        H4sIAAAAAAAAA42Ny47CMAwA/8VcASVZ8miOCL5ge+JSpbYjKkFTpWG1CPHvpELavXKc8dh+AGYO
-        hakLBTwoofRGmI2SrTReGK++to1UJ1jDbaKPOuIpMy4p+BguM6+h8Fz+YD6nqRvqEDRZQTs2PbvY
-        RCGkbDQi6npkDFeuRXv8biuV+7TQeLtyHrCKPmRMtLgKA6axK/xb/hcwXVKuuNL2sN/Zat4fjdOG
-        nI3CoXJIxMbYoPq4BN0PePF8ATCz8dAQAQAA
-    headers:
-      Connection:
-      - keep-alive
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Sat, 21 Jun 2025 16:06:24 GMT
-      Transfer-Encoding:
-      - chunked
-      cache-control:
-      - no-cache
-      content-encoding:
-      - gzip
-      vary:
-      - origin,accept-encoding
-    status:
-      code: 201
-      message: Created
-- request:
     body: '{"name":""}'
     headers:
-      accept:
+      Accept:
       - '*/*'
-      accept-encoding:
+      Accept-Encoding:
       - gzip, deflate
-      connection:
+      Connection:
       - keep-alive
-      content-length:
+      Content-Length:
       - '11'
-      content-type:
+      Content-Type:
       - application/json
-      host:
+      Host:
       - api4.tactill.com
-      user-agent:
+      User-Agent:
       - python-httpx/0.28.1
       x-api-key:
       - '*****'
     method: PUT
-    uri: https://api4.tactill.com/v1/catalog/discounts/6856d87f08c28cdde667a2bf
+    uri: https://api4.tactill.com/v1/catalog/discounts/59f6ef0bbf40610016985b6c
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAAz3MMQ7CMAxG4atY/9yhA1NGuAFr28E0BiLSusQJqKp6dwID69Ont8Ey52In9QJ3
-        aNsGkpImOBzZ01meRSyjwSRmfKsG4z1ETz1mnqQHXTlEo4uMXEyo+/dgNGsmjlHf4ilrNSTTkteh
-        7l4cg+ccdIbbYFrS+H0vvEZlX8FDVoPrfjcM+/4BD4C8yakAAAA=
+      string: '{"statusCode":400,"error":"Bad Request","message":"\"name\" is not
+        allowed to be empty","validation":{"source":"payload","keys":["name"]}}'
     headers:
       Connection:
       - keep-alive
+      Content-Length:
+      - '138'
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sat, 21 Jun 2025 16:06:24 GMT
-      Transfer-Encoding:
-      - chunked
+      - Fri, 23 Jan 2026 09:47:32 GMT
+      access-control-expose-headers:
+      - WWW-Authenticate,Server-Authorization
       cache-control:
       - no-cache
-      content-encoding:
-      - gzip
       vary:
-      - origin,accept-encoding
+      - origin
     status:
       code: 400
       message: Bad Request
-- request:
-    body: ''
-    headers:
-      accept:
-      - '*/*'
-      accept-encoding:
-      - gzip, deflate
-      connection:
-      - keep-alive
-      host:
-      - api4.tactill.com
-      user-agent:
-      - python-httpx/0.28.1
-      x-api-key:
-      - '*****'
-    method: DELETE
-    uri: https://api4.tactill.com/v1/catalog/discounts/6856d87f08c28cdde667a2bf
-  response:
-    body:
-      string: !!binary |
-        H4sIAAAAAAAAA6tWKi5JLCktds5PSVWyMjIw0FFKLSrKL1KyUlLSUcpNLS5OTAdKKKVkFifnl+aV
-        KBSXJicDRdNKc3IqFVJSc1JLUlOUagGLIbU8RwAAAA==
-    headers:
-      Connection:
-      - keep-alive
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Sat, 21 Jun 2025 16:06:24 GMT
-      Transfer-Encoding:
-      - chunked
-      cache-control:
-      - no-cache
-      content-encoding:
-      - gzip
-      vary:
-      - origin,accept-encoding
-    status:
-      code: 200
-      message: OK
 version: 1

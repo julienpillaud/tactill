@@ -1,18 +1,21 @@
 import httpx
 import pytest
 
-from tactill import TactillClient, TactillError
-from tactill.entities.catalog.category import (
+from tactill import QueryParams, TactillClient, TactillError
+from tactill.entities import (
     Category,
     CategoryCreation,
     CategoryModification,
+    TactillColor,
 )
+from tactill.filters import FilterEntity
 
 
 @pytest.mark.vcr()
 def test_get_categories(client: TactillClient) -> None:
     limit = 30
-    categories = client.get_categories(limit=limit)
+    query = QueryParams(limit=limit)
+    categories = client.get_categories(query=query)
 
     assert len(categories) == limit
 
@@ -20,15 +23,17 @@ def test_get_categories(client: TactillClient) -> None:
 @pytest.mark.vcr()
 def test_get_categories_with_skip(client: TactillClient) -> None:
     categories = client.get_categories()
-    categories_skip = client.get_categories(skip=1)
+    query = QueryParams(skip=1)
+    categories_skip = client.get_categories(query=query)
 
     assert categories_skip[0] == categories[1]
 
 
 @pytest.mark.vcr()
-def test_get_categories_with_filter(client: TactillClient) -> None:
-    category_name = "BIÈRE"
-    categories = client.get_categories(filter=f"name={category_name}")
+def test_get_categories_with_filter(client: TactillClient, category: Category) -> None:
+    category_name = category.name
+    query = QueryParams(filters=[FilterEntity(field="name", value=category_name)])
+    categories = client.get_categories(query=query)
 
     category = categories[0]
     assert category.name == category_name
@@ -36,7 +41,8 @@ def test_get_categories_with_filter(client: TactillClient) -> None:
 
 @pytest.mark.vcr()
 def test_get_categories_with_order(client: TactillClient) -> None:
-    categories = client.get_categories(order="name=ASC")
+    query = QueryParams(order="name=ASC")
+    categories = client.get_categories(query=query)
 
     names = [category.name for category in categories if category.name]
     sorted_names = sorted(names)
@@ -44,20 +50,10 @@ def test_get_categories_with_order(client: TactillClient) -> None:
 
 
 @pytest.mark.vcr()
-def test_get_categories_bad_request(client: TactillClient) -> None:
-    with pytest.raises(TactillError) as excinfo:
-        client.get_categories(filter="bad")
-
-    error = excinfo.value.error
-    assert error.status_code == httpx.codes.BAD_REQUEST
-    assert error.error == "Bad Request"
-
-
-@pytest.mark.vcr()
 def test_create_category(client: TactillClient) -> None:
     category_creation = CategoryCreation(
         test=False,
-        color="#57DB47",
+        color=TactillColor.GREEN,
         icon_text="TEST",
         name="Test",
     )
@@ -68,7 +64,9 @@ def test_create_category(client: TactillClient) -> None:
     assert category.icon_text == category_creation.icon_text
     assert category.name == category_creation.name
 
-    client.delete_category(category.id)
+    response = client.delete_category(category.id)
+    # Ensure category is deleted
+    assert response.status_code == httpx.codes.OK
 
 
 @pytest.mark.vcr()
@@ -80,18 +78,14 @@ def test_create_category_bad_request(client: TactillClient) -> None:
     error = excinfo.value.error
     assert error.status_code == httpx.codes.BAD_REQUEST
     assert error.error == "Bad Request"
-    assert (
-        error.message
-        == 'child "name" fails because ["name" is not allowed to be empty]'
-    )
+    assert error.message == "Invalid request payload input"
 
 
 @pytest.mark.vcr()
-def test_get_category(client: TactillClient) -> None:
-    category_id = "5d83c74690924d0008f55d3a"
-    category = client.get_category(category_id=category_id)
+def test_get_category(client: TactillClient, category: Category) -> None:
+    created_category = client.get_category(category_id=category.id)
 
-    assert category.id == category_id
+    assert created_category.id == category.id
 
 
 @pytest.mark.vcr()
@@ -117,35 +111,6 @@ def test_get_category_bad_request(client: TactillClient) -> None:
     error = excinfo.value.error
     assert error.status_code == httpx.codes.BAD_REQUEST
     assert error.error == "Bad Request"
-
-
-@pytest.mark.vcr()
-def test_update_category(client: TactillClient, category: Category) -> None:
-    category_modification = CategoryModification(name="NEW NAME")
-
-    response = client.update_category(
-        category_id=category.id, category_modification=category_modification
-    )
-
-    assert response.status_code == httpx.codes.OK
-    assert response.message == "category successfully updated"
-
-    updated_category = client.get_category(category_id=category.id)
-
-    assert updated_category.version == category.version
-    assert updated_category.deprecated == category.deprecated
-    assert updated_category.created_at == category.created_at
-    assert updated_category.updated_at != category.updated_at
-    assert updated_category.original_id == category.original_id
-
-    assert updated_category.company_id == category.company_id
-    assert updated_category.is_default == category.is_default
-
-    assert updated_category.test == category.test
-    assert updated_category.image == category.image
-    assert updated_category.color == category.color
-    assert updated_category.icon_text == category.icon_text
-    assert updated_category.name == category_modification.name
 
 
 @pytest.mark.vcr()

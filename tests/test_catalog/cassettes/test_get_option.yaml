@@ -2,37 +2,43 @@ interactions:
 - request:
     body: ''
     headers:
-      accept:
+      Accept:
       - '*/*'
-      accept-encoding:
+      Accept-Encoding:
       - gzip, deflate
-      connection:
+      Connection:
       - keep-alive
-      host:
+      Host:
       - api4.tactill.com
-      user-agent:
+      User-Agent:
       - python-httpx/0.28.1
       x-api-key:
       - '*****'
     method: GET
-    uri: https://api4.tactill.com/v1/account/account
+    uri: https://api4.tactill.com/v1/catalog/options?limit=100&node_id=59df3841568f630001ef9cbf
   response:
     body:
       string: !!binary |
-        H4sIAAAAAAAAA43OTWrDMBAF4LtobZuRsfyjVQ+RVUoRymjUiNqSsOxAaXv3Smm7SKGhMItZfO/x
-        3phyhkkmzACmI3Gi0U4WgPNJIJ4Mq5hGDLvfvpzetzO8f2sO/WA1AI2j7UQ3tkVHp17o9e9Km5FS
-        FyahYnEN1s10dwJlH2ldXEou+MTk41PFfDBU3p9QfxvCnmWUziHeQ6IgDEvU3t20/ZqAUOCs06Yw
-        eE+4UdnbQitq6GouDlxIMUngTcenY95rKK6E+uqsnhNVjBbt5pyKlJLGh5kuzpuwPlOTF+TIHk3x
-        Sm/Xaj7VkE8cYJLtIKFtehhKNa70D/fxCfyIlOLYAQAA
+        H4sIAAAAAAAAA8XVPYvcMBAG4L8SVPvESJoPSV2KLXNNFgIJYZH1AQfJZdnbSxPy38NiFnyByC5M
+        3L8GP8y8oy+/1OmpqKg4iHUj5TDmZLIZnQQyRkY1qHyp6VrLKV1VVBYsP4B5sPZoMFKICBqC+6wG
+        9Xou/RwK3nKlni8136IqXi+vdVDX+nJVsaVvL3VQzz9Knf6JQmnOoyH2jR0AmNpCHpsa1HP6XlVU
+        x9uHgzpfnnJV0QzqdPqpIvwe/mLVYiFnJ60gFmFpyyyrA9AKltNi/casx8Ond4/vPxxW0BgK2wo+
+        NElJmk1pmYbaBLOChloItp7Y4eNxmZWJ3rBK5h6LIriIQVvLXdY9x7A5a9UiZvKA4Axbk6CRMIZF
+        FlkNVpZZZHVwW7PWL2Km8OZ0FPDLNKfR4Qqa04HDHouIUMf56QiFuheRonXROg1hiTXlEHdZRISa
+        Z/3yJrTu2Zh+F7UTv4JFGsjtNK0671cwdQWLNbn++zXlRDsxe/ULobZ5v5xnWqaJFrEraF67zU/H
+        uon5DPN+FfG2zyKO6LXxS/2acjjx/3u/QrLzftFou4eeI0B0qDn0pzXlSAPTLqwkaT6tKiMssDAa
+        0Mz99+ueCyi7sEZI8255zkvT4tu0UPpn457zvPk1/Afr6x//qLMAzwsAAA==
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sat, 21 Jun 2025 16:06:40 GMT
+      - Fri, 23 Jan 2026 09:47:38 GMT
       Transfer-Encoding:
       - chunked
+      access-control-expose-headers:
+      - WWW-Authenticate,Server-Authorization
       cache-control:
       - no-cache
       content-encoding:
@@ -45,41 +51,40 @@ interactions:
 - request:
     body: ''
     headers:
-      accept:
+      Accept:
       - '*/*'
-      accept-encoding:
+      Accept-Encoding:
       - gzip, deflate
-      connection:
+      Connection:
       - keep-alive
-      host:
+      Host:
       - api4.tactill.com
-      user-agent:
+      User-Agent:
       - python-httpx/0.28.1
       x-api-key:
       - '*****'
     method: GET
-    uri: https://api4.tactill.com/v1/catalog/options/64e3230e2626360008a8ab07
+    uri: https://api4.tactill.com/v1/catalog/options/69723b5c9bca1c1b3795117b
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA42MywqDMBQF/+WutZw8jfkOV92EmFxB6EPUdlP6771S6LrLGYZ5UZorRfKWjTZg
-        7bU3HkDIIY/oqKHKy8ol7yzdlC8bN7Tztv/glq8sh+FwDS3rXASV+Hvl79zVDtWyHzlM/QQo1btS
-        ipe8rHycU5YfaWjTIrRaDQjRIlp36jt7lu6x1L+6lJ4U8f4Akb1LANcAAAA=
+      string: '{"_id":"69723b5c9bca1c1b3795117b","created_at":"2026-01-22T14:59:40.093Z","updated_at":"2026-01-22T14:59:40.474Z","deprecated":true,"test":false,"node_id":"59df3841568f630001ef9cbf","name":"Test","price":1,"__v":0}'
     headers:
       Connection:
       - keep-alive
+      Content-Length:
+      - '214'
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sat, 21 Jun 2025 16:06:40 GMT
-      Transfer-Encoding:
-      - chunked
+      - Fri, 23 Jan 2026 09:47:38 GMT
+      accept-ranges:
+      - bytes
+      access-control-expose-headers:
+      - WWW-Authenticate,Server-Authorization
       cache-control:
       - no-cache
-      content-encoding:
-      - gzip
       vary:
-      - origin,accept-encoding
+      - origin
     status:
       code: 200
       message: OK

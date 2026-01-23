@@ -2,37 +2,40 @@ interactions:
 - request:
     body: ''
     headers:
-      accept:
+      Accept:
       - '*/*'
-      accept-encoding:
+      Accept-Encoding:
       - gzip, deflate
-      connection:
+      Connection:
       - keep-alive
-      host:
+      Host:
       - api4.tactill.com
-      user-agent:
+      User-Agent:
       - python-httpx/0.28.1
       x-api-key:
       - '*****'
     method: GET
-    uri: https://api4.tactill.com/v1/account/account
+    uri: https://api4.tactill.com/v1/catalog/taxes?limit=100&filter=deprecated%3Dfalse%26is_default%3Dfalse&company_id=59df3841568f630001ef9cad
   response:
     body:
       string: !!binary |
-        H4sIAAAAAAAAA43OTWrDMBAF4LtobZuRsfyjVQ+RVUoRymjUiNqSsOxAaXv3Smm7SKGhMItZfO/x
-        3phyhkkmzACmI3Gi0U4WgPNJIJ4Mq5hGDLvfvpzetzO8f2sO/WA1AI2j7UQ3tkVHp17o9e9Km5FS
-        FyahYnEN1s10dwJlH2ldXEou+MTk41PFfDBU3p9QfxvCnmWUziHeQ6IgDEvU3t20/ZqAUOCs06Yw
-        eE+4UdnbQitq6GouDlxIMUngTcenY95rKK6E+uqsnhNVjBbt5pyKlJLGh5kuzpuwPlOTF+TIHk3x
-        Sm/Xaj7VkE8cYJLtIKFtehhKNa70D/fxCfyIlOLYAQAA
+        H4sIAAAAAAAAA9XRzUrDQBAH8FeRAW+bMLOf2XmOnBQJa3YWAm0NaSqK+O5SwdpiDVK9eNzhz+zM
+        b25foBsyMLhYvBRM98WiJ0TysXHRIyjoH9Zj2jx/5HIxjSXnm+INIpKU2KcMCjZpLcDQpie5wmtQ
+        MGy6cRp6AZ6nnSiY0izAqGCW7Qxc0morCoZtl6Wk3eqzlGWcpE+z5ENpN+b9u0szMGjUtkJdYWgJ
+        WUcmV5vgbvbDTnKco1ARVgZbjKyJydZB+32u6x6B8VUt7x/ThfvTAgD9KwG6UEAvCOi/EfAVUqVN
+        i4GdZW3r4Ok3Aj4Go2P0WWPfm1CydahLg19bnnztGX3t6B1/acTj3JntTkB+Kn4G7vgITrnvr+Bq
+        dzC4ewNZSdf9CQQAAA==
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sat, 21 Jun 2025 16:06:54 GMT
+      - Fri, 23 Jan 2026 09:47:43 GMT
       Transfer-Encoding:
       - chunked
+      access-control-expose-headers:
+      - WWW-Authenticate,Server-Authorization
       cache-control:
       - no-cache
       content-encoding:
@@ -45,42 +48,41 @@ interactions:
 - request:
     body: ''
     headers:
-      accept:
+      Accept:
       - '*/*'
-      accept-encoding:
+      Accept-Encoding:
       - gzip, deflate
-      connection:
+      Connection:
       - keep-alive
-      host:
+      Host:
       - api4.tactill.com
-      user-agent:
+      User-Agent:
       - python-httpx/0.28.1
       x-api-key:
       - '*****'
     method: GET
-    uri: https://api4.tactill.com/v1/catalog/taxes?company_id=5d70d4e5be8f9f001195ccc0&limit=100&filter=name%3DTVA+20
+    uri: https://api4.tactill.com/v1/catalog/taxes?limit=100&filter=name%3DTaxe+0%25&company_id=59df3841568f630001ef9cad
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA32NwQrCMAxAf0Vy3kbSrW7rzX8YHhQptU1hsM3RdYKI/253UDwJOSTwXt75CZGX
-        CMqbYeEMdO9AgXQ1uorllRvfekSiVlprCTLoF+3Ym3VITgxrUhzPga2J7L5fQrpACcxgMmPaoDse
-        dgI3fdJz6C1/ZHsbZzM9/mY3b53dVtAmZUGgwJwwx6ajUklS1b4gak6Js4F/OWpzTCM7bJWoFVJR
-        VmLjtL6DwtflDUs28uIAAQAA
+      string: '[{"_id":"59f6ef0abf40610016985960","company_id":"59df3841568f630001ef9cad","name":"Taxe
+        0%","in_price":true,"rate":0,"test":false,"is_default":false,"deprecated":false,"updated_at":"2024-02-07T10:29:15.375Z","created_at":"2017-10-30T09:21:14.726Z","__v":0}]'
     headers:
       Connection:
       - keep-alive
+      Content-Length:
+      - '257'
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sat, 21 Jun 2025 16:06:54 GMT
-      Transfer-Encoding:
-      - chunked
+      - Fri, 23 Jan 2026 09:47:43 GMT
+      accept-ranges:
+      - bytes
+      access-control-expose-headers:
+      - WWW-Authenticate,Server-Authorization
       cache-control:
       - no-cache
-      content-encoding:
-      - gzip
       vary:
-      - origin,accept-encoding
+      - origin
     status:
       code: 200
       message: OK

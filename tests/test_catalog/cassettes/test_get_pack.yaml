@@ -2,37 +2,45 @@ interactions:
 - request:
     body: ''
     headers:
-      accept:
+      Accept:
       - '*/*'
-      accept-encoding:
+      Accept-Encoding:
       - gzip, deflate
-      connection:
+      Connection:
       - keep-alive
-      host:
+      Host:
       - api4.tactill.com
-      user-agent:
+      User-Agent:
       - python-httpx/0.28.1
       x-api-key:
       - '*****'
     method: GET
-    uri: https://api4.tactill.com/v1/account/account
+    uri: https://api4.tactill.com/v1/catalog/packs?limit=100&node_id=59df3841568f630001ef9cbf
   response:
     body:
       string: !!binary |
-        H4sIAAAAAAAAA43OTU7DMBAF4Lt4nUZjN86PVz1EVyAUueMxtUhsK04qIeDu2AUWRaJCmsUsvvf0
-        3tjoDFNMmg5MQ/JEvR0sAOeDRDwZVjGNGDa/fjm9rWd4/9Yc2s5qAOp728imF0VHN77Q69+VNqNx
-        vDAFFYtLsG6iuxMo+0jL7FJywSemHp8q5oOh8v6E2tsQtiyjdA7xHpIFYZij9u6m7dcEhAInndYR
-        g/eEK5W9AoTcQT5+5ELxvRJ9vW/gIe81FBdCfXVWT4kqRrN2U05FSknjYaKL8yYsz1TnBTmyRVP8
-        qNdrNR92kE8eYVCiUyDqFrpSjQv9w318ApmKMpvYAQAA
+        H4sIAAAAAAAAA9WX3WobMRCF30XXGzGjkUY/z9GrBmO0+gGDScx6XQql7168xmCnycpJUzu+FQex
+        +jjnzOzjL7FcZREEe6uoZ/J9ipiwJ+sNoo+iE2kocSx5GUcRhALFD4APSn1DHYwP2kpD+rvoxG6T
+        X9dxAB2QJaLa63LZDCXtpSLUuN6WTjw953L4DuNzJafRsKtMAICl+tRX0Yk4jKu0LlsRHoXJzoBx
+        yiABRgCwHmryvVh0ou7W6+VmWKUigurEGH/WoZTjCU4n0y2LTuTVNj3vnsbpUswWsi7cF1d9BUD0
+        JqU0Xbpc/hABfncveJnMqoDz1cZoq8rU5uWl136W16QzIK3ll7zGYff/cb0G520ENitIiWzNWmfL
+        sW8iMCgVmgsQoHSMV0bwmf5IJoEGQlYYoRrLEefgmAAUDEtn3Sycg85KdHATf1wWp7eh1LPQFGfb
+        ULwECy0oOgBIoL9K5suFJjGchsYp3/LF9DRDTV/oAChR33FoNFQ6DY1XYObhKAqEUjdK9ahzB919
+        hUZD1aeTmZydncyHxyppueWYvY6kVteG8hEE7twXWNsIjPTMFyBgaW9Upu9D4M9d4GeH7eFpVipQ
+        FyBwEgx9GRe8vzdcOlterYplHo7h/YZBjeX1qGN1m2Xs33rDx3gamkw0O2k4AAStJBC1NvpJp/21
+        J81nQIm2nDrFqb4FRQfUkvQlvzlaMt3jhOnhHIqF3IDC+84gN98tRx27a3fLx6As/gCDmgsqEg8A
+        AA==
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sat, 21 Jun 2025 16:06:47 GMT
+      - Fri, 23 Jan 2026 09:47:41 GMT
       Transfer-Encoding:
       - chunked
+      access-control-expose-headers:
+      - WWW-Authenticate,Server-Authorization
       cache-control:
       - no-cache
       content-encoding:
@@ -45,42 +53,40 @@ interactions:
 - request:
     body: ''
     headers:
-      accept:
+      Accept:
       - '*/*'
-      accept-encoding:
+      Accept-Encoding:
       - gzip, deflate
-      connection:
+      Connection:
       - keep-alive
-      host:
+      Host:
       - api4.tactill.com
-      user-agent:
+      User-Agent:
       - python-httpx/0.28.1
       x-api-key:
       - '*****'
     method: GET
-    uri: https://api4.tactill.com/v1/catalog/packs/64e5c46dde1d3600086b342f
+    uri: https://api4.tactill.com/v1/catalog/packs/69723b639bca1c1b3795119a
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA43NWwrCMBCF4b3Mc5XJtUnW4ZMiJZ2ZQEFU2lQEce/GywJ8m4Hv8D9gmBgSeCuO
-        rGcWxcYjYvCjsbpAByzXWShXaa7k0yId5LlOdJIF0gEcB4cuaKcMqtyWfcRCcYRjBzXfP6idPC10
-        Wc/1954vLN+y4x7Zih8llFgQlYqOiHwr0yzv7JBrcxq12WDYaLPDkIxJNm4dhn1z65X/csNwg4TP
-        F1kKHsv0AAAA
+      string: '{"_id":"69723b639bca1c1b3795119a","created_at":"2026-01-22T14:59:47.534Z","updated_at":"2026-01-22T16:04:16.112Z","deprecated":false,"node_id":"59df3841568f630001ef9cbf","articles":["5d85058251301a000790fc9b"],"full_price":2,"taxfree_price":1,"taxes":[],"discounts":["1d70d4e6be8f9f001195cccb"],"__v":0}'
     headers:
       Connection:
       - keep-alive
+      Content-Length:
+      - '303'
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sat, 21 Jun 2025 16:06:47 GMT
-      Transfer-Encoding:
-      - chunked
+      - Fri, 23 Jan 2026 09:47:41 GMT
+      accept-ranges:
+      - bytes
+      access-control-expose-headers:
+      - WWW-Authenticate,Server-Authorization
       cache-control:
       - no-cache
-      content-encoding:
-      - gzip
       vary:
-      - origin,accept-encoding
+      - origin
     status:
       code: 200
       message: OK
