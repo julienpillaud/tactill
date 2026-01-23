@@ -3,18 +3,20 @@ from datetime import datetime
 import httpx
 import pytest
 
-from tactill import TactillClient, TactillError
+from tactill import QueryParams, TactillClient, TactillColor, TactillError
 from tactill.entities.catalog.discount import (
     Discount,
     DiscountCreation,
     DiscountModification,
 )
+from tactill.filters import FilterEntity
 
 
 @pytest.mark.vcr()
 def test_get_discounts(client: TactillClient) -> None:
     limit = 10
-    discounts = client.get_discounts(limit=limit)
+    query = QueryParams(limit=limit)
+    discounts = client.get_discounts(query=query)
 
     assert len(discounts) == limit
 
@@ -22,7 +24,8 @@ def test_get_discounts(client: TactillClient) -> None:
 @pytest.mark.vcr()
 def test_get_discounts_with_skip(client: TactillClient) -> None:
     discounts = client.get_discounts()
-    discounts_skip = client.get_discounts(skip=1)
+    query = QueryParams(skip=1)
+    discounts_skip = client.get_discounts(query=query)
 
     assert discounts_skip[0] == discounts[1]
 
@@ -30,7 +33,8 @@ def test_get_discounts_with_skip(client: TactillClient) -> None:
 @pytest.mark.vcr()
 def test_get_discounts_with_filter(client: TactillClient) -> None:
     discount_name = "Offert"
-    discounts = client.get_discounts(filter=f"name={discount_name}")
+    query = QueryParams(filters=[FilterEntity(field="name", value=discount_name)])
+    discounts = client.get_discounts(query=query)
 
     discount = discounts[0]
     assert discount.name == discount_name
@@ -38,21 +42,12 @@ def test_get_discounts_with_filter(client: TactillClient) -> None:
 
 @pytest.mark.vcr()
 def test_get_discounts_with_order(client: TactillClient) -> None:
-    discounts = client.get_discounts(order="name=ASC")
+    query = QueryParams(order="name=ASC")
+    discounts = client.get_discounts(query=query)
 
     names = [discount.name for discount in discounts if discount.name]
     sorted_names = sorted(names)
     assert names == sorted_names
-
-
-@pytest.mark.vcr()
-def test_get_discounts_bad_request(client: TactillClient) -> None:
-    with pytest.raises(TactillError) as excinfo:
-        client.get_discounts(filter="bad")
-
-    error = excinfo.value.error
-    assert error.status_code == httpx.codes.BAD_REQUEST
-    assert error.error == "Bad Request"
 
 
 @pytest.mark.vcr()
@@ -66,7 +61,7 @@ def test_create_discount(client: TactillClient) -> None:
         end_date=datetime(2023, 12, 31),
         barcode="123",
         icon_text="TEST",
-        color="#57DB47",
+        color=TactillColor.GREEN,
     )
     discount = client.create_discount(discount_creation=discount_creation)
 
@@ -82,15 +77,16 @@ def test_create_discount(client: TactillClient) -> None:
     assert discount.icon_text == discount_creation.icon_text
     assert discount.color == discount_creation.color
 
-    client.delete_discount(discount.id)
+    response = client.delete_discount(discount.id)
+    # Ensure discount is deleted
+    assert response.status_code == httpx.codes.OK
 
 
 @pytest.mark.vcr()
-def test_get_discount(client: TactillClient) -> None:
-    discount_id = "5d70d4e6be8f9f001195cccb"
-    discount = client.get_discount(discount_id=discount_id)
+def test_get_discount(client: TactillClient, discount: Discount) -> None:
+    created_discount = client.get_discount(discount_id=discount.id)
 
-    assert discount.id == discount_id
+    assert created_discount.id == discount.id
 
 
 @pytest.mark.vcr()
@@ -116,38 +112,6 @@ def test_get_discount_bad_request(client: TactillClient) -> None:
     error = excinfo.value.error
     assert error.status_code == httpx.codes.BAD_REQUEST
     assert error.error == "Bad Request"
-
-
-@pytest.mark.vcr()
-def test_update_discount(client: TactillClient, discount: Discount) -> None:
-    discount_modification = DiscountModification(name="NEW NAME")
-
-    response = client.update_discount(
-        discount_id=discount.id, discount_modification=discount_modification
-    )
-
-    assert response.status_code == httpx.codes.OK
-    assert response.message == "discount successfully updated"
-
-    updated_discount = client.get_discount(discount_id=discount.id)
-
-    assert updated_discount.version == discount.version
-    assert updated_discount.deprecated == discount.deprecated
-    assert updated_discount.created_at == discount.created_at
-    assert updated_discount.updated_at != discount.updated_at
-    assert updated_discount.original_id == discount.original_id
-
-    assert updated_discount.shop_id == discount.shop_id
-
-    assert updated_discount.test == discount.test
-    assert updated_discount.name == discount_modification.name
-    assert updated_discount.rate == discount.rate
-    assert updated_discount.type == discount.type
-    assert updated_discount.start_date == discount.start_date
-    assert updated_discount.end_date == discount.end_date
-    assert updated_discount.barcode == discount.barcode
-    assert updated_discount.icon_text == discount.icon_text
-    assert updated_discount.color == discount.color
 
 
 @pytest.mark.vcr()

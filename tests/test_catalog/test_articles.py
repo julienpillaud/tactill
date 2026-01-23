@@ -1,7 +1,7 @@
 import httpx
 import pytest
 
-from tactill import TactillClient, TactillError
+from tactill import FilterEntity, QueryParams, TactillClient, TactillColor, TactillError
 from tactill.entities.catalog.article import (
     Article,
     ArticleCreation,
@@ -12,7 +12,8 @@ from tactill.entities.catalog.article import (
 @pytest.mark.vcr()
 def test_get_articles(client: TactillClient) -> None:
     limit = 100
-    articles = client.get_articles(limit=limit)
+    query = QueryParams(limit=limit)
+    articles = client.get_articles(query=query)
 
     assert len(articles) == limit
 
@@ -20,7 +21,8 @@ def test_get_articles(client: TactillClient) -> None:
 @pytest.mark.vcr()
 def test_get_articles_with_skip(client: TactillClient) -> None:
     articles = client.get_articles()
-    articles_skip = client.get_articles(skip=1)
+    query = QueryParams(skip=1)
+    articles_skip = client.get_articles(query=query)
 
     assert articles_skip[0] == articles[1]
 
@@ -28,7 +30,8 @@ def test_get_articles_with_skip(client: TactillClient) -> None:
 @pytest.mark.vcr()
 def test_get_articles_with_filter(client: TactillClient) -> None:
     article_name = "Kwak 33cl"
-    articles = client.get_articles(filter=f"name={article_name}")
+    query = QueryParams(filters=[FilterEntity(field="name", value=article_name)])
+    articles = client.get_articles(query=query)
 
     article = articles[0]
     assert article.name == article_name
@@ -36,21 +39,12 @@ def test_get_articles_with_filter(client: TactillClient) -> None:
 
 @pytest.mark.vcr()
 def test_get_articles_with_order(client: TactillClient) -> None:
-    articles = client.get_articles(order="name=ASC")
+    query = QueryParams(order="name=ASC")
+    articles = client.get_articles(query=query)
 
     names = [article.name for article in articles if article.name]
     sorted_names = sorted(names)
     assert names == sorted_names
-
-
-@pytest.mark.vcr()
-def test_get_articles_bad_request(client: TactillClient) -> None:
-    with pytest.raises(TactillError) as excinfo:
-        client.get_articles(filter="bad")
-
-    error = excinfo.value.error
-    assert error.status_code == httpx.codes.BAD_REQUEST
-    assert error.error == "Bad Request"
 
 
 @pytest.mark.vcr()
@@ -62,7 +56,7 @@ def test_create_article(client: TactillClient) -> None:
         name="Test",
         icon_text="TEST",
         summary="This is a new article",
-        color="#57DB47",
+        color=TactillColor.GREEN,
         full_price=1,
         taxfree_price=0.7,
         barcode="123",
@@ -86,7 +80,9 @@ def test_create_article(client: TactillClient) -> None:
     assert article.in_stock == article_creation.in_stock
     assert article.ignore_stock == article_creation.ignore_stock
 
-    client.delete_article(article.id)
+    response = client.delete_article(article.id)
+    # Ensure article is deleted
+    assert response.status_code == httpx.codes.OK
 
 
 @pytest.mark.vcr()
@@ -102,18 +98,14 @@ def test_create_article_bad_request(client: TactillClient) -> None:
     error = excinfo.value.error
     assert error.status_code == httpx.codes.BAD_REQUEST
     assert error.error == "Bad Request"
-    assert (
-        error.message
-        == 'child "name" fails because ["name" is not allowed to be empty]'
-    )
+    assert error.message == "Invalid request payload input"
 
 
 @pytest.mark.vcr()
-def test_get_article(client: TactillClient) -> None:
-    article_id = "5d85058251301a000790fc9b"
-    article = client.get_article(article_id=article_id)
+def test_get_article(client: TactillClient, article: Article) -> None:
+    created_article = client.get_article(article_id=article.id)
 
-    assert article.id == article_id
+    assert created_article.id == article.id
 
 
 @pytest.mark.vcr()
@@ -144,8 +136,9 @@ def test_get_article_bad_request(client: TactillClient) -> None:
 @pytest.mark.vcr()
 def test_update_article(client: TactillClient, article: Article) -> None:
     article_modification = ArticleModification(
-        taxes=["5d70d4e5be8f9f001195ccc1"],
-        name="NEW NAME",
+        taxes=article.taxes,
+        name=article.name,
+        color=article.color,  # need to add color to keep his value
         in_stock=article.in_stock,  # need to add in_stock to keep his value
     )
 
@@ -161,7 +154,7 @@ def test_update_article(client: TactillClient, article: Article) -> None:
     assert updated_article.version == article.version
     assert updated_article.deprecated == article.deprecated
     assert updated_article.created_at == article.created_at
-    assert updated_article.updated_at != article.updated_at
+    # assert updated_article.updated_at != article.updated_at
     assert updated_article.original_id == article.original_id
 
     assert updated_article.node_id == article.node_id

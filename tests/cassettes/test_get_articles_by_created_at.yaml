@@ -1,0 +1,53 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Host:
+      - api4.tactill.com
+      User-Agent:
+      - python-httpx/0.28.1
+      x-api-key:
+      - '*****'
+    method: GET
+    uri: https://api4.tactill.com/v1/catalog/articles?limit=5000&filter=deprecated%3Dfalse%26is_default%3Dfalse%26created_at%5Bgt%5D%3D2022-01-10%26created_at%5Blt%5D%3D2022-01-14&node_id=59df3841568f630001ef9cbf
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA93TS2sVMRQH8K8yHBfd5A55v3at4soiSHFhKUMmyZTgdHLNZEqr+N1l+u71glQQ
+        1F0SDud/OPOb02/QpQAWJAkxcCWU4dr3GFPcc8x7BwhC3JboXY0B7ODGOSKoca4Pl5Bmn5epzmBP
+        zxBUdxXXIwgzyDhg1w8cS4IxkUYLYwicIUhzF+LglvGxTd7WlKe7JlMO8XYwYcLANCdC6kEyjDGJ
+        g/H9AAjWmc5zub4r9Nx4JwfnFSUSY+Kl7HVPAcHkLiJYOM6zdzU34eBwrqn56MaQ5lhKbJTw7wDB
+        sIxjty3JR7CEtRJB8nnqaryqYEGJpllT85gLWHj1lh4dcgYIeld8DmsCIChxiCVOa4v7pXKDle4V
+        o0wx1WPPAUGaurlm/xlsLUtE4EtcN9y5NYliSjeYbAg9IcwSYRlrueCfAMGyDc/q+AbTDVYnBFtq
+        LBEtU2qtSxfu/G6iZUr19pTOp1zi8+BLV5J7svkQ/Zimpy9ddwkWI+iX6/vlqJZwBDd9ui+Lm2qq
+        12Dxd/SMkxB6h5P/nzi9KW67TbE0r12psQkH70vDFBJ+3OvJtOLFnhiXhmksGaFE7sMlhN7BJV6I
+        y1iKW8Px34PLtJz+GpfqjfaDHOSKSw7cRfMP4doXp018xPUh+ybE5jiVeJGn2qxfrTka3eRvcDXH
+        eerd1zSOzu9CI638DWlEY0kIploovk+a6s2ONP0yadRYalrFzH5pBG8oOSHacmIFa5XCf16aWH/J
+        n6Gd/QDLIUhDFgcAAA==
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 23 Jan 2026 09:08:19 GMT
+      Transfer-Encoding:
+      - chunked
+      access-control-expose-headers:
+      - WWW-Authenticate,Server-Authorization
+      cache-control:
+      - no-cache
+      content-encoding:
+      - gzip
+      vary:
+      - origin,accept-encoding
+    status:
+      code: 200
+      message: OK
+version: 1

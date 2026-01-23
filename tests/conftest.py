@@ -1,26 +1,23 @@
 import os
-from collections.abc import Iterator
 
 import pytest
 from dotenv import load_dotenv
 
-from tactill import TactillClient
-from tactill.entities.catalog.article import Article, ArticleCreation
-from tactill.entities.catalog.category import Category, CategoryCreation
-from tactill.entities.catalog.discount import Discount, DiscountCreation
+from tactill import FilterEntity, QueryParams, TactillClient
+from tactill.entities.catalog.article import Article
+from tactill.entities.catalog.category import Category
+from tactill.entities.catalog.discount import Discount
 from tactill.entities.catalog.option import (
     Option,
-    OptionCreation,
     OptionList,
-    OptionListCreation,
 )
-from tactill.entities.catalog.pack import Pack, PackCreation
-from tactill.entities.catalog.tax import Tax, TaxCreation
+from tactill.entities.catalog.pack import Pack
+from tactill.entities.catalog.tax import Tax
 
 load_dotenv()
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def api_key() -> str:
     if key := os.getenv("TACTILL_API_KEY"):
         return key
@@ -28,7 +25,7 @@ def api_key() -> str:
     raise ValueError("Missing API key")
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def client(api_key: str) -> TactillClient:
     return TactillClient(api_key=api_key)
 
@@ -38,83 +35,52 @@ def vcr_config() -> dict[str, list[tuple[str, str]]]:
     return {"filter_headers": [("x-api-key", "*****")]}
 
 
-@pytest.fixture
-def article(client: TactillClient) -> Iterator[Article]:
-    article_creation = ArticleCreation(
-        category_id="5d83c74690924d0008f55d3a",
-        taxes=["5d70d4e5be8f9f001195ccc1"],
-        name="TEST",
-        full_price=1,
-        in_stock=True,
+@pytest.fixture(scope="session")
+def base_query() -> QueryParams:
+    return QueryParams(
+        filters=[
+            FilterEntity(field="deprecated", value="false"),
+            FilterEntity(field="is_default", value="false"),
+        ]
     )
-    new_article = client.create_article(article_creation=article_creation)
-    yield new_article
-    client.delete_article(article_id=new_article.id)
+
+
+@pytest.fixture(scope="session")
+def articles(client: TactillClient, base_query: QueryParams) -> list[Article]:
+    base_query.limit = 5000
+    return client.get_articles(query=base_query)
+
+
+@pytest.fixture(scope="session")
+def article(client: TactillClient, base_query: QueryParams) -> Article:
+    return client.get_articles(query=base_query)[0]
+
+
+@pytest.fixture(scope="session")
+def category(client: TactillClient, base_query: QueryParams) -> Category:
+    return client.get_categories(query=base_query)[0]
 
 
 @pytest.fixture
-def category(client: TactillClient) -> Iterator[Category]:
-    category_creation = CategoryCreation(name="TEST")
-    new_category = client.create_category(category_creation=category_creation)
-    yield new_category
-    client.delete_category(category_id=new_category.id)
+def discount(client: TactillClient) -> Discount:
+    return client.get_discounts()[0]
 
 
 @pytest.fixture
-def discount(client: TactillClient) -> Iterator[Discount]:
-    discount_creation = DiscountCreation(name="TEST")
-    new_discount = client.create_discount(discount_creation=discount_creation)
-    yield new_discount
-    client.delete_discount(discount_id=new_discount.id)
+def option_list(client: TactillClient) -> OptionList:
+    return client.get_option_lists()[0]
 
 
 @pytest.fixture
-def option_list(client: TactillClient) -> Iterator[OptionList]:
-    option_list_creation = OptionListCreation(
-        options=["64e3230e2626360008a8ab07"],
-        name="TEST",
-        multiple=False,
-        mandatory=True,
-    )
-    new_option_list = client.create_option_list(
-        option_list_creation=option_list_creation
-    )
-    yield new_option_list
-    client.delete_option_list(option_list_id=new_option_list.id)
+def option(client: TactillClient) -> Option:
+    return client.get_options()[0]
 
 
 @pytest.fixture
-def option(client: TactillClient) -> Iterator[Option]:
-    option_creation = OptionCreation(
-        name="TEST",
-        price=1,
-    )
-    new_option = client.create_option(option_creation=option_creation)
-    yield new_option
-    client.delete_option(option_id=new_option.id)
+def pack(client: TactillClient) -> Pack:
+    return client.get_packs()[0]
 
 
 @pytest.fixture
-def pack(client: TactillClient) -> Iterator[Pack]:
-    pack_creation = PackCreation(
-        articles=["5d85058251301a000790fc9b"],
-        full_price=1,
-        taxes=[],
-        discounts=[],
-    )
-    new_pack = client.create_pack(pack_creation=pack_creation)
-    yield new_pack
-    client.delete_pack(pack_id=new_pack.id)
-
-
-@pytest.fixture
-def tax(client: TactillClient) -> Iterator[Tax]:
-    tax_creation = TaxCreation(
-        is_default=False,
-        name="TEST",
-        in_price=True,
-        rate=20,
-    )
-    new_tax = client.create_tax(tax_creation=tax_creation)
-    yield new_tax
-    client.delete_tax(tax_id=new_tax.id)
+def tax(client: TactillClient, base_query: QueryParams) -> Tax:
+    return client.get_taxes(query=base_query)[0]

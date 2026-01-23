@@ -15,26 +15,23 @@ interactions:
       x-api-key:
       - '*****'
     method: GET
-    uri: https://api4.tactill.com/v1/catalog/options?limit=100&node_id=59df3841568f630001ef9cbf
+    uri: https://api4.tactill.com/v1/catalog/taxes?limit=100&filter=deprecated%3Dfalse%26is_default%3Dfalse&company_id=59df3841568f630001ef9cad
   response:
     body:
       string: !!binary |
-        H4sIAAAAAAAAA8XVPYvcMBAG4L8SVPvESJoPSV2KLXNNFgIJYZH1AQfJZdnbSxPy38NiFnyByC5M
-        3L8GP8y8oy+/1OmpqKg4iHUj5TDmZLIZnQQyRkY1qHyp6VrLKV1VVBYsP4B5sPZoMFKICBqC+6wG
-        9Xou/RwK3nKlni8136IqXi+vdVDX+nJVsaVvL3VQzz9Knf6JQmnOoyH2jR0AmNpCHpsa1HP6XlVU
-        x9uHgzpfnnJV0QzqdPqpIvwe/mLVYiFnJ60gFmFpyyyrA9AKltNi/casx8Ond4/vPxxW0BgK2wo+
-        NElJmk1pmYbaBLOChloItp7Y4eNxmZWJ3rBK5h6LIriIQVvLXdY9x7A5a9UiZvKA4Axbk6CRMIZF
-        FlkNVpZZZHVwW7PWL2Km8OZ0FPDLNKfR4Qqa04HDHouIUMf56QiFuheRonXROg1hiTXlEHdZRISa
-        Z/3yJrTu2Zh+F7UTv4JFGsjtNK0671cwdQWLNbn++zXlRDsxe/ULobZ5v5xnWqaJFrEraF67zU/H
-        uon5DPN+FfG2zyKO6LXxS/2acjjx/3u/QrLzftFou4eeI0B0qDn0pzXlSAPTLqwkaT6tKiMssDAa
-        0Mz99+ueCyi7sEZI8255zkvT4tu0UPpn457zvPk1/Afr6x//qLMAzwsAAA==
+        H4sIAAAAAAAAA9XRzUrDQBAH8FeRAW+bMLOf2XmOnBQJa3YWAm0NaSqK+O5SwdpiDVK9eNzhz+zM
+        b25foBsyMLhYvBRM98WiJ0TysXHRIyjoH9Zj2jx/5HIxjSXnm+INIpKU2KcMCjZpLcDQpie5wmtQ
+        MGy6cRp6AZ6nnSiY0izAqGCW7Qxc0morCoZtl6Wk3eqzlGWcpE+z5ENpN+b9u0szMGjUtkJdYWgJ
+        WUcmV5vgbvbDTnKco1ARVgZbjKyJydZB+32u6x6B8VUt7x/ThfvTAgD9KwG6UEAvCOi/EfAVUqVN
+        i4GdZW3r4Ok3Aj4Go2P0WWPfm1CydahLg19bnnztGX3t6B1/acTj3JntTkB+Kn4G7vgITrnvr+Bq
+        dzC4ewNZSdf9CQQAAA==
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 23 Jan 2026 09:08:09 GMT
+      - Fri, 23 Jan 2026 09:08:14 GMT
       Transfer-Encoding:
       - chunked
       access-control-expose-headers:
@@ -64,19 +61,20 @@ interactions:
       x-api-key:
       - '*****'
     method: GET
-    uri: https://api4.tactill.com/v1/catalog/options/69723b5c9bca1c1b3795117b
+    uri: https://api4.tactill.com/v1/catalog/taxes/59f6ef0abf40610016985960
   response:
     body:
-      string: '{"_id":"69723b5c9bca1c1b3795117b","created_at":"2026-01-22T14:59:40.093Z","updated_at":"2026-01-22T14:59:40.474Z","deprecated":true,"test":false,"node_id":"59df3841568f630001ef9cbf","name":"Test","price":1,"__v":0}'
+      string: '{"_id":"59f6ef0abf40610016985960","company_id":"59df3841568f630001ef9cad","name":"Taxe
+        0%","in_price":true,"rate":0,"test":false,"is_default":false,"deprecated":false,"updated_at":"2024-02-07T10:29:15.375Z","created_at":"2017-10-30T09:21:14.726Z","__v":0}'
     headers:
       Connection:
       - keep-alive
       Content-Length:
-      - '214'
+      - '255'
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 23 Jan 2026 09:08:09 GMT
+      - Fri, 23 Jan 2026 09:08:15 GMT
       accept-ranges:
       - bytes
       access-control-expose-headers:

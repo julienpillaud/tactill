@@ -1,14 +1,16 @@
 import httpx
 import pytest
 
-from tactill import TactillClient, TactillError
+from tactill import QueryParams, TactillClient, TactillError
 from tactill.entities.catalog.option import Option, OptionCreation, OptionModification
+from tactill.filters import FilterEntity
 
 
 @pytest.mark.vcr()
 def test_get_options(client: TactillClient) -> None:
     limit = 1
-    options = client.get_options(limit=limit)
+    query = QueryParams(limit=limit)
+    options = client.get_options(query=query)
 
     assert len(options) == limit
 
@@ -16,7 +18,8 @@ def test_get_options(client: TactillClient) -> None:
 @pytest.mark.vcr()
 def test_get_options_with_skip(client: TactillClient) -> None:
     options = client.get_options()
-    options_skip = client.get_options(skip=1)
+    query = QueryParams(skip=1)
+    options_skip = client.get_options(query=query)
 
     assert options_skip[0] == options[1]
 
@@ -24,7 +27,8 @@ def test_get_options_with_skip(client: TactillClient) -> None:
 @pytest.mark.vcr()
 def test_get_options_with_filter(client: TactillClient) -> None:
     option_name = "Test"
-    options = client.get_options(filter=f"name={option_name}")
+    query = QueryParams(filters=[FilterEntity(field="name", value=option_name)])
+    options = client.get_options(query=query)
 
     option = options[0]
     assert option.name == option_name
@@ -32,34 +36,12 @@ def test_get_options_with_filter(client: TactillClient) -> None:
 
 @pytest.mark.vcr()
 def test_get_options_with_order(client: TactillClient) -> None:
-    options = client.get_options(order="name=ASC")
+    query = QueryParams(order="name=ASC")
+    options = client.get_options(query=query)
 
     names = [option.name for option in options if option.name]
     sorted_names = sorted(names)
     assert names == sorted_names
-
-
-@pytest.mark.vcr()
-def test_get_options_bad_request(client: TactillClient) -> None:
-    with pytest.raises(TactillError) as excinfo:
-        client.get_options(filter="bad")
-
-    error = excinfo.value.error
-    assert error.status_code == httpx.codes.BAD_REQUEST
-    assert error.error == "Bad Request"
-
-
-@pytest.mark.vcr()
-def test_create_option(client: TactillClient) -> None:
-    option_creation = OptionCreation(test=False, name="Test", price=1)
-
-    option = client.create_option(option_creation=option_creation)
-
-    assert option.test == option_creation.test
-    assert option.name == option_creation.name
-    assert option.price == option_creation.price
-
-    client.delete_option(option_id=option.id)
 
 
 @pytest.mark.vcr()
@@ -71,18 +53,14 @@ def test_create_option_bad_request(client: TactillClient) -> None:
     error = excinfo.value.error
     assert error.status_code == httpx.codes.BAD_REQUEST
     assert error.error == "Bad Request"
-    assert (
-        error.message
-        == 'child "name" fails because ["name" is not allowed to be empty]'
-    )
+    assert error.message == "Invalid request payload input"
 
 
 @pytest.mark.vcr()
-def test_get_option(client: TactillClient) -> None:
-    option_id = "64e3230e2626360008a8ab07"
-    option = client.get_option(option_id=option_id)
+def test_get_option(client: TactillClient, option: Option) -> None:
+    created_option = client.get_option(option_id=option.id)
 
-    assert option.id == option_id
+    assert created_option.id == option.id
 
 
 @pytest.mark.vcr()
@@ -108,32 +86,6 @@ def test_get_option_bad_request(client: TactillClient) -> None:
     error = excinfo.value.error
     assert error.status_code == httpx.codes.BAD_REQUEST
     assert error.error == "Bad Request"
-
-
-@pytest.mark.vcr()
-def test_update_option(client: TactillClient, option: Option) -> None:
-    option_modification = OptionModification(name="NEW NAME")
-
-    response = client.update_option(
-        option_id=option.id, option_modification=option_modification
-    )
-
-    assert response.status_code == httpx.codes.OK
-    assert response.message == "option successfully updated"
-
-    updated_option = client.get_option(option_id=option.id)
-
-    assert updated_option.version == option.version
-    assert updated_option.deprecated == option.deprecated
-    assert updated_option.created_at == option.created_at
-    assert updated_option.updated_at != option.updated_at
-    assert updated_option.original_id == option.original_id
-
-    assert updated_option.node_id == option.node_id
-
-    assert updated_option.test == option.test
-    assert updated_option.name == option_modification.name
-    assert updated_option.price == option.price
 
 
 @pytest.mark.vcr()

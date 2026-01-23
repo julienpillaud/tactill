@@ -2,37 +2,67 @@ interactions:
 - request:
     body: ''
     headers:
-      accept:
+      Accept:
       - '*/*'
-      accept-encoding:
+      Accept-Encoding:
       - gzip, deflate
-      connection:
+      Connection:
       - keep-alive
-      host:
+      Host:
       - api4.tactill.com
-      user-agent:
+      User-Agent:
       - python-httpx/0.28.1
       x-api-key:
       - '*****'
     method: GET
-    uri: https://api4.tactill.com/v1/account/account
+    uri: https://api4.tactill.com/v1/catalog/discounts?limit=100&shop_id=59df3841568f630001ef9cbc
   response:
     body:
       string: !!binary |
-        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
+        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
+        8Vwx/+v/rsmzG0tAAAA=
     headers:
       Connection:
       - keep-alive
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sat, 21 Jun 2025 16:06:19 GMT
+      - Fri, 23 Jan 2026 09:08:02 GMT
       Transfer-Encoding:
       - chunked
+      access-control-expose-headers:
+      - WWW-Authenticate,Server-Authorization
       cache-control:
       - no-cache
       content-encoding:
@@ -45,42 +75,41 @@ interactions:
 - request:
     body: ''
     headers:
-      accept:
+      Accept:
       - '*/*'
-      accept-encoding:
+      Accept-Encoding:
       - gzip, deflate
-      connection:
+      Connection:
       - keep-alive
-      host:
+      Host:
       - api4.tactill.com
-      user-agent:
+      User-Agent:
       - python-httpx/0.28.1
       x-api-key:
       - '*****'
     method: GET
-    uri: https://api4.tactill.com/v1/catalog/discounts/5d70d4e6be8f9f001195cccb
+    uri: https://api4.tactill.com/v1/catalog/discounts/59f6ef0bbf40610016985b6c
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA32OPW/CMBCG/8t1TaKziZPYI2JnYepiOfZZIAGOHFMVof73nlsJMSHd8j7vh+4B
-        hdYCJrrzSg3YUwADKowYehpmmqKOiEJo5b2foYFASybvCoVn5+ouxKV9jJQLRzK7YARiA+W+VOuP
-        NDC77FOogMXJp6st9F3+q0x8OqfM6kONu20/MlmPaXn7keLQbQn1HevqkkSJrcAWp4PYGCVMP3RC
-        ys86n+k1J3SLfOqA2sjRoOwGqWvO2i8w+PMLQJkV6xkBAAA=
+      string: '{"_id":"59f6ef0bbf40610016985b6c","shop_id":"59df3841568f630001ef9cbc","name":"Pro
+        (caisse ou carton)","rate":10,"type":"rate","barcode":"","icon_text":"10%","color":"#6868DC","start_date":"2020-04-28T09:36:39.357Z","end_date":"2020-04-28T09:36:39.357Z","test":false,"deprecated":false,"updated_at":"2024-02-07T10:29:15.380Z","created_at":"2017-10-30T09:21:15.046Z","__v":0}'
     headers:
       Connection:
       - keep-alive
+      Content-Length:
+      - '374'
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sat, 21 Jun 2025 16:06:20 GMT
-      Transfer-Encoding:
-      - chunked
+      - Fri, 23 Jan 2026 09:08:03 GMT
+      accept-ranges:
+      - bytes
+      access-control-expose-headers:
+      - WWW-Authenticate,Server-Authorization
       cache-control:
       - no-cache
-      content-encoding:
-      - gzip
       vary:
-      - origin,accept-encoding
+      - origin
     status:
       code: 200
       message: OK
