@@ -4,15 +4,16 @@ import pytest
 from dotenv import load_dotenv
 
 from tactill import FilterEntity, QueryParams, TactillClient
-from tactill.entities.catalog.article import Article
-from tactill.entities.catalog.category import Category
-from tactill.entities.catalog.discount import Discount
-from tactill.entities.catalog.option import (
+from tactill.entities import (
+    Article,
+    Category,
+    Discount,
+    Movement,
     Option,
     OptionList,
+    Pack,
+    Tax,
 )
-from tactill.entities.catalog.pack import Pack
-from tactill.entities.catalog.tax import Tax
 
 load_dotenv()
 
@@ -84,3 +85,8 @@ def pack(client: TactillClient) -> Pack:
 @pytest.fixture
 def tax(client: TactillClient, base_query: QueryParams) -> Tax:
     return client.get_taxes(query=base_query)[0]
+
+
+@pytest.fixture
+def movement(client: TactillClient) -> Movement:
+    return client.get_movements()[0]

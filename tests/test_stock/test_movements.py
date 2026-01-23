@@ -1,7 +1,7 @@
 import pytest
 
-from tactill import QueryParams, TactillClient
-from tactill.filters import FilterEntity
+from tactill import FilterEntity, QueryParams, TactillClient
+from tactill.entities import Movement
 
 
 @pytest.mark.vcr()
@@ -23,8 +23,8 @@ def test_get_movements_with_skip(client: TactillClient) -> None:
 
 
 @pytest.mark.vcr()
-def test_get_movements_with_filter(client: TactillClient) -> None:
-    movement_number = 2000
+def test_get_movements_with_filter(client: TactillClient, movement: Movement) -> None:
+    movement_number = movement.number
     query = QueryParams(filters=[FilterEntity(field="number", value=movement_number)])
     movements = client.get_movements(query=query)
 

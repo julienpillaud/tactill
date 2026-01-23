@@ -12,34 +12,34 @@ from tenacity import (
 )
 
 from tactill import QueryParams
-from tactill.entities.account.account import Account
-from tactill.entities.base import TactillResponse, TactillUUID
-from tactill.entities.catalog.article import (
+from tactill.entities import (
+    Account,
     Article,
     ArticleCreation,
     ArticleModification,
-)
-from tactill.entities.catalog.category import (
     Category,
     CategoryCreation,
     CategoryModification,
-)
-from tactill.entities.catalog.discount import (
     Discount,
     DiscountCreation,
     DiscountModification,
-)
-from tactill.entities.catalog.option import (
+    Movement,
+    MovementCreation,
     Option,
     OptionCreation,
     OptionList,
     OptionListCreation,
     OptionListModification,
     OptionModification,
+    Pack,
+    PackCreation,
+    PackModification,
+    TactillResponse,
+    TactillUUID,
+    Tax,
+    TaxCreation,
+    TaxModification,
 )
-from tactill.entities.catalog.pack import Pack, PackCreation, PackModification
-from tactill.entities.catalog.tax import Tax, TaxCreation, TaxModification
-from tactill.entities.stock.movement import Movement, MovementCreation
 
 logger = logging.getLogger(__name__)
 

@@ -2,7 +2,7 @@ import httpx
 import pytest
 
 from tactill import QueryParams, TactillClient, TactillError
-from tactill.entities.catalog.option import (
+from tactill.entities import (
     OptionList,
     OptionListCreation,
     OptionListModification,
@@ -29,8 +29,10 @@ def test_get_option_lists_with_skip(client: TactillClient) -> None:
 
 
 @pytest.mark.vcr()
-def test_get_option_lists_with_filter(client: TactillClient) -> None:
-    option_list_name = "Test"
+def test_get_option_lists_with_filter(
+    client: TactillClient, option_list: OptionList
+) -> None:
+    option_list_name = option_list.name
     query = QueryParams(filters=[FilterEntity(field="name", value=option_list_name)])
     option_lists = client.get_option_lists(query=query)
 

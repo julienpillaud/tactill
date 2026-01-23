@@ -1,9 +1,8 @@
 import httpx
 import pytest
 
-from tactill import QueryParams, TactillClient, TactillError
-from tactill.entities.catalog.tax import Tax, TaxCreation, TaxModification
-from tactill.filters import FilterEntity
+from tactill import FilterEntity, QueryParams, TactillClient, TactillError
+from tactill.entities import Tax, TaxCreation, TaxModification
 
 
 @pytest.mark.vcr()
@@ -25,8 +24,8 @@ def test_get_taxes_with_skip(client: TactillClient) -> None:
 
 
 @pytest.mark.vcr()
-def test_get_taxes_with_filter(client: TactillClient) -> None:
-    tax_name = "TVA 20"
+def test_get_taxes_with_filter(client: TactillClient, tax: Tax) -> None:
+    tax_name = tax.name
     query = QueryParams(filters=[FilterEntity(field="name", value=tax_name)])
     taxes = client.get_taxes(query=query)
 

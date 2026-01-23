@@ -22,7 +22,7 @@ interactions:
     uri: https://api4.tactill.com/v1/catalog/categories
   response:
     body:
-      string: '{"created_at":"2026-01-23T09:07:58.509Z","updated_at":"2026-01-23T09:07:58.509Z","deprecated":false,"test":false,"company_id":"59df3841568f630001ef9cad","is_default":false,"name":"Test","color":"#57DB47","icon_text":"TEST","image":"","_id":"69733a6ed20cc37fd45076c8","__v":0}'
+      string: '{"created_at":"2026-01-23T09:47:27.161Z","updated_at":"2026-01-23T09:47:27.161Z","deprecated":false,"test":false,"company_id":"59df3841568f630001ef9cad","is_default":false,"name":"Test","color":"#57DB47","icon_text":"TEST","image":"","_id":"697343afd62e089f7aab2832","__v":0}'
     headers:
       Connection:
       - keep-alive
@@ -31,7 +31,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 23 Jan 2026 09:07:58 GMT
+      - Fri, 23 Jan 2026 09:47:27 GMT
       access-control-expose-headers:
       - WWW-Authenticate,Server-Authorization
       cache-control:
@@ -57,7 +57,7 @@ interactions:
       x-api-key:
       - '*****'
     method: DELETE
-    uri: https://api4.tactill.com/v1/catalog/categories/69733a6ed20cc37fd45076c8
+    uri: https://api4.tactill.com/v1/catalog/categories/697343afd62e089f7aab2832
   response:
     body:
       string: '{"statusCode":200,"error":"","message":"category successfully deleted"}'
@@ -69,7 +69,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 23 Jan 2026 09:07:58 GMT
+      - Fri, 23 Jan 2026 09:47:27 GMT
       access-control-expose-headers:
       - WWW-Authenticate,Server-Authorization
       cache-control:

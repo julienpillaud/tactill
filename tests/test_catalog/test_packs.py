@@ -1,9 +1,8 @@
 import httpx
 import pytest
 
-from tactill import QueryParams, TactillClient, TactillError
-from tactill.entities.catalog.pack import Pack
-from tactill.filters import FilterEntity
+from tactill import FilterEntity, QueryParams, TactillClient, TactillError
+from tactill.entities import Pack
 
 
 @pytest.mark.vcr()
@@ -25,8 +24,8 @@ def test_get_packs_with_skip(client: TactillClient) -> None:
 
 
 @pytest.mark.vcr()
-def test_get_packs_with_filter(client: TactillClient) -> None:
-    full_price = 1
+def test_get_packs_with_filter(client: TactillClient, pack: Pack) -> None:
+    full_price = pack.full_price
     query = QueryParams(filters=[FilterEntity(field="full_price", value=full_price)])
     packs = client.get_packs(query=query)
 

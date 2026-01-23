@@ -1,11 +1,12 @@
 import httpx
 import pytest
 
-from tactill import QueryParams, TactillClient, TactillColor, TactillError
-from tactill.entities.catalog.category import (
+from tactill import QueryParams, TactillClient, TactillError
+from tactill.entities import (
     Category,
     CategoryCreation,
     CategoryModification,
+    TactillColor,
 )
 from tactill.filters import FilterEntity
 
@@ -29,8 +30,8 @@ def test_get_categories_with_skip(client: TactillClient) -> None:
 
 
 @pytest.mark.vcr()
-def test_get_categories_with_filter(client: TactillClient) -> None:
-    category_name = "BIÈRE"
+def test_get_categories_with_filter(client: TactillClient, category: Category) -> None:
+    category_name = category.name
     query = QueryParams(filters=[FilterEntity(field="name", value=category_name)])
     categories = client.get_categories(query=query)
 

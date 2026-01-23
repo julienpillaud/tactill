@@ -1,12 +1,13 @@
 import httpx
 import pytest
 
-from tactill import FilterEntity, QueryParams, TactillClient, TactillColor, TactillError
-from tactill.entities.catalog.article import (
-    Article,
-    ArticleCreation,
-    ArticleModification,
+from tactill import (
+    FilterEntity,
+    QueryParams,
+    TactillClient,
+    TactillError,
 )
+from tactill.entities import Article, ArticleCreation, ArticleModification, TactillColor
 
 
 @pytest.mark.vcr()
@@ -28,8 +29,8 @@ def test_get_articles_with_skip(client: TactillClient) -> None:
 
 
 @pytest.mark.vcr()
-def test_get_articles_with_filter(client: TactillClient) -> None:
-    article_name = "Kwak 33cl"
+def test_get_articles_with_filter(client: TactillClient, article: Article) -> None:
+    article_name = article.name
     query = QueryParams(filters=[FilterEntity(field="name", value=article_name)])
     articles = client.get_articles(query=query)
 

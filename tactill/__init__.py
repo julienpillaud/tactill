@@ -1,4 +1,3 @@
-from .entities.base import TactillColor as TactillColor
 from .filters import FilterEntity as FilterEntity
 from .filters import FilterOperator as FilterOperator
 from .filters import QueryParams as QueryParams

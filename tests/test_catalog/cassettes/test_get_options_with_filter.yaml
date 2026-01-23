@@ -15,6 +15,55 @@ interactions:
       x-api-key:
       - '*****'
     method: GET
+    uri: https://api4.tactill.com/v1/catalog/options?limit=100&node_id=59df3841568f630001ef9cbf
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA8XVPYvcMBAG4L8SVPvESJoPSV2KLXNNFgIJYZH1AQfJZdnbSxPy38NiFnyByC5M
+        3L8GP8y8oy+/1OmpqKg4iHUj5TDmZLIZnQQyRkY1qHyp6VrLKV1VVBYsP4B5sPZoMFKICBqC+6wG
+        9Xou/RwK3nKlni8136IqXi+vdVDX+nJVsaVvL3VQzz9Knf6JQmnOoyH2jR0AmNpCHpsa1HP6XlVU
+        x9uHgzpfnnJV0QzqdPqpIvwe/mLVYiFnJ60gFmFpyyyrA9AKltNi/casx8Ond4/vPxxW0BgK2wo+
+        NElJmk1pmYbaBLOChloItp7Y4eNxmZWJ3rBK5h6LIriIQVvLXdY9x7A5a9UiZvKA4Axbk6CRMIZF
+        FlkNVpZZZHVwW7PWL2Km8OZ0FPDLNKfR4Qqa04HDHouIUMf56QiFuheRonXROg1hiTXlEHdZRISa
+        Z/3yJrTu2Zh+F7UTv4JFGsjtNK0671cwdQWLNbn++zXlRDsxe/ULobZ5v5xnWqaJFrEraF67zU/H
+        uon5DPN+FfG2zyKO6LXxS/2acjjx/3u/QrLzftFou4eeI0B0qDn0pzXlSAPTLqwkaT6tKiMssDAa
+        0Mz99+ueCyi7sEZI8255zkvT4tu0UPpn457zvPk1/Afr6x//qLMAzwsAAA==
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 23 Jan 2026 09:47:37 GMT
+      Transfer-Encoding:
+      - chunked
+      access-control-expose-headers:
+      - WWW-Authenticate,Server-Authorization
+      cache-control:
+      - no-cache
+      content-encoding:
+      - gzip
+      vary:
+      - origin,accept-encoding
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Host:
+      - api4.tactill.com
+      User-Agent:
+      - python-httpx/0.28.1
+      x-api-key:
+      - '*****'
+    method: GET
     uri: https://api4.tactill.com/v1/catalog/options?limit=100&filter=name%3DTest&node_id=59df3841568f630001ef9cbf
   response:
     body:
@@ -31,7 +80,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 23 Jan 2026 09:08:08 GMT
+      - Fri, 23 Jan 2026 09:47:37 GMT
       Transfer-Encoding:
       - chunked
       access-control-expose-headers:

@@ -3,11 +3,12 @@ from datetime import datetime
 import httpx
 import pytest
 
-from tactill import QueryParams, TactillClient, TactillColor, TactillError
-from tactill.entities.catalog.discount import (
+from tactill import QueryParams, TactillClient, TactillError
+from tactill.entities import (
     Discount,
     DiscountCreation,
     DiscountModification,
+    TactillColor,
 )
 from tactill.filters import FilterEntity
 
@@ -31,8 +32,8 @@ def test_get_discounts_with_skip(client: TactillClient) -> None:
 
 
 @pytest.mark.vcr()
-def test_get_discounts_with_filter(client: TactillClient) -> None:
-    discount_name = "Offert"
+def test_get_discounts_with_filter(client: TactillClient, discount: Discount) -> None:
+    discount_name = discount.name
     query = QueryParams(filters=[FilterEntity(field="name", value=discount_name)])
     discounts = client.get_discounts(query=query)
 

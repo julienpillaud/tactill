@@ -3,7 +3,7 @@ import datetime
 import pytest
 
 from tactill import FilterEntity, FilterOperator, QueryParams, TactillClient
-from tactill.entities.catalog.article import Article
+from tactill.entities import Article
 
 
 @pytest.mark.vcr()

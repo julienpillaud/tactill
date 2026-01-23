@@ -22,7 +22,7 @@ interactions:
     uri: https://api4.tactill.com/v1/catalog/discounts
   response:
     body:
-      string: '{"created_at":"2026-01-23T09:08:02.251Z","updated_at":"2026-01-23T09:08:02.251Z","deprecated":false,"test":false,"shop_id":"59df3841568f630001ef9cbc","name":"Test","rate":1,"type":"rate","start_date":"2023-01-01T00:00:00.000Z","end_date":"2023-12-31T00:00:00.000Z","barcode":"123","icon_text":"TEST","color":"#57DB47","_id":"69733a72d62e089f7aaaf339","__v":0}'
+      string: '{"created_at":"2026-01-23T09:47:30.618Z","updated_at":"2026-01-23T09:47:30.618Z","deprecated":false,"test":false,"shop_id":"59df3841568f630001ef9cbc","name":"Test","rate":1,"type":"rate","start_date":"2023-01-01T00:00:00.000Z","end_date":"2023-12-31T00:00:00.000Z","barcode":"123","icon_text":"TEST","color":"#57DB47","_id":"697343b2d62e089f7aab2864","__v":0}'
     headers:
       Connection:
       - keep-alive
@@ -31,7 +31,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 23 Jan 2026 09:08:02 GMT
+      - Fri, 23 Jan 2026 09:47:30 GMT
       access-control-expose-headers:
       - WWW-Authenticate,Server-Authorization
       cache-control:
@@ -57,7 +57,7 @@ interactions:
       x-api-key:
       - '*****'
     method: DELETE
-    uri: https://api4.tactill.com/v1/catalog/discounts/69733a72d62e089f7aaaf339
+    uri: https://api4.tactill.com/v1/catalog/discounts/697343b2d62e089f7aab2864
   response:
     body:
       string: '{"statusCode":200,"error":"","message":"discount successfully deleted"}'
@@ -69,7 +69,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 23 Jan 2026 09:08:02 GMT
+      - Fri, 23 Jan 2026 09:47:30 GMT
       access-control-expose-headers:
       - WWW-Authenticate,Server-Authorization
       cache-control:

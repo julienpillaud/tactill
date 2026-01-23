@@ -15,19 +15,19 @@ interactions:
       x-api-key:
       - '*****'
     method: GET
-    uri: https://api4.tactill.com/v1/catalog/categories?limit=100&filter=name%3DBI%C3%88RE&company_id=59df3841568f630001ef9cad
+    uri: https://api4.tactill.com/v1/catalog/categories?limit=100&filter=name%3DBAR&company_id=59df3841568f630001ef9cad
   response:
     body:
-      string: "[{\"_id\":\"59f6ef0abf406100169858b1\",\"company_id\":\"59df3841568f630001ef9cad\",\"name\":\"BI\xC8RE\",\"color\":\"#57DB47\",\"icon_text\":\"BIER\",\"test\":false,\"is_default\":false,\"deprecated\":false,\"updated_at\":\"2024-02-07T10:29:15.380Z\",\"created_at\":\"2017-10-30T09:21:13.935Z\",\"__v\":0,\"image\":\"\"}]"
+      string: '[{"_id":"59f6ef0abf4061001698582a","company_id":"59df3841568f630001ef9cad","name":"BAR","color":"#6868DC","icon_text":"BAR","test":false,"is_default":false,"deprecated":false,"updated_at":"2024-02-07T10:29:15.380Z","created_at":"2017-10-30T09:21:13.935Z","__v":0,"image":""}]'
     headers:
       Connection:
       - keep-alive
       Content-Length:
-      - '279'
+      - '275'
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 23 Jan 2026 09:07:57 GMT
+      - Fri, 23 Jan 2026 09:47:26 GMT
       accept-ranges:
       - bytes
       access-control-expose-headers:
