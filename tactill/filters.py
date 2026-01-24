@@ -10,6 +10,7 @@ class FilterOperator(StrEnum):
     GTE = "[gte]"
     LT = "[lt]"
     LTE = "[lte]"
+    NE = "[ne]"
     IN = "[in]"
     NIN = "[nin]"
 
@@ -21,19 +22,34 @@ class FilterEntity(BaseModel):
 
     @model_validator(mode="after")
     def validate(self) -> Self:
-        if self.operator in {
-            FilterOperator.IN,
-            FilterOperator.NIN,
-        } and not isinstance(self.value, list):
-            raise ValueError("Value must be a list for IN/NIN operators")
+        if self.operator in {FilterOperator.IN, FilterOperator.NIN}:
+            if not isinstance(self.value, list):
+                raise ValueError("Value must be a list")
+
+            if len(self.value) == 0:
+                raise ValueError("Value must contain at least one element")
+
+        elif isinstance(self.value, list):
+            raise ValueError("Value must not be a list")
+
         return self
+
+    @property
+    def operator_map(self) -> dict[FilterOperator, FilterOperator]:
+        return {
+            FilterOperator.IN: FilterOperator.EQ,
+            FilterOperator.NIN: FilterOperator.NE,
+        }
 
     @property
     def param(self) -> str:
         if self.operator in {FilterOperator.IN, FilterOperator.NIN}:
-            return "&".join(
-                f"{self.field}{self.operator}={value}" for value in self.value
-            )
+            if len(self.value) > 1:
+                return "&".join(
+                    f"{self.field}{self.operator}={value}" for value in self.value
+                )
+            return f"{self.field}{self.operator_map[self.operator]}={self.value[0]}"
+
         return f"{self.field}{self.operator}={self.value}"
 
 
