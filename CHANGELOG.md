@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.1](https://github.com/julienpillaud/tactill/compare/0.8.0...0.8.1) (2026-01-24)
+
+
+### Bug Fixes
+
+* filters ([#16](https://github.com/julienpillaud/tactill/issues/16)) ([76b0e80](https://github.com/julienpillaud/tactill/commit/76b0e80b4b9fe6f2e1a526bc3bd6fbb75f18920a))
+
 ## [0.8.0](https://github.com/julienpillaud/tactill/compare/0.7.0...0.8.0) (2026-01-23)
 
 
