@@ -41,6 +41,9 @@ ignore = [
 [tool.ty.terminal]
 output-format = "concise"
 
+[tool.ty.rules]
+unused-ignore-comment = "ignore"  # use for mypy
+
 [tool.mypy]
 strict = true
 plugins = ['pydantic.mypy']

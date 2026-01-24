@@ -7,13 +7,13 @@ from tactill.entities import Article
 
 
 @pytest.mark.parametrize("operator", [FilterOperator.IN, FilterOperator.NIN])
-def test_filter_in_nin_without_list(operator) -> None:
+def test_filter_in_nin_without_list(operator: FilterOperator) -> None:
     with pytest.raises(ValueError):
         FilterEntity(field="field", value=1, operator=operator)
 
 
 @pytest.mark.parametrize("operator", [FilterOperator.IN, FilterOperator.NIN])
-def test_filter_in_nin_with_empty_list(operator) -> None:
+def test_filter_in_nin_with_empty_list(operator: FilterOperator) -> None:
     with pytest.raises(ValueError):
         FilterEntity(field="field", value=[], operator=operator)
 
@@ -29,12 +29,12 @@ def test_filter_in_nin_with_empty_list(operator) -> None:
         FilterOperator.NE,
     ],
 )
-def test_filter_eq_gt_gte_lt_lte_ne_with_list(operator) -> None:
+def test_filter_eq_gt_gte_lt_lte_ne_with_list(operator: FilterOperator) -> None:
     with pytest.raises(ValueError):
         FilterEntity(field="field", value=[1, 2], operator=operator)
 
 
-def test_query_params_in():
+def test_query_params_in() -> None:
     query = QueryParams(
         filters=[
             FilterEntity(
@@ -47,7 +47,7 @@ def test_query_params_in():
     assert query.build()["filter"] == "field[in]=1&field[in]=2"
 
 
-def test_query_params_in_with_one_value():
+def test_query_params_in_with_one_value() -> None:
     query = QueryParams(
         filters=[
             FilterEntity(
@@ -60,7 +60,7 @@ def test_query_params_in_with_one_value():
     assert query.build()["filter"] == "field=1"
 
 
-def test_query_params_nin():
+def test_query_params_nin() -> None:
     query = QueryParams(
         filters=[
             FilterEntity(
@@ -73,7 +73,7 @@ def test_query_params_nin():
     assert query.build()["filter"] == "field[nin]=1&field[nin]=2"
 
 
-def test_query_params_nin_with_one_value():
+def test_query_params_nin_with_one_value() -> None:
     query = QueryParams(
         filters=[
             FilterEntity(
@@ -86,7 +86,7 @@ def test_query_params_nin_with_one_value():
     assert query.build()["filter"] == "field[ne]=1"
 
 
-def test_query_params_eq():
+def test_query_params_eq() -> None:
     query = QueryParams(
         filters=[
             FilterEntity(
@@ -109,7 +109,7 @@ def test_query_params_eq():
         FilterOperator.NE,
     ],
 )
-def test_query_params_gt_gte_lt_lte_ne(operator) -> None:
+def test_query_params_gt_gte_lt_lte_ne(operator: FilterOperator) -> None:
     query = QueryParams(
         filters=[
             FilterEntity(

@@ -21,7 +21,7 @@ class FilterEntity(BaseModel):
     operator: FilterOperator = FilterOperator.EQ
 
     @model_validator(mode="after")
-    def validate(self) -> Self:
+    def validate(self) -> Self:  # type: ignore
         if self.operator in {FilterOperator.IN, FilterOperator.NIN}:
             if not isinstance(self.value, list):
                 raise ValueError("Value must be a list")
