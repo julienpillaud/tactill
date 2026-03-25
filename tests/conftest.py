@@ -1,92 +1,34 @@
-import os
-
 import pytest
-from dotenv import load_dotenv
+from _pytest.nodes import Item
+from _pytest.python import Metafunc
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from tactill import FilterEntity, QueryParams, TactillClient
-from tactill.entities import (
-    Article,
-    Category,
-    Discount,
-    Movement,
-    Option,
-    OptionList,
-    Pack,
-    Tax,
-)
-
-load_dotenv()
+from tactill import TactillClient
 
 
-@pytest.fixture(scope="session")
-def api_key() -> str:
-    if key := os.getenv("TACTILL_API_KEY"):
-        return key
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file=".env")
 
-    raise ValueError("Missing API key")
+    api_keys: list[str] = []
+    local_test: bool
+
+
+settings = Settings()
+
+
+def pytest_collection_modifyitems(items: list[Item]) -> None:
+    if not settings.local_test:
+        skip_on_ci = pytest.mark.skip(reason="Disabled on CI")
+        for item in items:
+            if "skip_on_ci" in item.keywords:
+                item.add_marker(skip_on_ci)
+
+
+def pytest_generate_tests(metafunc: Metafunc) -> None:
+    if "client" in metafunc.fixturenames and settings.local_test:
+        metafunc.parametrize("api_key", settings.api_keys, scope="session")
 
 
 @pytest.fixture(scope="session")
 def client(api_key: str) -> TactillClient:
     return TactillClient(api_key=api_key)
-
-
-@pytest.fixture(scope="session")
-def vcr_config() -> dict[str, list[tuple[str, str]]]:
-    return {"filter_headers": [("x-api-key", "*****")]}
-
-
-@pytest.fixture(scope="session")
-def base_query() -> QueryParams:
-    return QueryParams(
-        filters=[
-            FilterEntity(field="deprecated", value="false"),
-            FilterEntity(field="is_default", value="false"),
-        ]
-    )
-
-
-@pytest.fixture(scope="session")
-def articles(client: TactillClient, base_query: QueryParams) -> list[Article]:
-    base_query.limit = 5000
-    return client.get_articles(query=base_query)
-
-
-@pytest.fixture(scope="session")
-def article(client: TactillClient, base_query: QueryParams) -> Article:
-    return client.get_articles(query=base_query)[0]
-
-
-@pytest.fixture(scope="session")
-def category(client: TactillClient, base_query: QueryParams) -> Category:
-    return client.get_categories(query=base_query)[0]
-
-
-@pytest.fixture
-def discount(client: TactillClient) -> Discount:
-    return client.get_discounts()[0]
-
-
-@pytest.fixture
-def option_list(client: TactillClient) -> OptionList:
-    return client.get_option_lists()[0]
-
-
-@pytest.fixture
-def option(client: TactillClient) -> Option:
-    return client.get_options()[0]
-
-
-@pytest.fixture
-def pack(client: TactillClient) -> Pack:
-    return client.get_packs()[0]
-
-
-@pytest.fixture
-def tax(client: TactillClient, base_query: QueryParams) -> Tax:
-    return client.get_taxes(query=base_query)[0]
-
-
-@pytest.fixture
-def movement(client: TactillClient) -> Movement:
-    return client.get_movements()[0]
