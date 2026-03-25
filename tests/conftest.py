@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env")
 
     api_keys: list[str] = []
-    local_test: bool
+    local_test: bool = False
 
 
 settings = Settings()
