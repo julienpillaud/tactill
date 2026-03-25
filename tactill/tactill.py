@@ -20,20 +20,8 @@ from tactill.entities import (
     Category,
     CategoryCreation,
     CategoryModification,
-    Discount,
-    DiscountCreation,
-    DiscountModification,
     Movement,
     MovementCreation,
-    Option,
-    OptionCreation,
-    OptionList,
-    OptionListCreation,
-    OptionListModification,
-    OptionModification,
-    Pack,
-    PackCreation,
-    PackModification,
     TactillResponse,
     TactillUUID,
     Tax,
@@ -86,6 +74,7 @@ class TactillClient:
         self,
         method: str,
         url: str,
+        /,
         expected_status: httpx.codes,
         params: Any = None,
         json: Any = None,
@@ -122,23 +111,26 @@ class TactillClient:
         return [Article.model_validate(entity) for entity in response]
 
     def create_article(self, article_creation: ArticleCreation) -> Article:
-        url = f"{self.api_url}/catalog/articles"
         article = article_creation.model_dump(exclude_none=True)
         article["node_id"] = self.node_id
 
         response = self._request(
-            "POST", url, expected_status=httpx.codes.CREATED, json=article
+            "POST",
+            f"{self.api_url}/catalog/articles",
+            expected_status=httpx.codes.CREATED,
+            json=article,
         )
-
         return Article.model_validate(response)
 
     def delete_article(self, article_id: TactillUUID) -> TactillResponse:
-        url = f"{self.api_url}/catalog/articles/{article_id}"
-        return self._delete(url)
+        return self._delete(f"{self.api_url}/catalog/articles/{article_id}")
 
     def get_article(self, article_id: TactillUUID) -> Article:
-        url = f"{self.api_url}/catalog/articles/{article_id}"
-        response = self._request("GET", url, expected_status=httpx.codes.OK)
+        response = self._request(
+            "GET",
+            f"{self.api_url}/catalog/articles/{article_id}",
+            expected_status=httpx.codes.OK,
+        )
         return Article.model_validate(response)
 
     def update_article(
@@ -146,10 +138,13 @@ class TactillClient:
         article_id: TactillUUID,
         article_modification: ArticleModification,
     ) -> TactillResponse:
-        url = f"{self.api_url}/catalog/articles/{article_id}"
         article = article_modification.model_dump(exclude_none=True)
+
         response = self._request(
-            "PUT", url, expected_status=httpx.codes.OK, json=article
+            "PUT",
+            f"{self.api_url}/catalog/articles/{article_id}",
+            expected_status=httpx.codes.OK,
+            json=article,
         )
         return TactillResponse.model_validate(response)
 
@@ -163,23 +158,27 @@ class TactillClient:
         return [Category.model_validate(entity) for entity in response]
 
     def create_category(self, category_creation: CategoryCreation) -> Category:
-        url = f"{self.api_url}/catalog/categories"
         category = category_creation.model_dump(exclude_none=True)
         category["company_id"] = self.company_id
 
         response = self._request(
-            "POST", url, expected_status=httpx.codes.CREATED, json=category
+            "POST",
+            f"{self.api_url}/catalog/categories",
+            expected_status=httpx.codes.CREATED,
+            json=category,
         )
 
         return Category.model_validate(response)
 
     def delete_category(self, category_id: TactillUUID) -> TactillResponse:
-        url = f"{self.api_url}/catalog/categories/{category_id}"
-        return self._delete(url)
+        return self._delete(f"{self.api_url}/catalog/categories/{category_id}")
 
     def get_category(self, category_id: TactillUUID) -> Category:
-        url = f"{self.api_url}/catalog/categories/{category_id}"
-        response = self._request("GET", url, expected_status=httpx.codes.OK)
+        response = self._request(
+            "GET",
+            f"{self.api_url}/catalog/categories/{category_id}",
+            expected_status=httpx.codes.OK,
+        )
         return Category.model_validate(response)
 
     def update_category(
@@ -187,176 +186,14 @@ class TactillClient:
         category_id: TactillUUID,
         category_modification: CategoryModification,
     ) -> TactillResponse:
-        url = f"{self.api_url}/catalog/categories/{category_id}"
         article = category_modification.model_dump(exclude_none=True)
-        response = self._request(
-            "PUT", url, expected_status=httpx.codes.OK, json=article
-        )
-        return TactillResponse.model_validate(response)
-
-    def get_discounts(self, query: QueryParams | None = None) -> list[Discount]:
-        query = query or QueryParams()
-        response = self._get(
-            url=f"{self.api_url}/catalog/discounts",
-            query=query,
-            extra_params={"shop_id": self.shop_id},
-        )
-        return [Discount.model_validate(entity) for entity in response]
-
-    def create_discount(self, discount_creation: DiscountCreation) -> Discount:
-        url = f"{self.api_url}/catalog/discounts"
-        category = discount_creation.model_dump(exclude_none=True)
-        category["shop_id"] = self.shop_id
 
         response = self._request(
-            "POST", url, expected_status=httpx.codes.CREATED, json=category
+            "PUT",
+            f"{self.api_url}/catalog/categories/{category_id}",
+            expected_status=httpx.codes.OK,
+            json=article,
         )
-
-        return Discount.model_validate(response)
-
-    def delete_discount(self, discount_id: TactillUUID) -> TactillResponse:
-        url = f"{self.api_url}/catalog/discounts/{discount_id}"
-        return self._delete(url)
-
-    def get_discount(self, discount_id: TactillUUID) -> Discount:
-        url = f"{self.api_url}/catalog/discounts/{discount_id}"
-        response = self._request("GET", url, expected_status=httpx.codes.OK)
-        return Discount.model_validate(response)
-
-    def update_discount(
-        self,
-        discount_id: TactillUUID,
-        discount_modification: DiscountModification,
-    ) -> TactillResponse:
-        url = f"{self.api_url}/catalog/discounts/{discount_id}"
-        discount = discount_modification.model_dump(exclude_none=True)
-        response = self._request(
-            "PUT", url, expected_status=httpx.codes.OK, json=discount
-        )
-        return TactillResponse.model_validate(response)
-
-    def get_option_lists(self, query: QueryParams | None = None) -> list[OptionList]:
-        query = query or QueryParams()
-        response = self._get(
-            url=f"{self.api_url}/catalog/option_lists",
-            query=query,
-            extra_params={"node_id": self.node_id},
-        )
-        return [OptionList.model_validate(entity) for entity in response]
-
-    def create_option_list(
-        self,
-        option_list_creation: OptionListCreation,
-    ) -> OptionList:
-        url = f"{self.api_url}/catalog/option_lists"
-        option_list = option_list_creation.model_dump(exclude_none=True)
-        option_list["node_id"] = self.node_id
-
-        response = self._request(
-            "POST", url, expected_status=httpx.codes.CREATED, json=option_list
-        )
-
-        return OptionList.model_validate(response)
-
-    def delete_option_list(self, option_list_id: TactillUUID) -> TactillResponse:
-        url = f"{self.api_url}/catalog/option_lists/{option_list_id}"
-        return self._delete(url)
-
-    def get_option_list(self, option_list_id: TactillUUID) -> OptionList:
-        url = f"{self.api_url}/catalog/option_lists/{option_list_id}"
-        response = self._request("GET", url, expected_status=httpx.codes.OK)
-        return OptionList.model_validate(response)
-
-    def update_option_list(
-        self,
-        option_list_id: TactillUUID,
-        option_list_modification: OptionListModification,
-    ) -> TactillResponse:
-        url = f"{self.api_url}/catalog/option_lists/{option_list_id}"
-        option_list = option_list_modification.model_dump(exclude_none=True)
-        response = self._request(
-            "PUT", url, expected_status=httpx.codes.OK, json=option_list
-        )
-        return TactillResponse.model_validate(response)
-
-    def get_options(self, query: QueryParams | None = None) -> list[Option]:
-        query = query or QueryParams()
-        response = self._get(
-            url=f"{self.api_url}/catalog/options",
-            query=query,
-            extra_params={"node_id": self.node_id},
-        )
-        return [Option.model_validate(entity) for entity in response]
-
-    def create_option(self, option_creation: OptionCreation) -> Option:
-        url = f"{self.api_url}/catalog/options"
-        option = option_creation.model_dump(exclude_none=True)
-        option["node_id"] = self.node_id
-
-        response = self._request(
-            "POST", url, expected_status=httpx.codes.CREATED, json=option
-        )
-
-        return Option.model_validate(response)
-
-    def delete_option(self, option_id: TactillUUID) -> TactillResponse:
-        url = f"{self.api_url}/catalog/options/{option_id}"
-        return self._delete(url)
-
-    def get_option(self, option_id: TactillUUID) -> Option:
-        url = f"{self.api_url}/catalog/options/{option_id}"
-        response = self._request("GET", url, expected_status=httpx.codes.OK)
-        return Option.model_validate(response)
-
-    def update_option(
-        self,
-        option_id: TactillUUID,
-        option_modification: OptionModification,
-    ) -> TactillResponse:
-        url = f"{self.api_url}/catalog/options/{option_id}"
-        option = option_modification.model_dump(exclude_none=True)
-        response = self._request(
-            "PUT", url, expected_status=httpx.codes.OK, json=option
-        )
-        return TactillResponse.model_validate(response)
-
-    def get_packs(self, query: QueryParams | None = None) -> list[Pack]:
-        query = query or QueryParams()
-        response = self._get(
-            url=f"{self.api_url}/catalog/packs",
-            query=query,
-            extra_params={"node_id": self.node_id},
-        )
-        return [Pack.model_validate(entity) for entity in response]
-
-    def create_pack(self, pack_creation: PackCreation) -> Pack:
-        url = f"{self.api_url}/catalog/packs"
-        pack = pack_creation.model_dump(exclude_none=True)
-        pack["node_id"] = self.node_id
-
-        response = self._request(
-            "POST", url, expected_status=httpx.codes.CREATED, json=pack
-        )
-
-        return Pack.model_validate(response)
-
-    def delete_pack(self, pack_id: TactillUUID) -> TactillResponse:
-        url = f"{self.api_url}/catalog/packs/{pack_id}"
-        return self._delete(url)
-
-    def get_pack(self, pack_id: TactillUUID) -> Pack:
-        url = f"{self.api_url}/catalog/packs/{pack_id}"
-        response = self._request("GET", url, expected_status=httpx.codes.OK)
-        return Pack.model_validate(response)
-
-    def update_pack(
-        self,
-        pack_id: TactillUUID,
-        pack_modification: PackModification,
-    ) -> TactillResponse:
-        url = f"{self.api_url}/catalog/packs/{pack_id}"
-        pack = pack_modification.model_dump(exclude_none=True)
-        response = self._request("PUT", url, expected_status=httpx.codes.OK, json=pack)
         return TactillResponse.model_validate(response)
 
     def get_taxes(self, query: QueryParams | None = None) -> list[Tax]:
@@ -369,14 +206,15 @@ class TactillClient:
         return [Tax.model_validate(entity) for entity in response]
 
     def create_tax(self, tax_creation: TaxCreation) -> Tax:
-        url = f"{self.api_url}/catalog/taxes"
         tax = tax_creation.model_dump(exclude_none=True)
         tax["company_id"] = self.company_id
 
         response = self._request(
-            "POST", url, expected_status=httpx.codes.CREATED, json=tax
+            "POST",
+            f"{self.api_url}/catalog/taxes",
+            expected_status=httpx.codes.CREATED,
+            json=tax,
         )
-
         return Tax.model_validate(response)
 
     def delete_tax(self, tax_id: TactillUUID) -> TactillResponse:
@@ -384,8 +222,11 @@ class TactillClient:
         return self._delete(url)
 
     def get_tax(self, tax_id: TactillUUID) -> Tax:
-        url = f"{self.api_url}/catalog/taxes/{tax_id}"
-        response = self._request("GET", url, expected_status=httpx.codes.OK)
+        response = self._request(
+            "GET",
+            f"{self.api_url}/catalog/taxes/{tax_id}",
+            expected_status=httpx.codes.OK,
+        )
         return Tax.model_validate(response)
 
     def update_tax(
@@ -408,12 +249,13 @@ class TactillClient:
         return [Movement.model_validate(entity) for entity in response]
 
     def create_movement(self, movement_creation: MovementCreation) -> Movement:
-        url = f"{self.api_url}/stock/movements"
-        pack = movement_creation.model_dump(exclude_none=True)
-        pack["shop_id"] = self.shop_id
+        payload = movement_creation.model_dump(exclude_none=True)
+        payload["shop_id"] = self.shop_id
 
         response = self._request(
-            "POST", url, expected_status=httpx.codes.CREATED, json=pack
+            "POST",
+            f"{self.api_url}/stock/movements",
+            expected_status=httpx.codes.CREATED,
+            json=payload,
         )
-
         return Movement.model_validate(response)

@@ -6,6 +6,8 @@ import httpx
 from pydantic import BaseModel, Field
 
 TactillUUID = Annotated[str, Field(pattern=r"^[0-9A-Fa-f]{24}$")]
+IconText = Annotated[str, Field(min_length=1)]
+TactillName = Annotated[str, Field(min_length=1)]
 
 
 class TactillColor(StrEnum):
@@ -21,17 +23,11 @@ class TactillColor(StrEnum):
     GRAY = "#9EA09E"
 
 
-def datetime_utcnow() -> datetime.datetime:
-    return datetime.datetime.now(tz=datetime.UTC)
-
-
 class BaseTactillModel(BaseModel):
-    id: str = Field(alias="_id")
-    version: int = Field(alias="__v")
+    id: TactillUUID = Field(alias="_id")
     deprecated: bool = False
-    created_at: datetime.datetime = Field(default_factory=datetime_utcnow)
-    updated_at: datetime.datetime = Field(default_factory=datetime_utcnow)
-    original_id: str | None = None
+    created_at: datetime.datetime
+    updated_at: datetime.datetime
 
 
 class ResponseValidation(BaseModel):
