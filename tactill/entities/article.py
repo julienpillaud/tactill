@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 from tactill.entities.base import (
-    BaseTactillModel,
+    BaseEntity,
     IconText,
     TactillColor,
     TactillName,
@@ -9,39 +9,35 @@ from tactill.entities.base import (
 )
 
 
-class ArticleCreation(BaseModel):
+class ArticleCreate(BaseModel):
     category_id: TactillUUID
     taxes: list[TactillUUID]
     name: TactillName
     icon_text: IconText
-    color: TactillColor = TactillColor.GREEN
-    barcode: str = ""
+    color: TactillColor
+    barcode: str | None = None
     in_stock: bool = True
     reference: str | None = None
     full_price: float
 
 
-class ArticleModification(BaseModel):
-    category_id: TactillUUID | None = None
+class ArticleUpdate(BaseModel):
     taxes: list[TactillUUID]
     name: TactillName | None = None
     icon_text: IconText | None = None
-    # color not mandatory for the API but if not provided, it will be reset
     color: TactillColor
     barcode: str | None = None
-    # in_stock not mandatory for the API but if not provided, it will be reset
-    in_stock: bool
     reference: str | None = None
     full_price: float | None = None
 
 
-class Article(BaseTactillModel):
+class Article(BaseEntity):
     category_id: TactillUUID
     taxes: list[TactillUUID]
     name: TactillName
     icon_text: IconText
     color: TactillColor
-    barcode: str = ""
+    barcode: str | None = None
     in_stock: bool
     reference: str | None = None
     full_price: float | None = None

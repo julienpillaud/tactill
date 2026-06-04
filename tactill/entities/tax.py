@@ -1,18 +1,6 @@
-from pydantic import BaseModel
-
-from tactill.entities.base import BaseTactillModel, TactillName
+from tactill.entities.base import BaseEntity, TactillName
 
 
-class TaxCreation(BaseModel):
-    name: TactillName
-    rate: float
-
-
-class TaxModification(BaseModel):
-    name: TactillName | None = None
-    rate: float | None = None
-
-
-class Tax(BaseTactillModel):
+class Tax(BaseEntity):
     name: TactillName
     rate: float

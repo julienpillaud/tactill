@@ -1,19 +1,21 @@
+from collections.abc import AsyncIterator, Iterator
+
 import pytest
+import pytest_asyncio
 from _pytest.nodes import Item
-from _pytest.python import Metafunc
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from tactill import TactillClient
+from tactill import AsyncTactillClient, TactillClient, TactillUUID
 
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env")
 
-    api_keys: list[str] = []
+    api_key: str = ""
     local_test: bool = False
 
 
-settings = Settings()
+settings = Settings()  # ty:ignore[missing-argument]
 
 
 def pytest_collection_modifyitems(items: list[Item]) -> None:
@@ -24,11 +26,23 @@ def pytest_collection_modifyitems(items: list[Item]) -> None:
                 item.add_marker(skip_on_ci)
 
 
-def pytest_generate_tests(metafunc: Metafunc) -> None:
-    if "client" in metafunc.fixturenames and settings.local_test:
-        metafunc.parametrize("api_key", settings.api_keys, scope="session")
+@pytest.fixture(scope="session")
+def article_id() -> TactillUUID:
+    return "6a2110884d74f3bde34643fc"
 
 
 @pytest.fixture(scope="session")
-def client(api_key: str) -> TactillClient:
-    return TactillClient(api_key=api_key)
+def category_id() -> TactillUUID:
+    return "6a202c6cbcfe5255c24e1895"
+
+
+@pytest.fixture(scope="session")
+def client() -> Iterator[TactillClient]:
+    with TactillClient(api_key=settings.api_key) as client:
+        yield client
+
+
+@pytest_asyncio.fixture(scope="session")
+async def aclient() -> AsyncIterator[AsyncTactillClient]:
+    async with AsyncTactillClient(api_key=settings.api_key) as client:
+        yield client

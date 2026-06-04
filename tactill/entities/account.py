@@ -1,20 +1,24 @@
-from pydantic import Field
+from typing import Any
 
-from tactill.entities.base import BaseTactillModel, TactillUUID
+from pydantic import BaseModel, model_validator
+
+from tactill.entities.base import TactillUUID
 
 
-class Account(BaseTactillModel):
-    account_id: str | None = None
-    profile_id: TactillUUID
-    role: TactillUUID | None = None
-    fastpass: str | None = Field(None, min_length=4, max_length=4)
-    last_connected: str | None = None
-    companies: list[str]
-    shops: list[str]
-    nodes: list[str]
-    api_key: str | None = None
-    v3_account_id: TactillUUID | None = None
-    permissions: list[str] | None = None
-    email: str | None = None
-    first_name: str | None = None
-    last_name: str | None = None
+class Account(BaseModel):
+    node_id: TactillUUID
+    company_id: TactillUUID
+    shop_id: TactillUUID
+
+    @model_validator(mode="before")
+    @classmethod
+    def validate_model(cls, data: Any) -> Any:  # noqa: ANN401 (can be anything before validation)
+        account = {}
+        try:
+            account["node_id"] = data["nodes"][0]
+            account["company_id"] = data["companies"][0]
+            account["shop_id"] = data["shops"][0]
+        except KeyError, IndexError:
+            raise ValueError("Validation error") from None
+
+        return account
