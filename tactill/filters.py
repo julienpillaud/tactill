@@ -21,7 +21,7 @@ class FilterEntity(BaseModel):
     operator: FilterOperator = FilterOperator.EQ
 
     @model_validator(mode="after")
-    def validate(self) -> Self:  # type: ignore
+    def validate_model(self) -> Self:
         if self.operator in {FilterOperator.IN, FilterOperator.NIN}:
             if not isinstance(self.value, list):
                 raise ValueError("Value must be a list")
@@ -53,24 +53,5 @@ class FilterEntity(BaseModel):
         return f"{self.field}{self.operator}={self.value}"
 
 
-class QueryParams(BaseModel):
-    limit: int = 100
-    skip: int = 0
-    filters: list[FilterEntity] | None = None
-    order: str | None = None
-
-    def add_filters(self, filters: list[FilterEntity]) -> None:
-        self.filters = self.filters or []
-        self.filters.extend(filters)
-
-    def build(self, extra_params: dict[str, str] | None = None) -> dict[str, str]:
-        params: dict[str, Any] = {"limit": self.limit}
-        if self.skip:
-            params["skip"] = self.skip
-        if self.filters:
-            params["filter"] = "&".join(filter_.param for filter_ in self.filters)
-        if self.order:
-            params["order"] = self.order
-        if extra_params:
-            params |= extra_params
-        return params
+def build_filters(filters: list[FilterEntity]) -> str:
+    return "&".join(filter_.param for filter_ in filters)

@@ -1,21 +1,21 @@
 from pydantic import BaseModel
 
-from tactill.entities.base import BaseTactillModel, IconText, TactillColor, TactillName
+from tactill.entities.base import BaseEntity, IconText, TactillColor, TactillName
 
 
-class CategoryCreation(BaseModel):
-    icon_text: IconText
-    color: TactillColor = TactillColor.GREEN
+class CategoryCreate(BaseModel):
     name: TactillName
-
-
-class CategoryModification(BaseModel):
-    icon_text: str | None = None
-    color: TactillColor | None = None
-    name: str | None = None
-
-
-class Category(BaseTactillModel):
     icon_text: IconText
     color: TactillColor
+
+
+class CategoryUpdate(BaseModel):
+    name: TactillName | None = None
+    icon_text: IconText | None = None
+    color: TactillColor
+
+
+class Category(BaseEntity):
     name: TactillName
+    icon_text: IconText
+    color: TactillColor
