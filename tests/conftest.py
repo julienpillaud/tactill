@@ -11,7 +11,7 @@ from tactill import AsyncTactillClient, TactillClient, TactillUUID
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env")
 
-    api_key: str
+    api_key: str = ""
     local_test: bool = False
 
 
