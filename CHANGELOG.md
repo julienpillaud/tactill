@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.0](https://github.com/julienpillaud/tactill/compare/0.9.0...0.10.0) (2026-06-04)
+
+
+### Features
+
+* refacto ([#21](https://github.com/julienpillaud/tactill/issues/21)) ([130271b](https://github.com/julienpillaud/tactill/commit/130271b101093dcec4f30668093256a499656cd3))
+
 ## [0.9.0](https://github.com/julienpillaud/tactill/compare/0.8.1...0.9.0) (2026-03-25)
 
 
