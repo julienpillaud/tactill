@@ -5,8 +5,6 @@ from tactill import (
     AsyncTactillClient,
     Category,
     CategoryUpdate,
-    FilterEntity,
-    FilterOperator,
     TactillColor,
     TactillUUID,
 )
@@ -16,11 +14,7 @@ from tactill.data import CATEGORIES
 @pytest.mark.skip_on_ci
 @pytest.mark.asyncio
 async def test_get_categories(aclient: AsyncTactillClient) -> None:
-    results = await aclient.categories.get_all(
-        filters=[
-            FilterEntity(field="name", value=CATEGORIES, operator=FilterOperator.IN),
-        ]
-    )
+    results = await aclient.categories.get_all()
 
     assert len(results) == len(CATEGORIES)
     for result in results:
@@ -31,7 +25,7 @@ async def test_get_categories(aclient: AsyncTactillClient) -> None:
 @pytest.mark.skip_on_ci
 @pytest.mark.asyncio
 async def test_get_category(aclient: AsyncTactillClient) -> None:
-    results = await aclient.categories.get_all()
+    results = await aclient.categories.get_all(limit=1)
     category = results[0]
 
     response = await aclient.categories.get(category_id=category.id)

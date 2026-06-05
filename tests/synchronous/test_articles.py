@@ -15,7 +15,7 @@ def test_get_articles(client: TactillClient) -> None:
 
 @pytest.mark.skip_on_ci
 def test_get_article(client: TactillClient) -> None:
-    results = client.articles.get_all()
+    results = client.articles.get_all(limit=1)
     article = results[0]
 
     response = client.articles.get(article_id=article.id)

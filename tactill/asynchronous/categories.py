@@ -1,5 +1,6 @@
 import typing
 
+from tactill.data import DEFAULT_CATEGORY_FILTERS
 from tactill.entities.base import TactillUUID
 from tactill.entities.category import Category, CategoryCreate, CategoryUpdate
 from tactill.entities.response import TactillResponse
@@ -22,6 +23,7 @@ class AsyncCategoriesResource(ClientMixin):
         filters: list[FilterEntity] | None = None,
         order: str | None = None,
     ) -> list[Category]:
+        filters = filters if filters is not None else DEFAULT_CATEGORY_FILTERS
         params = self._build_params(
             limit=limit,
             skip=skip,

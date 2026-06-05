@@ -17,7 +17,7 @@ async def test_get_articles(aclient: AsyncTactillClient) -> None:
 @pytest.mark.skip_on_ci
 @pytest.mark.asyncio
 async def test_get_article(aclient: AsyncTactillClient) -> None:
-    results = await aclient.articles.get_all()
+    results = await aclient.articles.get_all(limit=1)
     article = results[0]
 
     response = await aclient.articles.get(article_id=article.id)

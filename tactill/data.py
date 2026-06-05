@@ -1,3 +1,5 @@
+from tactill.filters import FilterEntity, FilterOperator
+
 TAX_RATES = [0, 5.5, 10, 20]
 CATEGORIES = [
     "ABSINTHE",
@@ -29,4 +31,13 @@ CATEGORIES = [
     "VODKA",
     "WHISKY",
     "XÉRÈS",
+]
+
+DEFAULT_CATEGORY_FILTERS = [
+    FilterEntity(field="deprecated", value="false"),
+    FilterEntity(
+        field="name",
+        value=CATEGORIES,
+        operator=FilterOperator.IN,
+    ),
 ]
