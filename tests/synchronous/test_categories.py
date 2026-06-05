@@ -4,8 +4,6 @@ import pytest
 from tactill import (
     Category,
     CategoryUpdate,
-    FilterEntity,
-    FilterOperator,
     TactillClient,
     TactillColor,
     TactillUUID,
@@ -15,11 +13,7 @@ from tactill.data import CATEGORIES
 
 @pytest.mark.skip_on_ci
 def test_get_categories(client: TactillClient) -> None:
-    results = client.categories.get_all(
-        filters=[
-            FilterEntity(field="name", value=CATEGORIES, operator=FilterOperator.IN),
-        ]
-    )
+    results = client.categories.get_all()
 
     assert len(results) == len(CATEGORIES)
     for result in results:
@@ -29,7 +23,7 @@ def test_get_categories(client: TactillClient) -> None:
 
 @pytest.mark.skip_on_ci
 def test_get_category(client: TactillClient) -> None:
-    results = client.categories.get_all()
+    results = client.categories.get_all(limit=1)
     category = results[0]
 
     response = client.categories.get(category_id=category.id)

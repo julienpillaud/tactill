@@ -3,7 +3,7 @@ import typing
 from tactill.entities.article import Article, ArticleCreate, ArticleUpdate
 from tactill.entities.base import TactillUUID
 from tactill.entities.response import TactillResponse
-from tactill.filters import FilterEntity
+from tactill.filters import FilterEntity, FilterOperator
 from tactill.mixin import ClientMixin
 
 if typing.TYPE_CHECKING:
@@ -31,6 +31,31 @@ class ArticlesResource(ClientMixin):
         )
         response = self.client.request("GET", self.base_url, params=params)
         return self._handle_validation(response, response_model=list[Article])
+
+    def get_by_category(
+        self,
+        category_id: TactillUUID,
+        *,
+        limit: int = 1000,
+        in_stock: bool = False,
+    ) -> list[Article]:
+        articles = self.get_all(
+            limit=limit,
+            filters=[
+                FilterEntity(
+                    field="category_id",
+                    value=[category_id],
+                    operator=FilterOperator.IN,
+                )
+            ],
+        )
+        if in_stock:
+            return [
+                article
+                for article in articles
+                if article.stock_quantity and article.stock_quantity > 0
+            ]
+        return articles
 
     def get(self, article_id: TactillUUID) -> Article:
         response = self.client.request("GET", f"{self.base_url}/{article_id}")

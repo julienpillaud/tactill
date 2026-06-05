@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     local_test: bool = False
 
 
-settings = Settings()  # ty:ignore[missing-argument]
+settings = Settings()
 
 
 def pytest_collection_modifyitems(items: list[Item]) -> None:
