@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.0](https://github.com/julienpillaud/tactill/compare/0.10.0...0.11.0) (2026-06-05)
+
+
+### Features
+
+* add semaphore ([#23](https://github.com/julienpillaud/tactill/issues/23)) ([e908700](https://github.com/julienpillaud/tactill/commit/e908700916c9666cc6fccf0af6f73e51ea77387b))
+
 ## [0.10.0](https://github.com/julienpillaud/tactill/compare/0.9.0...0.10.0) (2026-06-04)
 
 
