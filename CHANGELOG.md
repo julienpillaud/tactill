@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.0](https://github.com/julienpillaud/tactill/compare/0.11.0...0.12.0) (2026-06-08)
+
+
+### Features
+
+* add deprecated parameter ([#25](https://github.com/julienpillaud/tactill/issues/25)) ([6797f65](https://github.com/julienpillaud/tactill/commit/6797f6535a0d3b4ad57c2fcf25464761e4a428f1))
+
 ## [0.11.0](https://github.com/julienpillaud/tactill/compare/0.10.0...0.11.0) (2026-06-05)
 
 
