@@ -46,19 +46,26 @@ class ClientMixin:
         skip: int = 0,
         filters: list[FilterEntity] | None = None,
         order: str | None = None,
+        deprecated: bool = False,
         extra_params: QueryParams | None = None,
     ) -> QueryParams:
-        filters = (
-            filters
-            if filters is not None
-            else [FilterEntity(field="deprecated", value="false")]
-        )
+        api_filters = [
+            FilterEntity(field="deprecated", value="true" if deprecated else "false")
+        ]
 
-        params: dict[str, str | int] = {"limit": limit}
+        if filters is not None:
+            for flt in filters:
+                if flt.field == "deprecated":
+                    raise TactillError("You should use the 'deprecated' parameter")
+
+            api_filters.extend(filters)
+
+        params: dict[str, str | int] = {
+            "limit": limit,
+            "filter": build_filters(api_filters),
+        }
         if skip:
             params["skip"] = skip
-        if filters:
-            params["filter"] = build_filters(filters)
         if order:
             params["order"] = order
         if extra_params:

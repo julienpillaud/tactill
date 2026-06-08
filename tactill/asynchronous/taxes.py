@@ -20,12 +20,14 @@ class AsyncTaxesResource(ClientMixin):
         skip: int = 0,
         filters: list[FilterEntity] | None = None,
         order: str | None = None,
+        deprecated: bool = False,
     ) -> list[Tax]:
         params = self._build_params(
             limit=limit,
             skip=skip,
             filters=filters,
             order=order,
+            deprecated=deprecated,
             extra_params={"company_id": self.client.account.company_id},
         )
         response = await self.client.request("GET", self.base_url, params=params)

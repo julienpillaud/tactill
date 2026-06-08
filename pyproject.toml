@@ -34,6 +34,7 @@ select = [
     "ANN", # flake8-annotations
 ]
 ignore = [
+    "PLR0913", # too-many-arguments
     "SIM117", # multiple-with-statements
 ]
 

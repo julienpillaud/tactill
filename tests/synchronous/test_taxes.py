@@ -1,7 +1,7 @@
 import pytest
 
 from tactill import TactillClient
-from tactill.data import TAX_RATES
+from tests.data import TAX_RATES
 
 
 @pytest.mark.skip_on_ci

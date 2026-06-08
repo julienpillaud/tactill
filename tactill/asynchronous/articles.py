@@ -21,12 +21,14 @@ class AsyncArticlesResource(ClientMixin):
         skip: int = 0,
         filters: list[FilterEntity] | None = None,
         order: str | None = None,
+        deprecated: bool = False,
     ) -> list[Article]:
         params = self._build_params(
             limit=limit,
             skip=skip,
             filters=filters,
             order=order,
+            deprecated=deprecated,
             extra_params={"node_id": self.client.account.node_id},
         )
         response = await self.client.request("GET", self.base_url, params=params)
