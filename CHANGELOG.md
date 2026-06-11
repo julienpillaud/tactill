@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.0](https://github.com/julienpillaud/tactill/compare/0.12.0...0.13.0) (2026-06-11)
+
+
+### Features
+
+* use shared http client ([#27](https://github.com/julienpillaud/tactill/issues/27)) ([44781d4](https://github.com/julienpillaud/tactill/commit/44781d415e8880b61483452f53fedfa2207d5910))
+
 ## [0.12.0](https://github.com/julienpillaud/tactill/compare/0.11.0...0.12.0) (2026-06-08)
 
 
