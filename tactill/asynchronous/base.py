@@ -1,5 +1,4 @@
 import asyncio
-from types import TracebackType
 from typing import cast
 
 import httpx
@@ -14,15 +13,10 @@ from tactill.types import JsonValue, QueryParams
 class AsyncTactillClient(ClientMixin):
     def __init__(
         self,
-        api_key: str,
-        *,
-        timeout: int = 10,
+        http_client: httpx.AsyncClient,
         max_concurrency: int = 100,
     ) -> None:
-        self.headers = {"x-api-key": api_key}
-        self._client = httpx.AsyncClient(headers=self.headers, timeout=timeout)
-        self.account = self._get_account(headers=self.headers)
-
+        self._http_client = http_client
         self._semaphore = asyncio.Semaphore(max_concurrency)
 
         self.articles = AsyncArticlesResource(self)
@@ -39,25 +33,12 @@ class AsyncTactillClient(ClientMixin):
     ) -> JsonValue:
         async with self._semaphore:
             with self._handle_response():
-                response = await self._client.request(
+                response = await self._http_client.request(
                     method,
                     url,
                     params=params,
                     json=json,
+                    headers=self.headers,
                 )
                 response.raise_for_status()
                 return cast(JsonValue, response.json())
-
-    async def aclose(self) -> None:
-        await self._client.aclose()
-
-    async def __aenter__(self) -> AsyncTactillClient:
-        return self
-
-    async def __aexit__(
-        self,
-        exc_type: type[BaseException] | None = None,
-        exc_value: BaseException | None = None,
-        traceback: TracebackType | None = None,
-    ) -> None:
-        await self.aclose()

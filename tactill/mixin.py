@@ -14,6 +14,28 @@ from tactill.types import JsonValue, QueryParams
 class ClientMixin:
     BASE_URL = "https://api4.tactill.com/v1"
 
+    _api_key: str | None = None
+    _account: Account | None = None
+
+    def bind(self, api_key: str, account: Account | None = None) -> None:
+        self._api_key = api_key
+        if account is not None:
+            self._account = account
+        else:
+            self._account = self._get_account(headers={"x-api-key": api_key})
+
+    @property
+    def account(self) -> Account:
+        if self._account is None:
+            raise TactillError("Account not set")
+        return self._account
+
+    @property
+    def headers(self) -> dict[str, str]:
+        if self._api_key is None:
+            raise TactillError("API key not set")
+        return {"x-api-key": self._api_key}
+
     def _get_account(self, headers: dict[str, str]) -> Account:
         with httpx.Client(headers=headers, timeout=3) as client:
             with self._handle_response():
