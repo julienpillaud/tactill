@@ -1,5 +1,6 @@
-from collections.abc import AsyncIterator, Iterator
+from collections.abc import AsyncIterator
 
+import httpx
 import pytest
 import pytest_asyncio
 from _pytest.nodes import Item
@@ -37,12 +38,25 @@ def category_id() -> TactillUUID:
 
 
 @pytest.fixture(scope="session")
-def client() -> Iterator[TactillClient]:
-    with TactillClient(api_key=settings.api_key) as client:
+def http_client() -> httpx.Client:
+    return httpx.Client(timeout=10)
+
+
+@pytest.fixture(scope="session")
+def client(http_client: httpx.Client) -> TactillClient:
+    client = TactillClient(http_client=http_client)
+    client.bind(api_key=settings.api_key)
+    return client
+
+
+@pytest_asyncio.fixture(scope="session")
+async def ahttp_client() -> AsyncIterator[httpx.AsyncClient]:
+    async with httpx.AsyncClient(timeout=10) as client:
         yield client
 
 
 @pytest_asyncio.fixture(scope="session")
-async def aclient() -> AsyncIterator[AsyncTactillClient]:
-    async with AsyncTactillClient(api_key=settings.api_key) as client:
-        yield client
+async def aclient(ahttp_client: httpx.AsyncClient) -> AsyncTactillClient:
+    client = AsyncTactillClient(http_client=ahttp_client)
+    client.bind(api_key=settings.api_key)
+    return client

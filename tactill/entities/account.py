@@ -8,7 +8,6 @@ from tactill.entities.base import TactillUUID
 class Account(BaseModel):
     node_id: TactillUUID
     company_id: TactillUUID
-    shop_id: TactillUUID
 
     @model_validator(mode="before")
     @classmethod
@@ -17,7 +16,6 @@ class Account(BaseModel):
         try:
             account["node_id"] = data["nodes"][0]
             account["company_id"] = data["companies"][0]
-            account["shop_id"] = data["shops"][0]
         except KeyError, IndexError:
             raise ValueError("Validation error") from None
 
