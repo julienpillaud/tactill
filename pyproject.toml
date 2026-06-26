@@ -11,10 +11,10 @@ dependencies = [
 [dependency-groups]
 dev = [
     "mypy==2.1.0",
-    "pytest==9.0.3",
-    "pydantic-settings==2.14.1",
-    "ruff==0.15.16",
-    "ty==0.0.44",
+    "pytest==9.1.1",
+    "pydantic-settings==2.14.2",
+    "ruff==0.15.20",
+    "ty==0.0.54",
     "pytest-asyncio==1.4.0",
 ]
 
