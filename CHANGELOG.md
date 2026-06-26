@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.14.0](https://github.com/julienpillaud/tactill/compare/0.13.0...0.14.0) (2026-06-26)
+
+
+### Features
+
+* refactor client instantiation ([#29](https://github.com/julienpillaud/tactill/issues/29)) ([fb65416](https://github.com/julienpillaud/tactill/commit/fb6541613c22c55fb4ebacc49591807870b4963c))
+
 ## [0.13.0](https://github.com/julienpillaud/tactill/compare/0.12.0...0.13.0) (2026-06-11)
 
 
