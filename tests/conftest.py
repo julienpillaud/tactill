@@ -44,8 +44,7 @@ def http_client() -> httpx.Client:
 
 @pytest.fixture(scope="session")
 def client(http_client: httpx.Client) -> TactillClient:
-    client = TactillClient(http_client=http_client)
-    client.bind(api_key=settings.api_key)
+    client = TactillClient(api_key=settings.api_key, http_client=http_client)
     return client
 
 
@@ -57,6 +56,5 @@ async def ahttp_client() -> AsyncIterator[httpx.AsyncClient]:
 
 @pytest_asyncio.fixture(scope="session")
 async def aclient(ahttp_client: httpx.AsyncClient) -> AsyncTactillClient:
-    client = AsyncTactillClient(http_client=ahttp_client)
-    client.bind(api_key=settings.api_key)
+    client = AsyncTactillClient(api_key=settings.api_key, http_client=ahttp_client)
     return client
