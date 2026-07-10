@@ -1,4 +1,4 @@
-import httpx
+import httpx2
 import pytest
 
 from tactill import (
@@ -66,7 +66,7 @@ async def test_update_category(
         data=category_update,
     )
 
-    assert response.status_code == httpx.codes.OK
+    assert response.status_code == httpx2.codes.OK
     assert response.error == ""
     assert response.message == "category successfully updated"
 

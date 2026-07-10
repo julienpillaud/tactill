@@ -1,7 +1,7 @@
 import asyncio
 from typing import cast
 
-import httpx
+import httpx2
 
 from tactill.asynchronous.articles import AsyncArticlesResource
 from tactill.asynchronous.categories import AsyncCategoriesResource
@@ -15,7 +15,7 @@ class AsyncTactillClient(ClientMixin):
     def __init__(
         self,
         api_key: str,
-        http_client: httpx.AsyncClient,
+        http_client: httpx2.AsyncClient,
         max_concurrency: int = 100,
     ) -> None:
         self._http_client = http_client
