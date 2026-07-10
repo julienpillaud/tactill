@@ -1,6 +1,6 @@
 from typing import cast
 
-import httpx
+import httpx2
 
 from tactill.mixin import ClientMixin
 from tactill.synchronous.articles import ArticlesResource
@@ -11,7 +11,7 @@ from tactill.types import JsonValue, QueryParams
 
 
 class TactillClient(ClientMixin):
-    def __init__(self, api_key: str, http_client: httpx.Client) -> None:
+    def __init__(self, api_key: str, http_client: httpx2.Client) -> None:
         self._http_client = http_client
         self.headers = {"x-api-key": api_key}
         self.account = self._get_account(headers=self.headers)

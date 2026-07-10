@@ -1,4 +1,4 @@
-import httpx
+import httpx2
 import pytest
 
 from tactill import Article, ArticleUpdate, TactillClient, TactillUUID
@@ -49,6 +49,6 @@ def test_update_article(client: TactillClient, article_id: TactillUUID) -> None:
     )
     response = client.articles.update(article_id=article_id, data=data)
 
-    assert response.status_code == httpx.codes.OK
+    assert response.status_code == httpx2.codes.OK
     assert response.error == ""
     assert response.message == "article successfully updated"

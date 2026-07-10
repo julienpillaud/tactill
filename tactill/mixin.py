@@ -1,8 +1,7 @@
 from collections.abc import Iterator
 from contextlib import contextmanager
 
-import httpx
-from httpx import HTTPStatusError
+import httpx2
 from pydantic import TypeAdapter, ValidationError
 
 from tactill.entities.account import Account
@@ -15,7 +14,7 @@ class ClientMixin:
     BASE_URL = "https://api4.tactill.com/v1"
 
     def _get_account(self, headers: dict[str, str]) -> Account:
-        with httpx.Client(headers=headers, timeout=3) as client:
+        with httpx2.Client(headers=headers, timeout=3) as client:
             with self._handle_response():
                 response = client.get(f"{self.BASE_URL}/account/account")
                 response.raise_for_status()
@@ -27,7 +26,7 @@ class ClientMixin:
     def _handle_response(self) -> Iterator[None]:
         try:
             yield
-        except HTTPStatusError as error:
+        except httpx2.HTTPStatusError as error:
             raise TactillAPIError(error.response.text) from error
         except Exception as error:
             raise TactillError(str(error)) from error
