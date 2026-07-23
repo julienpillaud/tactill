@@ -14,7 +14,7 @@ from tests.data import CATEGORIES
 
 
 @pytest.mark.skip_on_ci
-@pytest.mark.asyncio
+@pytest.mark.anyio
 async def test_get_categories(aclient: AsyncTactillClient) -> None:
     results = await aclient.categories.get_all(
         filters=[
@@ -29,7 +29,7 @@ async def test_get_categories(aclient: AsyncTactillClient) -> None:
 
 
 @pytest.mark.skip_on_ci
-@pytest.mark.asyncio
+@pytest.mark.anyio
 async def test_get_category(aclient: AsyncTactillClient) -> None:
     results = await aclient.categories.get_all(
         limit=1,
@@ -49,7 +49,7 @@ async def test_get_category(aclient: AsyncTactillClient) -> None:
 
 
 @pytest.mark.skip_on_ci
-@pytest.mark.asyncio
+@pytest.mark.anyio
 async def test_update_category(
     aclient: AsyncTactillClient, category_id: TactillUUID
 ) -> None:

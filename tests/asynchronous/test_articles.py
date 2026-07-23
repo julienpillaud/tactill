@@ -5,7 +5,7 @@ from tactill import Article, ArticleUpdate, AsyncTactillClient, TactillUUID
 
 
 @pytest.mark.skip_on_ci
-@pytest.mark.asyncio
+@pytest.mark.anyio
 async def test_get_articles(aclient: AsyncTactillClient) -> None:
     results = await aclient.articles.get_all(limit=10000)
 
@@ -15,7 +15,7 @@ async def test_get_articles(aclient: AsyncTactillClient) -> None:
 
 
 @pytest.mark.skip_on_ci
-@pytest.mark.asyncio
+@pytest.mark.anyio
 async def test_get_article(aclient: AsyncTactillClient) -> None:
     results = await aclient.articles.get_all(limit=1)
     article = results[0]
@@ -37,7 +37,7 @@ async def test_get_article(aclient: AsyncTactillClient) -> None:
 
 
 @pytest.mark.skip_on_ci
-@pytest.mark.asyncio
+@pytest.mark.anyio
 async def test_update_article(
     aclient: AsyncTactillClient,
     article_id: TactillUUID,

@@ -5,7 +5,7 @@ from tests.data import TAX_RATES
 
 
 @pytest.mark.skip_on_ci
-@pytest.mark.asyncio
+@pytest.mark.anyio
 async def test_get_taxes(aclient: AsyncTactillClient) -> None:
     results = await aclient.taxes.get_all()
 
@@ -16,7 +16,7 @@ async def test_get_taxes(aclient: AsyncTactillClient) -> None:
 
 
 @pytest.mark.skip_on_ci
-@pytest.mark.asyncio
+@pytest.mark.anyio
 async def test_get_tax(aclient: AsyncTactillClient) -> None:
     results = await aclient.taxes.get_all()
     tax = results[0]
