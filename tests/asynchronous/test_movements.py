@@ -14,7 +14,7 @@ from tactill.entities.movement import (
 
 
 @pytest.mark.skip_on_ci
-@pytest.mark.asyncio
+@pytest.mark.anyio
 async def test_get_movements(aclient: AsyncTactillClient) -> None:
     results = await aclient.movements.get_all(
         filters=[
@@ -32,7 +32,7 @@ async def test_get_movements(aclient: AsyncTactillClient) -> None:
 
 
 @pytest.mark.skip_on_ci
-@pytest.mark.asyncio
+@pytest.mark.anyio
 async def test_create_movement(
     aclient: AsyncTactillClient,
     article_id: TactillUUID,

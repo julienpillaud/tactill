@@ -2,7 +2,6 @@ from collections.abc import AsyncIterator
 
 import httpx2
 import pytest
-import pytest_asyncio
 from _pytest.nodes import Item
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -28,6 +27,11 @@ def pytest_collection_modifyitems(items: list[Item]) -> None:
 
 
 @pytest.fixture(scope="session")
+def anyio_backend() -> str:
+    return "asyncio"
+
+
+@pytest.fixture(scope="session")
 def article_id() -> TactillUUID:
     return "6a2110884d74f3bde34643fc"
 
@@ -48,13 +52,13 @@ def client(http_client: httpx2.Client) -> TactillClient:
     return client
 
 
-@pytest_asyncio.fixture(scope="session")
+@pytest.fixture(scope="session")
 async def ahttp_client() -> AsyncIterator[httpx2.AsyncClient]:
     async with httpx2.AsyncClient(timeout=10) as client:
         yield client
 
 
-@pytest_asyncio.fixture(scope="session")
+@pytest.fixture(scope="session")
 async def aclient(ahttp_client: httpx2.AsyncClient) -> AsyncTactillClient:
     client = AsyncTactillClient(api_key=settings.api_key, http_client=ahttp_client)
     return client
