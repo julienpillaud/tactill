@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.17.0](https://github.com/julienpillaud/tactill/compare/0.16.0...0.17.0) (2026-08-06)
+
+
+### Features
+
+* update dependencies ([#36](https://github.com/julienpillaud/tactill/issues/36)) ([36e95fd](https://github.com/julienpillaud/tactill/commit/36e95fd21fce3a5c7af54b1fc7c06a0d5b3c2316))
+
 ## [0.16.0](https://github.com/julienpillaud/tactill/compare/0.15.0...0.16.0) (2026-07-23)
 
 
