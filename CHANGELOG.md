@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.18.0](https://github.com/julienpillaud/tactill/compare/0.17.0...0.18.0) (2026-09-21)
+
+
+### Features
+
+* add class method for instantiation ([#40](https://github.com/julienpillaud/tactill/issues/40)) ([feca580](https://github.com/julienpillaud/tactill/commit/feca580d0d2fe779d5e2a5ef244a56102ebc38bf))
+
 ## [0.17.0](https://github.com/julienpillaud/tactill/compare/0.16.0...0.17.0) (2026-08-06)
 
 
