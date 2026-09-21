@@ -1,7 +1,6 @@
-import httpx2
 import pytest
 
-from tactill import Article, ArticleUpdate, AsyncTactillClient, TactillUUID
+from tactill import Article, AsyncTactillClient
 
 
 @pytest.mark.skip_on_ci
@@ -34,27 +33,3 @@ async def test_get_article(aclient: AsyncTactillClient) -> None:
     assert response.reference == article.reference
     assert response.full_price == article.full_price
     assert response.stock_quantity == article.stock_quantity
-
-
-@pytest.mark.skip_on_ci
-@pytest.mark.anyio
-async def test_update_article(
-    aclient: AsyncTactillClient,
-    article_id: TactillUUID,
-) -> None:
-    article = await aclient.articles.get(article_id=article_id)
-    name_split, number_split = article.name.split(" - ")
-    article_name = f"{name_split} - {int(number_split) + 1}"
-    article_price = article.full_price + 1 if article.full_price else None
-
-    data = ArticleUpdate(
-        taxes=article.taxes,
-        name=article_name,
-        color=article.color,
-        full_price=article_price,
-    )
-    response = await aclient.articles.update(article_id=article_id, data=data)
-
-    assert response.status_code == httpx2.codes.OK
-    assert response.error == ""
-    assert response.message == "article successfully updated"

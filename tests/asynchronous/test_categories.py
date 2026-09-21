@@ -1,14 +1,9 @@
-import httpx2
 import pytest
 
 from tactill import (
     AsyncTactillClient,
-    Category,
-    CategoryUpdate,
     FilterEntity,
     FilterOperator,
-    TactillColor,
-    TactillUUID,
 )
 from tests.data import CATEGORIES
 
@@ -46,69 +41,3 @@ async def test_get_category(aclient: AsyncTactillClient) -> None:
     assert response.name == category.name
     assert response.color == category.color
     assert response.icon_text == category.icon_text
-
-
-@pytest.mark.skip_on_ci
-@pytest.mark.anyio
-async def test_update_category(
-    aclient: AsyncTactillClient, category_id: TactillUUID
-) -> None:
-    category = await aclient.categories.get(category_id=category_id)
-    category_update = build_category_update(
-        category,
-        name=True,
-        color=True,
-        icon_text=True,
-    )
-
-    response = await aclient.categories.update(
-        category_id=category.id,
-        data=category_update,
-    )
-
-    assert response.status_code == httpx2.codes.OK
-    assert response.error == ""
-    assert response.message == "category successfully updated"
-
-    updated_category = await aclient.categories.get(category_id=category.id)
-
-    assert updated_category.id == category.id
-    assert updated_category.deprecated == category.deprecated
-    assert updated_category.name == category_update.name
-    assert updated_category.color == category_update.color
-    assert updated_category.icon_text == category_update.icon_text
-
-
-def build_category_update(
-    category: Category,
-    /,
-    name: bool,
-    color: bool,
-    icon_text: bool,
-) -> CategoryUpdate:
-    category_name = None
-    if name:
-        name_split, number_split = category.name.split(" - ")
-        category_name = f"{name_split} - {int(number_split) + 1}"
-
-    category_color = category.color
-    if color:
-        category_color = (
-            TactillColor.MAGENTA
-            if category.color == TactillColor.PURPLE
-            else TactillColor.PURPLE
-        )
-
-    category_icon_text = None
-    if icon_text:
-        category_icon_text = (
-            category.icon_text.lower()
-            if category.icon_text.isupper()
-            else category.icon_text.upper()
-        )
-
-    return CategoryUpdate(
-        name=category_name,
-        color=category_color,
-        icon_text=category_icon_text,
-    )

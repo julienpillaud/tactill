@@ -4,7 +4,6 @@ from contextlib import contextmanager
 import httpx2
 from pydantic import TypeAdapter, ValidationError
 
-from tactill.entities.account import Account
 from tactill.exceptions import TactillAPIError, TactillError
 from tactill.filters import FilterEntity, build_filters
 from tactill.types import JsonValue, QueryParams
@@ -13,17 +12,18 @@ from tactill.types import JsonValue, QueryParams
 class ClientMixin:
     BASE_URL = "https://api4.tactill.com/v1"
 
-    def _get_account(self, headers: dict[str, str]) -> Account:
-        with httpx2.Client(headers=headers, timeout=3) as client:
-            with self._handle_response():
-                response = client.get(f"{self.BASE_URL}/account/account")
-                response.raise_for_status()
-                result = response.json()
+    # def _get_account(self, headers: dict[str, str]) -> Account:
+    #     with httpx2.Client(headers=headers, timeout=3) as client:
+    #         with self._handle_response():
+    #             response = client.get(f"{self.BASE_URL}/account/account")
+    #             response.raise_for_status()
+    #             result = response.json()
+    #
+    #     return self._handle_validation(result, response_model=Account)
 
-        return self._handle_validation(result, response_model=Account)
-
+    @staticmethod
     @contextmanager
-    def _handle_response(self) -> Iterator[None]:
+    def _handle_response() -> Iterator[None]:
         try:
             yield
         except httpx2.HTTPStatusError as error:
