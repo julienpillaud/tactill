@@ -5,7 +5,7 @@ import pytest
 from _pytest.nodes import Item
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from tactill import AsyncTactillClient, TactillClient, TactillUUID
+from tactill import AsyncTactillClient, TactillClient
 
 
 class Settings(BaseSettings):
@@ -32,23 +32,13 @@ def anyio_backend() -> str:
 
 
 @pytest.fixture(scope="session")
-def article_id() -> TactillUUID:
-    return "6a2110884d74f3bde34643fc"
-
-
-@pytest.fixture(scope="session")
-def category_id() -> TactillUUID:
-    return "6a202c6cbcfe5255c24e1895"
-
-
-@pytest.fixture(scope="session")
 def http_client() -> httpx2.Client:
     return httpx2.Client(timeout=10)
 
 
 @pytest.fixture(scope="session")
 def client(http_client: httpx2.Client) -> TactillClient:
-    client = TactillClient(api_key=settings.api_key, http_client=http_client)
+    client = TactillClient.create(api_key=settings.api_key, http_client=http_client)
     return client
 
 
@@ -60,5 +50,8 @@ async def ahttp_client() -> AsyncIterator[httpx2.AsyncClient]:
 
 @pytest.fixture(scope="session")
 async def aclient(ahttp_client: httpx2.AsyncClient) -> AsyncTactillClient:
-    client = AsyncTactillClient(api_key=settings.api_key, http_client=ahttp_client)
+    client = await AsyncTactillClient.create(
+        api_key=settings.api_key,
+        http_client=ahttp_client,
+    )
     return client
