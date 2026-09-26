@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.19.0](https://github.com/julienpillaud/tactill/compare/0.18.0...0.19.0) (2026-09-26)
+
+
+### Features
+
+* improve error handling ([#42](https://github.com/julienpillaud/tactill/issues/42)) ([f74b13e](https://github.com/julienpillaud/tactill/commit/f74b13e5406ed2bf5c8b4496a04867545a854fe1))
+
 ## [0.18.0](https://github.com/julienpillaud/tactill/compare/0.17.0...0.18.0) (2026-09-21)
 
 
