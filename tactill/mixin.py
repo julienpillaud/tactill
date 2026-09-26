@@ -4,7 +4,12 @@ from contextlib import contextmanager
 import httpx2
 from pydantic import TypeAdapter, ValidationError
 
-from tactill.exceptions import TactillAPIError, TactillError
+from tactill.exceptions import (
+    TactillError,
+    TactillRejectedError,
+    TactillUnavailableError,
+    TactillUnexpectedResponseError,
+)
 from tactill.filters import FilterEntity, build_filters
 from tactill.types import JsonValue, QueryParams
 
@@ -12,24 +17,23 @@ from tactill.types import JsonValue, QueryParams
 class ClientMixin:
     BASE_URL = "https://api4.tactill.com/v1"
 
-    # def _get_account(self, headers: dict[str, str]) -> Account:
-    #     with httpx2.Client(headers=headers, timeout=3) as client:
-    #         with self._handle_response():
-    #             response = client.get(f"{self.BASE_URL}/account/account")
-    #             response.raise_for_status()
-    #             result = response.json()
-    #
-    #     return self._handle_validation(result, response_model=Account)
-
     @staticmethod
     @contextmanager
     def _handle_response() -> Iterator[None]:
         try:
             yield
         except httpx2.HTTPStatusError as error:
-            raise TactillAPIError(error.response.text) from error
-        except Exception as error:
-            raise TactillError(str(error)) from error
+            response = error.response
+            if error.response.status_code >= httpx2.codes.INTERNAL_SERVER_ERROR:
+                raise TactillUnavailableError(
+                    f"HTTP Error {response.status_code}"
+                ) from error
+            raise TactillRejectedError(
+                status_code=response.status_code,
+                response=response.text,
+            ) from error
+        except httpx2.HTTPError as error:
+            raise TactillUnavailableError(str(error)) from error
 
     @staticmethod
     def _handle_validation[T](value: JsonValue, /, response_model: type[T]) -> T:
@@ -37,7 +41,7 @@ class ClientMixin:
             adapter = TypeAdapter(response_model)
             return adapter.validate_python(value)
         except ValidationError as error:
-            raise TactillAPIError(str(error)) from error
+            raise TactillUnexpectedResponseError(str(error)) from error
 
     @staticmethod
     def _build_params(
