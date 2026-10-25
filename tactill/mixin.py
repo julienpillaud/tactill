@@ -1,4 +1,4 @@
-from collections.abc import Iterator
+from collections.abc import Generator
 from contextlib import contextmanager
 
 import httpx2
@@ -19,7 +19,7 @@ class ClientMixin:
 
     @staticmethod
     @contextmanager
-    def _handle_response() -> Iterator[None]:
+    def _handle_response() -> Generator[None]:
         try:
             yield
         except httpx2.HTTPStatusError as error:
