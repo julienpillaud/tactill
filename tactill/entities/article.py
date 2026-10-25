@@ -22,6 +22,7 @@ class ArticleCreate(BaseModel):
 
 
 class ArticleUpdate(BaseModel):
+    category_id: TactillUUID
     taxes: list[TactillUUID]
     name: TactillName | None = None
     icon_text: IconText | None = None
