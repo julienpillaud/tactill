@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.0](https://github.com/julienpillaud/tactill/compare/0.19.0...0.20.0) (2026-10-25)
+
+
+### Features
+
+* add category_id for article update ([#44](https://github.com/julienpillaud/tactill/issues/44)) ([db5098b](https://github.com/julienpillaud/tactill/commit/db5098ba2f5db393598203f1762d5908f20d8711))
+
 ## [0.19.0](https://github.com/julienpillaud/tactill/compare/0.18.0...0.19.0) (2026-09-26)
 
 
